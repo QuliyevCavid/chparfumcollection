@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>C&H Parfum — Admin</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+
+  <style>
+    :root{
+      --bg:#f7f2ec;
+      --paper:#fffdf9;
+      --text:#211b17;
+      --muted:#887a70;
+      --brown:#70452f;
+      --gold:#b8916e;
+      --line:#e8ddd2;
+      --danger:#a94442;
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    header{
+      background:var(--paper);
+      border-bottom:1px solid var(--line);
+      padding:22px 6%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .logo{
+      font-size:22px;
+      font-weight:bold;
+      letter-spacing:3px;
+      color:var(--brown);
+    }
+
+    .logo span{
+      display:block;
+      font-size:10px;
+      letter-spacing:4px;
+      color:var(--gold);
+      margin-top:4px;
+    }
+
+    .container{
+      max-width:1100px;
+      margin:40px auto;
+      padding:0 20px;
+    }
+
+    .card{
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:25px;
+      margin-bottom:25px;
+      box-shadow:0 8px 30px rgba(80,50,30,.05);
+    }
+
+    h1,h2{
+      margin-top:0;
+      color:var(--brown);
+    }
+
+    .login{
+      max-width:430px;
+      margin:80px auto;
+    }
+
+    label{
+      display:block;
+      margin:15px 0 7px;
+      font-size:14px;
+      font-weight:bold;
+    }
+
+    input, textarea{
+      width:100%;
+      padding:13px;
+      border:1px solid var(--line);
+      border-radius:9px;
+      background:white;
+      font-size:15px;
+      outline:none;
+    }
+
+    input:focus, textarea:focus{
+      border-color:var(--gold);
+    }
+
+    textarea{
+      min-height:100px;
+      resize:vertical;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:15px;
+    }
+
+    button{
+      border:0;
+      border-radius:9px;
+      padding:13px 20px;
+      cursor:pointer;
+      font-size:14px;
+      font-weight:bold;
+      background:var(--brown);
+      color:white;
+      margin-top:18px;
+    }
+
+    button:hover{
+      opacity:.9;
+    }
+
+    .secondary{
+      background:#e8ddd2;
+      color:var(--brown);
+    }
+
+    .danger{
+      background:var(--danger);
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:15px;
+      margin-bottom:25px;
+    }
+
+    .product{
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:15px;
+      display:grid;
+      grid-template-columns:100px 1fr auto;
+      gap:18px;
+      align-items:center;
+      margin-bottom:15px;
+      background:#fff;
+    }
+
+    .product img{
+      width:100px;
+      height:100px;
+      object-fit:cover;
+      border-radius:10px;
+      background:#f3eee8;
+    }
+
+    .product h3{
+      margin:0 0 8px;
+      color:var(--brown);
+    }
+
+    .product p{
+      margin:5px 0;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .actions{
+      display:flex;
+      flex-direction:column;
+      gap:7px;
+    }
+
+    .actions button{
+      margin:0;
+      min-width:90px;
+    }
+
+    .message{
+      margin-top:15px;
+      padding:12px;
+      border-radius:8px;
+      display:none;
+    }
+
+    .error{
+      background:#f8dddd;
+      color:#8b2e2e;
+    }
+
+    .success{
+      background:#dff2df;
+      color:#286428;
+    }
+
+    .hidden{
+      display:none !important;
+    }
+
+    .preview{
+      margin-top:10px;
+      width:120px;
+      height:120px;
+      object-fit:cover;
+      border-radius:10px;
+      display:none;
+    }
+
+    @media(max-width:700px){
+      .row{
+        grid-template-columns:1fr;
+      }
+
+      .product{
+        grid-template-columns:80px 1fr;
+      }
+
+      .product img{
+        width:80px;
+        height:80px;
+      }
+
+      .actions{
+        grid-column:1 / -1;
+        flex-direction:row;
+      }
+
+      .topbar{
+        align-items:flex-start;
+        flex-direction:column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">
+    C&H PARFUM
+    <span>COLLECTION</span>
+  </div>
+
+  <button id="logoutBtn" class="secondary hidden" onclick="logout()">
+    Çıxış
+  </button>
+</header>
+
+
+<!-- LOGIN -->
+<div id="loginPage" class="container">
+  <div class="card login">
+
+    <h1>Admin panel</h1>
+    <p style="color:var(--muted)">
+      Məhsulları idarə etmək üçün daxil olun.
+    </p>
+
+    <label>Email</label>
+    <input
+      type="email"
+      id="email"
+      placeholder="Email ünvanınız"
+    >
+
+    <label>Şifrə</label>
+    <input
+      type="password"
+      id="password"
+      placeholder="Şifrəniz"
+    >
+
+    <button onclick="login()">
+      Daxil ol
+    </button>
+
+    <div id="loginError" class="message error"></div>
+
+  </div>
+</div>
+
+
+<!-- ADMIN PANEL -->
+<div id="adminPage" class="container hidden">
+
+  <div class="topbar">
+    <div>
+      <h1>Admin panel</h1>
+      <p style="color:var(--muted);margin:0">
+        C&H Parfum Collection məhsullarını idarə et.
+      </p>
+    </div>
+
+    <button class="secondary" onclick="newProduct()">
+      + Yeni məhsul
+    </button>
+  </div>
+
+
+  <!-- PRODUCT FORM -->
+  <div class="card">
+
+    <h2 id="formTitle">Yeni məhsul əlavə et</h2>
+
+    <input type="hidden" id="productId">
+
+    <label>Parfum adı</label>
+    <input
+      type="text"
+      id="name"
+      placeholder="Məsələn: NIGHT OUD"
+    >
+
+    <div class="row">
+
+      <div>
+        <label>Qiymət (AZN)</label>
+        <input
+          type="number"
+          id="price"
+          step="0.01"
+          placeholder="49"
+        >
+      </div>
+
+      <div>
+        <label>Həcm (ML)</label>
+        <input
+          type="number"
+          id="ml"
+          placeholder="50"
+        >
+      </div>
+
+    </div>
+
+    <label>Anbarda say</label>
+    <input
+      type="number"
+      id="stock"
+      placeholder="10"
+    >
+
+    <label>Şəkil</label>
+    <input
+      type="file"
+      id="image"
+      accept="image/*"
+      onchange="previewImage(event)"
+    >
+
+    <img id="imagePreview" class="preview">
+
+    <label>Açıqlama</label>
+    <textarea
+      id="description"
+      placeholder="Parfum haqqında qısa məlumat..."
+    ></textarea>
+
+    <button onclick="saveProduct()">
+      Yadda saxla
+    </button>
+
+    <button
+      class="secondary"
+      onclick="newProduct()"
+      type="button"
+    >
+      Təmizlə
+    </button>
+
+    <div id="formMessage" class="message"></div>
+
+  </div>
+
+
+  <!-- PRODUCTS -->
+  <div class="card">
+
+    <h2>Məhsullar</h2>
+
+    <div id="productsList">
+      Yüklənir...
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  let editingProduct = null;
+
+
+  // LOGIN
+  async function login(){
+
+    const email =
+      document.getElementById("email").value.trim();
+
+    const password =
+      document.getElementById("password").value;
+
+    const errorBox =
+      document.getElementById("loginError");
+
+    errorBox.style.display = "none";
+
+    if(!email || !password){
+      showLoginError("Email və şifrəni daxil edin.");
+      return;
+    }
+
+    const { data, error } =
+      await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+    if(error){
+      showLoginError(error.message);
+      return;
+    }
+
+    showAdmin();
+  }
+
+
+  function showLoginError(message){
+
+    const box =
+      document.getElementById("loginError");
+
+    box.textContent = message;
+    box.style.display = "block";
+  }
+
+
+  // CHECK SESSION
+  async function checkSession(){
+
+    const {
+      data: { session }
+    } = await supabaseClient.auth.getSession();
+
+    if(session){
+      showAdmin();
+    }else{
+      showLogin();
+    }
+  }
+
+
+  function showAdmin(){
+
+    document
+      .getElementById("loginPage")
+      .classList.add("hidden");
+
+    document
+      .getElementById("adminPage")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("logoutBtn")
+      .classList.remove("hidden");
+
+    loadProducts();
+  }
+
+
+  function showLogin(){
+
+    document
+      .getElementById("loginPage")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("adminPage")
+      .classList.add("hidden");
+
+    document
+      .getElementById("logoutBtn")
+      .classList.add("hidden");
+  }
+
+
+  // LOGOUT
+  async function logout(){
+
+    await supabaseClient.auth.signOut();
+
+    showLogin();
+  }
+
+
+  // LOAD PRODUCTS
+  async function loadProducts(){
+
+    const list =
+      document.getElementById("productsList");
+
+    list.innerHTML = "Yüklənir...";
+
+    const { data, error } =
+      await supabaseClient
+        .from("products")
+        .select("*")
+        .order("created_at", { ascending:true });
+
+    if(error){
+
+      list.innerHTML =
+        `<div class="message error" style="display:block">
+          Məhsullar yüklənmədi: ${escapeHtml(error.message)}
+        </div>`;
+
+      return;
+    }
+
+    if(!data || data.length === 0){
+
+      list.innerHTML =
+        `<p style="color:var(--muted)">
+          Hələ heç bir məhsul əlavə edilməyib.
+        </p>`;
+
+      return;
+    }
+
+    list.innerHTML = data.map(product => {
+
+      const image =
+        product.image_url ||
+        "https://via.placeholder.com/100?text=Parfum";
+
+      return `
+        <div class="product">
+
+          <img
+            src="${escapeAttr(image)}"
+            alt="${escapeAttr(product.name)}"
+          >
+
+          <div>
+
+            <h3>${escapeHtml(product.name)}</h3>
+
+            <p>
+              ${Number(product.price).toFixed(2)} AZN
+              · ${product.ml} ML
+              · Stok: ${product.stock}
+            </p>
+
+            <p>
+              ${escapeHtml(product.description || "")}
+            </p>
+
+          </div>
+
+          <div class="actions">
+
+            <button
+              onclick='editProduct(${JSON.stringify(product)})'
+            >
+              Redaktə
+            </button>
+
+            <button
+              class="danger"
+              onclick="deleteProduct(${product.id})"
+            >
+              Sil
+            </button>
+
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+  }
+
+
+  // NEW PRODUCT
+  function newProduct(){
+
+    editingProduct = null;
+
+    document.getElementById("productId").value = "";
+    document.getElementById("name").value = "";
+    document.getElementById("price").value = "";
+    document.getElementById("ml").value = "";
+    document.getElementById("stock").value = "";
+    document.getElementById("description").value = "";
+    document.getElementById("image").value = "";
+
+    document.getElementById("imagePreview").style.display = "none";
+
+    document.getElementById("formTitle").textContent =
+      "Yeni məhsul əlavə et";
+
+    document.getElementById("formMessage").style.display =
+      "none";
+  }
+
+
+  // EDIT PRODUCT
+  function editProduct(product){
+
+    editingProduct = product;
+
+    document.getElementById("productId").value =
+      product.id;
+
+    document.getElementById("name").value =
+      product.name || "";
+
+    document.getElementById("price").value =
+      product.price || "";
+
+    document.getElementById("ml").value =
+      product.ml || "";
+
+    document.getElementById("stock").value =
+      product.stock || "";
+
+    document.getElementById("description").value =
+      product.description || "";
+
+    document.getElementById("image").value = "";
+
+    document.getElementById("formTitle").textContent =
+      "Məhsulu redaktə et";
+
+    const preview =
+      document.getElementById("imagePreview");
+
+    if(product.image_url){
+
+      preview.src = product.image_url;
+      preview.style.display = "block";
+
+    }else{
+
+      preview.style.display = "none";
+    }
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+  }
+
+
+  // IMAGE PREVIEW
+  function previewImage(event){
+
+    const file = event.target.files[0];
+
+    if(!file) return;
+
+    const preview =
+      document.getElementById("imagePreview");
+
+    preview.src =
+      URL.createObjectURL(file);
+
+    preview.style.display = "block";
+  }
+
+
+  // UPLOAD IMAGE
+  async function uploadImage(file){
+
+    if(!file) return null;
+
+    const ext =
+      (file.name.split(".").pop() || "jpg")
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g,"");
+
+    const path =
+      Date.now() +
+      "-" +
+      Math.random().toString(36).slice(2) +
+      "." +
+      ext;
+
+    const { error } =
+      await supabaseClient
+        .storage
+        .from("product-images")
+        .upload(
+          path,
+          file,
+          {
+            upsert:false,
+            contentType:file.type
+          }
+        );
+
+    if(error){
+      throw error;
+    }
+
+    const { data } =
+      supabaseClient
+        .storage
+        .from("product-images")
+        .getPublicUrl(path);
+
+    return data.publicUrl;
+  }
+
+
+  // SAVE PRODUCT
+  async function saveProduct(){
+
+    const name =
+      document.getElementById("name").value.trim();
+
+    const price =
+      Number(document.getElementById("price").value);
+
+    const ml =
+      Number(document.getElementById("ml").value);
+
+    const stock =
+      Number(document.getElementById("stock").value);
+
+    const description =
+      document.getElementById("description").value.trim();
+
+    const file =
+      document.getElementById("image").files[0];
+
+    const message =
+      document.getElementById("formMessage");
+
+    message.style.display = "none";
+
+    if(!name || !price || !ml){
+
+      showFormMessage(
+        "Ad, qiymət və ML məlumatlarını doldurun.",
+        "error"
+      );
+
+      return;
+    }
+
+    try{
+
+      let imageUrl =
+        editingProduct?.image_url || null;
+
+      // Yeni şəkil seçilibsə yüklə
+      if(file){
+        imageUrl = await uploadImage(file);
+      }
+
+      const productData = {
+        name:name,
+        price:price,
+        ml:ml,
+        stock:stock || 0,
+        image_url:imageUrl,
+        description:description
+      };
+
+
+      // EDIT
+      if(editingProduct){
+
+        const { error } =
+          await supabaseClient
+            .from("products")
+            .update(productData)
+            .eq("id", editingProduct.id);
+
+        if(error) throw error;
+
+        showFormMessage(
+          "Məhsul uğurla yeniləndi.",
+          "success"
+        );
+
+      }
+
+      // NEW
+      else{
+
+        const { error } =
+          await supabaseClient
+            .from("products")
+            .insert(productData);
+
+        if(error) throw error;
+
+        showFormMessage(
+          "Məhsul uğurla əlavə edildi.",
+          "success"
+        );
+      }
+
+      await loadProducts();
+
+      setTimeout(() => {
+        newProduct();
+      }, 700);
+
+    }catch(error){
+
+      showFormMessage(
+        "Xəta: " + error.message,
+        "error"
+      );
+    }
+  }
+
+
+  function showFormMessage(text,type){
+
+    const box =
+      document.getElementById("formMessage");
+
+    box.textContent = text;
+
+    box.className =
+      "message " +
+      (type === "success" ? "success" : "error");
+
+    box.style.display = "block";
+  }
+
+
+  // DELETE
+  async function deleteProduct(id){
+
+    const answer =
+      confirm("Bu məhsulu silmək istədiyinizə əminsiniz?");
+
+    if(!answer) return;
+
+    const { error } =
+      await supabaseClient
+        .from("products")
+        .delete()
+        .eq("id", id);
+
+    if(error){
+
+      alert("Silinmədi: " + error.message);
+      return;
+    }
+
+    await loadProducts();
+  }
+
+
+  // SECURITY HELPERS
+  function escapeHtml(value){
+
+    return String(value ?? "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+
+  function escapeAttr(value){
+
+    return escapeHtml(value);
+  }
+
+
+  // START
+  checkSession();
+
+</script>
+
+</body>
+</html>
