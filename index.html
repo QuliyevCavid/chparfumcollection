@@ -16,7 +16,13 @@
   --line:#e8ddd2;
 }
 
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box
+}
+
+html{
+  scroll-behavior:smooth
+}
 
 body{
   margin:0;
@@ -156,9 +162,24 @@ header{
   letter-spacing:2px
 }
 
+
+/* =====================================
+   KOLLEKSIYA BAŞLIĞI + AXTARIŞ
+===================================== */
+
+.collection-tools{
+  position:sticky;
+  top:82px;
+  z-index:15;
+  background:rgba(247,242,236,.97);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+  padding-bottom:22px;
+}
+
 .section-title{
   text-align:center;
-  padding:65px 20px 25px
+  padding:35px 20px 15px
 }
 
 .section-title .eyebrow{
@@ -172,9 +193,80 @@ header{
   margin:0
 }
 
+.search-wrap{
+  width:min(700px,88%);
+  margin:0 auto;
+  position:relative
+}
+
+.search-icon{
+  position:absolute;
+  left:17px;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--brown);
+  pointer-events:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+#searchInput{
+  width:100%;
+  height:50px;
+  padding:0 48px;
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--text);
+  font-size:14px;
+  outline:none;
+  border-radius:3px;
+  transition:.2s
+}
+
+#searchInput:focus{
+  border-color:var(--gold);
+  box-shadow:0 5px 20px #5b3b1b0b
+}
+
+#searchInput::placeholder{
+  color:#a09287
+}
+
+.clear-search{
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  font-size:20px;
+  cursor:pointer;
+  display:none;
+  padding:5px
+}
+
+.clear-search:hover{
+  color:var(--brown)
+}
+
+.search-result{
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  margin-top:10px;
+  min-height:15px
+}
+
+
+/* =====================================
+   MƏHSUL GRID
+===================================== */
+
 .grid{
   width:min(1180px,88%);
-  margin:20px auto 85px;
+  margin:40px auto 85px;
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:24px
@@ -281,7 +373,36 @@ footer{
   padding:50px 20px;
 }
 
+.no-results{
+  grid-column:1/-1;
+  text-align:center;
+  padding:70px 20px;
+  color:var(--muted);
+}
+
+.no-results strong{
+  display:block;
+  font-family:Georgia,serif;
+  font-size:24px;
+  color:var(--text);
+  margin-bottom:10px
+}
+
+
+/* =====================================
+   MOBİL
+===================================== */
+
 @media(max-width:800px){
+
+  header{
+    height:72px
+  }
+
+  .collection-tools{
+    top:72px
+  }
+
   .hero{
     grid-template-columns:1fr;
     padding-top:55px
@@ -302,9 +423,24 @@ footer{
   .nav a{
     display:none
   }
+
+  .section-title{
+    padding-top:28px
+  }
+
+  .section-title h2{
+    font-size:32px
+  }
+
 }
 
 @media(max-width:600px){
+
+  .logo{
+    font-size:21px;
+    letter-spacing:5px
+  }
+
   .grid{
     grid-template-columns:1fr
   }
@@ -316,39 +452,72 @@ footer{
   .photo{
     height:330px
   }
+
+  .search-wrap{
+    width:90%
+  }
+
+  #searchInput{
+    height:48px
+  }
+
 }
 </style>
 
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-  const SUPABASE_URL = "https://jentxbrreapsydfyxdzw.supabase.co";
 
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_nc4ZfflYnW4fSzZjOVEUDg_rC9_G6Dv";
+const SUPABASE_URL =
+  "https://jentxbrreapsydfyxdzw.supabase.co";
 
-  const supabaseClient = window.supabase.createClient(
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_nc4ZfflYnW4fSzZjOVEUDg_rC9_G6Dv";
+
+const supabaseClient =
+  window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_PUBLISHABLE_KEY
   );
+
 </script>
 
 </head>
 
+
 <body>
+
 
 <header>
 
   <div>
-    <div class="logo">C&H PARFUM</div>
-    <div class="sub">COLLECTION</div>
+
+    <div class="logo">
+      C&H PARFUM
+    </div>
+
+    <div class="sub">
+      COLLECTION
+    </div>
+
   </div>
 
+
   <nav class="nav">
-    <a href="#collection">Kolleksiya</a>
-    <a href="#about">Haqqımızda</a>
+
+    <a href="#collection">
+      Kolleksiya
+    </a>
+
+    <a href="#about">
+      Haqqımızda
+    </a>
+
   </nav>
 
 </header>
+
 
 
 <section class="hero">
@@ -373,28 +542,76 @@ footer{
 
 
   <div class="hero-art">
+
     <div class="bottle"></div>
+
   </div>
 
 </section>
 
 
+
 <section id="collection">
 
-  <div class="section-title">
 
-    <div class="eyebrow">
-      SEÇİLMİŞ ƏTİRLƏR
+  <div class="collection-tools">
+
+
+    <div class="section-title">
+
+      <div class="eyebrow">
+        SEÇİLMİŞ ƏTİRLƏR
+      </div>
+
+      <h2>
+        Ətir Kolleksiyası
+      </h2>
+
     </div>
 
-    <h2>
-      Ətir Kolleksiyası
-    </h2>
+
+    <div class="search-wrap">
+
+      <span class="search-icon" aria-hidden="true">
+  <svg viewBox="0 0 24 24" width="20" height="20">
+    <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
+    <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</span>
+
+      <input
+        type="search"
+        id="searchInput"
+        placeholder="Ətir axtar... məsələn: Dior, Sauvage"
+        autocomplete="off"
+      >
+
+      <button
+        type="button"
+        class="clear-search"
+        id="clearSearch"
+        aria-label="Axtarışı təmizlə"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div
+      class="search-result"
+      id="searchResult"
+    ></div>
+
 
   </div>
 
 
-  <main class="grid" id="products">
+
+  <main
+    class="grid"
+    id="products"
+  >
 
     <div class="loading">
       Ətirlər yüklənir...
@@ -402,15 +619,30 @@ footer{
 
   </main>
 
+
 </section>
 
 
+
 <footer id="about">
-  C&H PARFUM COLLECTION · ZƏRİFLİK, QOXU VƏ ÜSLUB
+
+  C&H PARFUM COLLECTION ·
+  ZƏRİFLİK, QOXU VƏ ÜSLUB
+
 </footer>
 
 
+
 <script>
+
+
+/* =====================================
+   BÜTÜN MƏHSULLAR
+===================================== */
+
+let allProducts = [];
+
+
 
 /* =====================================
    MƏHSULLARI SUPABASE-DƏN GƏTİR
@@ -421,19 +653,25 @@ async function loadProducts(){
   const productsElement =
     document.getElementById("products");
 
+
   try{
 
     const { data, error } =
-  await supabaseClient
-    .from("products")
-    .select("*")
-    .order("sort_order", {
-      ascending:true,
-      nullsFirst:false
-    })
-    .order("created_at", {
-      ascending:true
-    });
+      await supabaseClient
+
+        .from("products")
+
+        .select("*")
+
+        .order("sort_order", {
+          ascending:true,
+          nullsFirst:false
+        })
+
+        .order("created_at", {
+          ascending:true
+        });
+
 
     if(error){
       throw error;
@@ -443,33 +681,49 @@ async function loadProducts(){
     if(!data || data.length === 0){
 
       productsElement.innerHTML = `
+
         <div class="loading">
+
           Hələ heç bir parfum əlavə edilməyib.
+
         </div>
+
       `;
 
       return;
+
     }
 
 
-    renderProducts(data);
+    allProducts = data;
 
-  }catch(error){
+    renderProducts(allProducts);
+
+  }
+
+
+  catch(error){
 
     console.error(
       "Məhsullar yüklənərkən xəta:",
       error
     );
 
+
     productsElement.innerHTML = `
+
       <div class="error">
+
         Məhsulları yükləmək mümkün olmadı.
+
       </div>
+
     `;
 
   }
 
 }
+
 
 
 /* =====================================
@@ -482,14 +736,38 @@ function renderProducts(products){
     document.getElementById("products");
 
 
+  if(!products || products.length === 0){
+
+    productsElement.innerHTML = `
+
+      <div class="no-results">
+
+        <strong>
+          Ətir tapılmadı
+        </strong>
+
+        Axtarış sözünüzə uyğun məhsul yoxdur.
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
   productsElement.innerHTML =
+
     products.map(product => `
 
       <article class="card">
 
+
         <div class="photo">
 
           ${
+
             product.image_url
 
             ?
@@ -502,50 +780,185 @@ function renderProducts(products){
             :
 
             `<div class="noimg">
+
               PARFUM ŞƏKLİ
+
             </div>`
+
           }
 
         </div>
 
 
+
         <div class="info">
 
+
           <div class="name">
+
             ${esc(product.name)}
+
           </div>
+
 
 
           <div class="meta">
+
             ${product.ml} ML ·
             ${product.stock} ƏDƏD
+
           </div>
+
 
 
           <div class="price">
+
             ${product.price} AZN
+
           </div>
 
 
+
           <p class="desc">
+
             ${esc(product.description || "")}
+
           </p>
+
 
 
           <button
             class="buy"
             onclick='showProduct(${JSON.stringify(product)})'
           >
+
             Ətraflı
+
           </button>
 
+
         </div>
+
 
       </article>
 
     `).join("");
 
 }
+
+
+
+/* =====================================
+   AXTARIŞ
+===================================== */
+
+function searchProducts(){
+
+  const input =
+    document.getElementById("searchInput");
+
+  const clearButton =
+    document.getElementById("clearSearch");
+
+  const resultText =
+    document.getElementById("searchResult");
+
+
+  const searchValue =
+    input.value.trim().toLowerCase();
+
+
+  clearButton.style.display =
+    searchValue
+    ? "block"
+    : "none";
+
+
+  if(!searchValue){
+
+    renderProducts(allProducts);
+
+    resultText.textContent = "";
+
+    return;
+
+  }
+
+
+  const filteredProducts =
+    allProducts.filter(product => {
+
+      const name =
+        String(product.name || "")
+          .toLowerCase();
+
+      const description =
+        String(product.description || "")
+          .toLowerCase();
+
+      const ml =
+        String(product.ml || "")
+          .toLowerCase();
+
+      return (
+
+        name.includes(searchValue) ||
+
+        description.includes(searchValue) ||
+
+        ml.includes(searchValue)
+
+      );
+
+    });
+
+
+  renderProducts(filteredProducts);
+
+
+  if(filteredProducts.length === 1){
+
+    resultText.textContent =
+      "1 ətir tapıldı";
+
+  }
+
+  else if(filteredProducts.length > 1){
+
+    resultText.textContent =
+      filteredProducts.length +
+      " ətir tapıldı";
+
+  }
+
+  else{
+
+    resultText.textContent =
+      "Nəticə tapılmadı";
+
+  }
+
+}
+
+
+
+/* =====================================
+   AXTARIŞI TƏMİZLƏ
+===================================== */
+
+function clearSearch(){
+
+  const input =
+    document.getElementById("searchInput");
+
+  input.value = "";
+
+  searchProducts();
+
+  input.focus();
+
+}
+
 
 
 /* =====================================
@@ -555,16 +968,25 @@ function renderProducts(products){
 function showProduct(product){
 
   alert(
+
     product.name +
+
     "\n\n" +
+
     (product.description || "") +
+
     "\n\n" +
+
     "Qiymət: " +
+
     product.price +
+
     " AZN"
+
   );
 
 }
+
 
 
 /* =====================================
@@ -576,6 +998,7 @@ function esc(value){
   return String(
     value ?? ""
   ).replace(
+
     /[&<>"']/g,
 
     function(character){
@@ -591,9 +1014,32 @@ function esc(value){
       }[character];
 
     }
+
   );
 
 }
+
+
+
+/* =====================================
+   AXTARIŞ EVENTLƏRİ
+===================================== */
+
+document
+  .getElementById("searchInput")
+  .addEventListener(
+    "input",
+    searchProducts
+  );
+
+
+document
+  .getElementById("clearSearch")
+  .addEventListener(
+    "click",
+    clearSearch
+  );
+
 
 
 /* =====================================
@@ -602,7 +1048,9 @@ function esc(value){
 
 loadProducts();
 
+
 </script>
+
 
 </body>
 </html>
