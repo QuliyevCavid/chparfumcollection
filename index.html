@@ -424,13 +424,16 @@ async function loadProducts(){
   try{
 
     const { data, error } =
-      await supabaseClient
-        .from("products")
-        .select("*")
-        .order("created_at", {
-          ascending:true
-        });
-
+  await supabaseClient
+    .from("products")
+    .select("*")
+    .order("sort_order", {
+      ascending:true,
+      nullsFirst:false
+    })
+    .order("created_at", {
+      ascending:true
+    });
 
     if(error){
       throw error;
