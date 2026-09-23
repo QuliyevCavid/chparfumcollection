@@ -360,6 +360,32 @@
       accept="image/*"
       onchange="previewImage(event)"
     >
+    <label>Şəkil 1</label>
+<input
+  type="file"
+  id="image"
+  accept="image/*"
+  onchange="previewImage(event, 'imagePreview')"
+>
+<img id="imagePreview" class="preview">
+
+<label>Şəkil 2</label>
+<input
+  type="file"
+  id="image2"
+  accept="image/*"
+  onchange="previewImage(event, 'imagePreview2')"
+>
+<img id="imagePreview2" class="preview">
+
+<label>Şəkil 3</label>
+<input
+  type="file"
+  id="image3"
+  accept="image/*"
+  onchange="previewImage(event, 'imagePreview3')"
+>
+<img id="imagePreview3" class="preview">
 
     <img id="imagePreview" class="preview">
 
@@ -439,14 +465,16 @@
   }
 
 
-  function showLoginError(message){
+  function previewImage(event, previewId){
+  const file = event.target.files[0];
 
-    const box =
-      document.getElementById("loginError");
+  if(!file) return;
 
-    box.textContent = message;
-    box.style.display = "block";
-  }
+  const preview = document.getElementById(previewId);
+
+  preview.src = URL.createObjectURL(file);
+  preview.style.display = "block";
+}
 
 
   // CHECK SESSION
@@ -596,26 +624,31 @@
 
 
   // NEW PRODUCT
-  function newProduct(){
+function newProduct(){
 
-    editingProduct = null;
+  editingProduct = null;
 
-    document.getElementById("productId").value = "";
-    document.getElementById("name").value = "";
-    document.getElementById("price").value = "";
-    document.getElementById("ml").value = "";
-    document.getElementById("stock").value = "";
-    document.getElementById("description").value = "";
-    document.getElementById("image").value = "";
+  document.getElementById("productId").value = "";
+  document.getElementById("name").value = "";
+  document.getElementById("price").value = "";
+  document.getElementById("ml").value = "";
+  document.getElementById("stock").value = "";
+  document.getElementById("description").value = "";
 
-    document.getElementById("imagePreview").style.display = "none";
+  document.getElementById("image").value = "";
+  document.getElementById("image2").value = "";
+  document.getElementById("image3").value = "";
 
-    document.getElementById("formTitle").textContent =
-      "Yeni məhsul əlavə et";
+  document.getElementById("imagePreview").style.display = "none";
+  document.getElementById("imagePreview2").style.display = "none";
+  document.getElementById("imagePreview3").style.display = "none";
 
-    document.getElementById("formMessage").style.display =
-      "none";
-  }
+  document.getElementById("formTitle").textContent =
+    "Yeni məhsul əlavə et";
+
+  document.getElementById("formMessage").style.display =
+    "none";
+}
 
 
   // EDIT PRODUCT
@@ -643,21 +676,37 @@
 
     document.getElementById("image").value = "";
 
-    document.getElementById("formTitle").textContent =
-      "Məhsulu redaktə et";
+    document.getElementById("image").value = "";
+document.getElementById("image2").value = "";
+document.getElementById("image3").value = "";
 
-    const preview =
-      document.getElementById("imagePreview");
+document.getElementById("formTitle").textContent =
+  "Məhsulu redaktə et";
 
-    if(product.image_url){
+const preview = document.getElementById("imagePreview");
+const preview2 = document.getElementById("imagePreview2");
+const preview3 = document.getElementById("imagePreview3");
 
-      preview.src = product.image_url;
-      preview.style.display = "block";
+if(product.image_url){
+  preview.src = product.image_url;
+  preview.style.display = "block";
+}else{
+  preview.style.display = "none";
+}
 
-    }else{
+if(product.image_url_2){
+  preview2.src = product.image_url_2;
+  preview2.style.display = "block";
+}else{
+  preview2.style.display = "none";
+}
 
-      preview.style.display = "none";
-    }
+if(product.image_url_3){
+  preview3.src = product.image_url_3;
+  preview3.style.display = "block";
+}else{
+  preview3.style.display = "none";
+}
 
     window.scrollTo({
       top:0,
@@ -727,126 +776,143 @@
   }
 
 
-  // SAVE PRODUCT
-  async function saveProduct(){
+ // SAVE PRODUCT
+async function saveProduct(){
 
-    const name =
-      document.getElementById("name").value.trim();
+  const name =
+    document.getElementById("name").value.trim();
 
-    const price =
-      Number(document.getElementById("price").value);
+  const price =
+    Number(document.getElementById("price").value);
 
-    const ml =
-      Number(document.getElementById("ml").value);
+  const ml =
+    Number(document.getElementById("ml").value);
 
-    const stock =
-      Number(document.getElementById("stock").value);
+  const stock =
+    Number(document.getElementById("stock").value);
 
-    const description =
-      document.getElementById("description").value.trim();
+  const description =
+    document.getElementById("description").value.trim();
 
-    const file =
-      document.getElementById("image").files[0];
+  const file1 =
+    document.getElementById("image").files[0];
 
-    const message =
-      document.getElementById("formMessage");
+  const file2 =
+    document.getElementById("image2").files[0];
 
-    message.style.display = "none";
+  const file3 =
+    document.getElementById("image3").files[0];
 
-    if(!name || !price || !ml){
+  const message =
+    document.getElementById("formMessage");
 
-      showFormMessage(
-        "Ad, qiymət və ML məlumatlarını doldurun.",
-        "error"
-      );
+  message.style.display = "none";
 
-      return;
-    }
+  if(!name || !price || !ml){
 
-    try{
+    showFormMessage(
+      "Ad, qiymət və ML məlumatlarını doldurun.",
+      "error"
+    );
 
-      let imageUrl =
-        editingProduct?.image_url || null;
-
-      // Yeni şəkil seçilibsə yüklə
-      if(file){
-        imageUrl = await uploadImage(file);
-      }
-
-      const productData = {
-        name:name,
-        price:price,
-        ml:ml,
-        stock:stock || 0,
-        image_url:imageUrl,
-        description:description
-      };
-
-
-      // EDIT
-      if(editingProduct){
-
-        const { error } =
-          await supabaseClient
-            .from("products")
-            .update(productData)
-            .eq("id", editingProduct.id);
-
-        if(error) throw error;
-
-        showFormMessage(
-          "Məhsul uğurla yeniləndi.",
-          "success"
-        );
-
-      }
-
-      // NEW
-      else{
-
-        const { error } =
-          await supabaseClient
-            .from("products")
-            .insert(productData);
-
-        if(error) throw error;
-
-        showFormMessage(
-          "Məhsul uğurla əlavə edildi.",
-          "success"
-        );
-      }
-
-      await loadProducts();
-
-      setTimeout(() => {
-        newProduct();
-      }, 700);
-
-    }catch(error){
-
-      showFormMessage(
-        "Xəta: " + error.message,
-        "error"
-      );
-    }
+    return;
   }
 
+  try{
 
-  function showFormMessage(text,type){
+    // Köhnə şəkilləri saxla
+    let imageUrl =
+      editingProduct?.image_url || null;
 
-    const box =
-      document.getElementById("formMessage");
+    let imageUrl2 =
+      editingProduct?.image_url_2 || null;
 
-    box.textContent = text;
+    let imageUrl3 =
+      editingProduct?.image_url_3 || null;
 
-    box.className =
-      "message " +
-      (type === "success" ? "success" : "error");
 
-    box.style.display = "block";
+    // Şəkil 1 seçilibsə yüklə
+    if(file1){
+      imageUrl = await uploadImage(file1);
+    }
+
+    // Şəkil 2 seçilibsə yüklə
+    if(file2){
+      imageUrl2 = await uploadImage(file2);
+    }
+
+    // Şəkil 3 seçilibsə yüklə
+    if(file3){
+      imageUrl3 = await uploadImage(file3);
+    }
+
+
+    const productData = {
+      name:name,
+      price:price,
+      ml:ml,
+      stock:stock || 0,
+
+      image_url:imageUrl,
+      image_url_2:imageUrl2,
+      image_url_3:imageUrl3,
+
+      description:description
+    };
+
+
+    // EDIT
+    if(editingProduct){
+
+      const { error } =
+        await supabaseClient
+          .from("products")
+          .update(productData)
+          .eq("id", editingProduct.id);
+
+      if(error) throw error;
+
+      showFormMessage(
+        "Məhsul uğurla yeniləndi.",
+        "success"
+      );
+
+    }
+
+
+    // NEW
+    else{
+
+      const { error } =
+        await supabaseClient
+          .from("products")
+          .insert(productData);
+
+      if(error) throw error;
+
+      showFormMessage(
+        "Məhsul uğurla əlavə edildi.",
+        "success"
+      );
+    }
+
+
+    await loadProducts();
+
+
+    setTimeout(() => {
+      newProduct();
+    }, 700);
+
+
+  }catch(error){
+
+    showFormMessage(
+      "Xəta: " + error.message,
+      "error"
+    );
   }
-
+}
 
   // DELETE
   async function deleteProduct(id){
