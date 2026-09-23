@@ -6,6 +6,7 @@
 <title>C&H Parfum Collection</title>
 
 <style>
+
 :root{
   --bg:#f7f2ec;
   --paper:#fffdf9;
@@ -69,6 +70,11 @@ header{
   text-decoration:none;
   color:var(--text)
 }
+
+
+/* =====================================
+   HERO
+===================================== */
 
 .hero{
   min-height:390px;
@@ -164,7 +170,7 @@ header{
 
 
 /* =====================================
-   KOLLEKSIYA BAŞLIĞI + AXTARIŞ
+   KOLLEKSIYA + AXTARIŞ
 ===================================== */
 
 .collection-tools{
@@ -175,8 +181,6 @@ header{
   backdrop-filter:blur(12px);
   border-bottom:1px solid var(--line);
   padding-bottom:22px;
-}
-.collection-tools{
   transition:transform .25s ease;
 }
 
@@ -292,19 +296,26 @@ header{
   box-shadow:0 14px 35px #5b3b1b18
 }
 
+
+/* =====================================
+   ŞƏKİL + ŞƏKİL OXLARI
+===================================== */
+
 .photo{
   height:370px;
   background:#eee5dd;
   display:flex;
   align-items:center;
   justify-content:center;
-  overflow:hidden
+  overflow:hidden;
+  position:relative
 }
 
 .photo img{
   width:100%;
   height:100%;
-  object-fit:cover
+  object-fit:cover;
+  display:block
 }
 
 .noimg{
@@ -312,6 +323,57 @@ header{
   font-size:12px;
   letter-spacing:2px
 }
+
+.card-image-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:5;
+
+  width:24px;
+  height:30px;
+
+  border:none;
+  background:transparent;
+
+  color:#70452f;
+
+  font-family:Arial,sans-serif;
+  font-size:26px;
+  font-weight:400;
+
+  line-height:1;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+
+  padding:0;
+
+  transition:
+    color .2s ease,
+    transform .2s ease;
+}
+
+.card-image-arrow:hover{
+  color:#b8916e;
+  transform:translateY(-50%) scale(1.12);
+}
+
+.card-image-left{
+  left:10px;
+}
+
+.card-image-right{
+  right:10px;
+}
+
+
+/* =====================================
+   MƏHSUL MƏLUMATLARI
+===================================== */
 
 .info{
   padding:22px 22px 25px
@@ -355,6 +417,11 @@ header{
   font-size:10px
 }
 
+
+/* =====================================
+   FOOTER
+===================================== */
+
 footer{
   text-align:center;
   padding:45px 20px;
@@ -397,7 +464,7 @@ footer{
 
 
 /* =====================================
-   MOBİL
+   TABLET
 ===================================== */
 
 @media(max-width:800px){
@@ -441,6 +508,11 @@ footer{
 
 }
 
+
+/* =====================================
+   MOBİL
+===================================== */
+
 @media(max-width:600px){
 
   .logo{
@@ -467,195 +539,21 @@ footer{
   #searchInput{
     height:48px
   }
-
-
-/* =====================================
-   MƏHSUL DETAL MODALI
-===================================== */
-
-#productModal{
-  position:fixed;
-  inset:0;
-  z-index:9999;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:24px;
-}
-
-.product-modal-bg{
-  position:absolute;
-  inset:0;
-  background:rgba(33,27,23,.55);
-  backdrop-filter:blur(8px);
-}
-
-.product-modal{
-  position:relative;
-  z-index:2;
-  width:min(900px,100%);
-  max-height:90vh;
-  overflow:auto;
-  background:var(--paper);
-  border:1px solid var(--line);
-  box-shadow:0 25px 70px rgba(33,27,23,.25);
-  display:grid;
-  grid-template-columns:1fr 1fr;
-}
-
-.product-modal-close{
-  position:absolute;
-  top:12px;
-  right:14px;
-  z-index:5;
-  width:40px;
-  height:40px;
-  border:0;
-  background:rgba(255,253,249,.9);
-  color:var(--text);
-  font-size:30px;
-  line-height:1;
-  cursor:pointer;
-}
-
-.product-gallery{
-  position:relative;
-  min-height:520px;
-  background:#f3ece5;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-}
-
-.product-gallery img{
-  width:100%;
-  height:100%;
-  min-height:520px;
-  object-fit:contain;
-  display:block;
-}
-
-.gallery-arrow{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  z-index:3;
-
-  width:52px;
-  height:52px;
-
-  border:0;
-  border-radius:50%;
-
-  background:rgba(255,255,255,.72);
-  backdrop-filter:blur(8px);
-
-  color:#211b17;
-  font-size:36px;
-  font-family:Arial,sans-serif;
-  font-weight:300;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  cursor:pointer;
-
-  box-shadow:0 6px 20px rgba(0,0,0,.12);
-
-  transition:
-    background .2s ease,
-    transform .2s ease,
-    box-shadow .2s ease;
-}
-
-.gallery-arrow:hover{
-  background:rgba(255,255,255,.95);
-  box-shadow:0 8px 25px rgba(0,0,0,.18);
-}
-
-.gallery-arrow.left{
-  left:18px;
-}
-
-.gallery-arrow.right{
-  right:18px;
-}
-
-.gallery-arrow.left{
-  left:14px;
-}
-
-.gallery-arrow.right{
-  right:14px;
-}
-
-.product-modal-info{
-  padding:55px 45px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
-
-.product-modal-info h2{
-  margin:0 0 12px;
-  font-family:Georgia,serif;
-  font-size:34px;
-  font-weight:400;
-}
-
-.product-modal-meta{
-  color:var(--muted);
-  font-size:13px;
-  letter-spacing:1px;
-  margin-bottom:20px;
-}
-
-.product-modal-price{
-  color:var(--brown);
+.card-image-arrow{
+  width:20px;
+  height:26px;
   font-size:24px;
-  font-weight:600;
-  margin-bottom:25px;
 }
 
-.product-modal-info p{
-  color:var(--muted);
-  line-height:1.8;
-  font-size:15px;
+.card-image-left{
+  left:7px;
 }
 
-
-/* TELEFONDA */
-
-@media(max-width:700px){
-
-  #productModal{
-    padding:12px;
-  }
-
-  .product-modal{
-    grid-template-columns:1fr;
-    max-height:94vh;
-  }
-
-  .product-gallery{
-    min-height:360px;
-  }
-
-  .product-gallery img{
-    min-height:360px;
-  }
-
-  .product-modal-info{
-    padding:30px 24px;
-  }
-
-  .product-modal-info h2{
-    font-size:28px;
-  }
-
+.card-image-right{
+  right:7px;
 }
+}
+
 </style>
 
 
@@ -700,32 +598,42 @@ const supabaseClient =
 
   <nav class="nav">
 
-  <a href="#collection">
-    Kolleksiya
-  </a>
+    <a href="#collection">
+      Kolleksiya
+    </a>
 
-  <a href="#about">
-    Haqqımızda
-  </a>
+    <a href="#about">
+      Haqqımızda
+    </a>
 
-  <a href="tel:+994703777305" class="phone">
-<span class="phone-icon" aria-hidden="true">
-  <svg viewBox="0 0 22 22" width="17" height="17">
-    <path
-      d="M6.6 3.5 9.1 3l2 4.5-1.7 1.4c.9 1.9 2.4 3.4 4.3 4.3l1.4-1.7 4.5 2-.5 2.5c-.2 1-1.1 1.7-2.1 1.7C10.8 17.7 6.3 13.2 6.3 7c0-1 .7-1.9 1.7-2.1Z"
-      fill="#211b17"
-      stroke="#211b17"
-      stroke-width="0.5"
-      stroke-linejoin="round"
-    />
-  </svg>
-</span>
-<span class="phone-number" style="position:relative; top:-4px;">
-  +994 70 377 73 05
-</span>
-</a>
+    <a href="tel:+994703777305" class="phone">
 
-</nav>
+      <span class="phone-icon" aria-hidden="true">
+
+        <svg viewBox="0 0 22 22" width="17" height="17">
+
+          <path
+            d="M6.6 3.5 9.1 3l2 4.5-1.7 1.4c.9 1.9 2.4 3.4 4.3 4.3l1.4-1.7 4.5 2-.5 2.5c-.2 1-1.1 1.7-2.1 1.7C10.8 17.7 6.3 13.2 6.3 7c0-1 .7-1.9 1.7-2.1Z"
+            fill="#211b17"
+            stroke="#211b17"
+            stroke-width="0.5"
+            stroke-linejoin="round"
+          />
+
+        </svg>
+
+      </span>
+
+      <span
+        class="phone-number"
+        style="position:relative; top:-4px;"
+      >
+        +994 70 377 73 05
+      </span>
+
+    </a>
+
+  </nav>
 
 </header>
 
@@ -783,12 +691,40 @@ const supabaseClient =
 
     <div class="search-wrap">
 
-      <span class="search-icon" aria-hidden="true">
-  <svg viewBox="0 0 24 24" width="20" height="20">
-    <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
-    <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-  </svg>
-</span>
+      <span
+        class="search-icon"
+        aria-hidden="true"
+      >
+
+        <svg
+          viewBox="0 0 24 24"
+          width="20"
+          height="20"
+        >
+
+          <circle
+            cx="11"
+            cy="11"
+            r="7"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+
+          <line
+            x1="16.5"
+            y1="16.5"
+            x2="21"
+            y2="21"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+
+        </svg>
+
+      </span>
+
 
       <input
         type="search"
@@ -796,6 +732,7 @@ const supabaseClient =
         placeholder="Ətir axtar... məsələn: Dior, Sauvage"
         autocomplete="off"
       >
+
 
       <button
         type="button"
@@ -853,6 +790,12 @@ const supabaseClient =
 
 let allProducts = [];
 
+
+/* =====================================
+   KART ŞƏKİLLƏRİ
+===================================== */
+
+window.cardProductImages = {};
 
 
 /* =====================================
@@ -936,7 +879,6 @@ async function loadProducts(){
 }
 
 
-
 /* =====================================
    MƏHSULLARI GÖSTƏR
 ===================================== */
@@ -968,95 +910,234 @@ function renderProducts(products){
   }
 
 
+  window.cardProductImages = {};
+
+
   productsElement.innerHTML =
 
-    products.map(product => `
+    products.map((product, index) => {
 
-      <article class="card">
+      const images = [
+
+        product.image_url,
+        product.image_url_2,
+        product.image_url_3
+
+      ].filter(Boolean);
 
 
-        <div class="photo">
+      window.cardProductImages[index] = {
 
-          ${
+        images:images,
+        current:0
 
-            product.image_url
+      };
 
-            ?
 
-            `<img
-              src="${esc(product.image_url)}"
+      if(images.length === 0){
+
+        return `
+
+          <article class="card">
+
+            <div class="photo">
+
+              <div class="noimg">
+                PARFUM ŞƏKLİ
+              </div>
+
+            </div>
+
+
+            <div class="info">
+
+              <div class="name">
+                ${esc(product.name)}
+              </div>
+
+
+              <div class="meta">
+                ${product.ml} ML ·
+                ${product.stock} ƏDƏD
+              </div>
+
+
+              <div class="price">
+                ${product.price} AZN
+              </div>
+
+
+              <p class="desc">
+                ${esc(product.description || "")}
+              </p>
+
+
+              <button
+                class="buy"
+                onclick='showProduct(${JSON.stringify(product)})'
+              >
+                Ətraflı
+              </button>
+
+            </div>
+
+          </article>
+
+        `;
+
+      }
+
+
+      return `
+
+        <article class="card">
+
+
+          <div class="photo product-photo">
+
+
+            <img
+              id="product-image-${index}"
+              src="${esc(images[0])}"
               alt="${esc(product.name)}"
-            >`
-
-            :
-
-            `<div class="noimg">
-
-              PARFUM ŞƏKLİ
-
-            </div>`
-
-          }
-
-        </div>
+            >
 
 
+            ${
+              images.length > 1
+              ?
 
-        <div class="info">
+              `
 
-
-          <div class="name">
-
-            ${esc(product.name)}
-
-          </div>
-
-
-
-          <div class="meta">
-
-            ${product.ml} ML ·
-            ${product.stock} ƏDƏD
-
-          </div>
+              <button
+                type="button"
+                class="card-image-arrow card-image-left"
+                onclick="changeCardImage(${index}, -1)"
+                aria-label="Əvvəlki şəkil"
+              >
+                ‹
+              </button>
 
 
+              <button
+                type="button"
+                class="card-image-arrow card-image-right"
+                onclick="changeCardImage(${index}, 1)"
+                aria-label="Növbəti şəkil"
+              >
+                ›
+              </button>
 
-          <div class="price">
+              `
 
-            ${product.price} AZN
+              :
+
+              ""
+
+            }
 
           </div>
 
 
-
-          <p class="desc">
-
-            ${esc(product.description || "")}
-
-          </p>
+          <div class="info">
 
 
-
-          <button
-            class="buy"
-            onclick='showProduct(${JSON.stringify(product)})'
-          >
-
-            Ətraflı
-
-          </button>
+            <div class="name">
+              ${esc(product.name)}
+            </div>
 
 
-        </div>
+            <div class="meta">
+
+              ${product.ml} ML ·
+              ${product.stock} ƏDƏD
+
+            </div>
 
 
-      </article>
+            <div class="price">
 
-    `).join("");
+              ${product.price} AZN
+
+            </div>
+
+
+            <p class="desc">
+
+              ${esc(product.description || "")}
+
+            </p>
+
+
+            <button
+              class="buy"
+              onclick='showProduct(${JSON.stringify(product)})'
+            >
+
+              Ətraflı
+
+            </button>
+
+
+          </div>
+
+
+        </article>
+
+      `;
+
+    }).join("");
 
 }
 
+
+/* =====================================
+   KARTDA ŞƏKİLİ DƏYİŞ
+===================================== */
+
+function changeCardImage(index, direction){
+
+  const data =
+    window.cardProductImages[index];
+
+
+  if(!data || data.images.length <= 1){
+    return;
+  }
+
+
+  data.current += direction;
+
+
+  if(data.current < 0){
+
+    data.current =
+      data.images.length - 1;
+
+  }
+
+
+  if(data.current >= data.images.length){
+
+    data.current = 0;
+
+  }
+
+
+  const image =
+    document.getElementById(
+      "product-image-" + index
+    );
+
+
+  if(image){
+
+    image.src =
+      data.images[data.current];
+
+  }
+
+}
 
 
 /* =====================================
@@ -1068,8 +1149,10 @@ function searchProducts(){
   const input =
     document.getElementById("searchInput");
 
+
   const clearButton =
     document.getElementById("clearSearch");
+
 
   const resultText =
     document.getElementById("searchResult");
@@ -1103,13 +1186,16 @@ function searchProducts(){
         String(product.name || "")
           .toLowerCase();
 
+
       const description =
         String(product.description || "")
           .toLowerCase();
 
+
       const ml =
         String(product.ml || "")
           .toLowerCase();
+
 
       return (
 
@@ -1152,7 +1238,6 @@ function searchProducts(){
 }
 
 
-
 /* =====================================
    AXTARIŞI TƏMİZLƏ
 ===================================== */
@@ -1162,14 +1247,16 @@ function clearSearch(){
   const input =
     document.getElementById("searchInput");
 
+
   input.value = "";
 
+
   searchProducts();
+
 
   input.focus();
 
 }
-
 
 
 /* =====================================
@@ -1178,126 +1265,26 @@ function clearSearch(){
 
 function showProduct(product){
 
-  const images = [
-    product.image_url,
-    product.image_url_2,
-    product.image_url_3
-  ].filter(Boolean);
+  alert(
 
-  if(images.length === 0){
-    images.push("");
-  }
+    product.name +
 
-  let currentImage = 0;
+    "\n\n" +
 
-  const overlay = document.createElement("div");
+    (product.description || "") +
 
-  overlay.id = "productModal";
+    "\n\n" +
 
-  overlay.innerHTML = `
+    "Qiymət: " +
 
-    <div class="product-modal-bg"></div>
+    product.price +
 
-    <div class="product-modal">
+    " AZN"
 
-      <button
-        class="product-modal-close"
-        onclick="document.getElementById('productModal').remove()"
-      >
-        ×
-      </button>
-
-      <div class="product-gallery">
-
-        ${
-          images.length > 1
-          ?
-          `
-          <button
-            class="gallery-arrow left"
-            onclick="changeProductImage(-1)"
-          >
-            ‹
-          </button>
-          `
-          :
-          ""
-        }
-
-        <img
-          id="productModalImage"
-          src="${images[0] ? esc(images[0]) : ""}"
-          alt="${esc(product.name)}"
-        >
-
-        ${
-          images.length > 1
-          ?
-          `
-          <button
-            class="gallery-arrow right"
-            onclick="changeProductImage(1)"
-          >
-            ›
-          </button>
-          `
-          :
-          ""
-        }
-
-      </div>
-
-      <div class="product-modal-info">
-
-        <h2>
-          ${esc(product.name)}
-        </h2>
-
-        <div class="product-modal-meta">
-          ${product.ml} ML · ${product.stock} ƏDƏD
-        </div>
-
-        <div class="product-modal-price">
-          ${product.price} AZN
-        </div>
-
-        <p>
-          ${esc(product.description || "")}
-        </p>
-
-      </div>
-
-    </div>
-
-  `;
-
-  document.body.appendChild(overlay);
-
-
-  window.productModalImages = images;
-
-  window.changeProductImage = function(direction){
-
-    currentImage += direction;
-
-    if(currentImage < 0){
-      currentImage = images.length - 1;
-    }
-
-    if(currentImage >= images.length){
-      currentImage = 0;
-    }
-
-    const image =
-      document.getElementById("productModalImage");
-
-    if(images[currentImage]){
-      image.src = images[currentImage];
-    }
-
-  };
+  );
 
 }
+
 
 /* =====================================
    HTML TƏHLÜKƏSİZLİYİ
@@ -1330,7 +1317,6 @@ function esc(value){
 }
 
 
-
 /* =====================================
    AXTARIŞ EVENTLƏRİ
 ===================================== */
@@ -1351,26 +1337,55 @@ document
   );
 
 
-
 /* =====================================
    BAŞLA
 ===================================== */
 
 loadProducts();
+
+
+/* =====================================
+   SCROLL ZAMANI AXTARIŞI GİZLƏT
+===================================== */
+
 let lastScrollTop = 0;
-const collectionTools = document.querySelector(".collection-tools");
+
+const collectionTools =
+  document.querySelector(".collection-tools");
+
 
 window.addEventListener("scroll", () => {
-  const currentScroll =
-    window.pageYOffset || document.documentElement.scrollTop;
 
-  if (currentScroll > lastScrollTop && currentScroll > 150) {
-    collectionTools.classList.add("hide-search");
-  } else {
-    collectionTools.classList.remove("hide-search");
+  const currentScroll =
+    window.pageYOffset ||
+    document.documentElement.scrollTop;
+
+
+  if(
+    currentScroll > lastScrollTop &&
+    currentScroll > 150
+  ){
+
+    collectionTools.classList.add(
+      "hide-search"
+    );
+
   }
 
-  lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+  else{
+
+    collectionTools.classList.remove(
+      "hide-search"
+    );
+
+  }
+
+
+  lastScrollTop =
+    currentScroll <= 0
+    ? 0
+    : currentScroll;
+
 });
 
 </script>
