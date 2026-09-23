@@ -369,6 +369,48 @@ header{
 .card-image-right{
   right:10px;
 }
+.card-image-dots{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:12px;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:6px;
+
+  z-index:6;
+}
+
+.card-image-dot{
+  width:6px;
+  height:6px;
+
+  padding:0;
+  border:none;
+  border-radius:50%;
+
+  background:#b8916e;
+
+  opacity:.45;
+
+  cursor:pointer;
+
+  transition:
+    transform .2s ease,
+    opacity .2s ease;
+}
+
+.card-image-dot.active{
+  opacity:1;
+  background:#70452f;
+  transform:scale(1.35);
+}
+
+.card-image-dot:hover{
+  opacity:1;
+}
 
 
 /* =====================================
@@ -879,15 +921,10 @@ async function loadProducts(){
 }
 
 
-/* =====================================
-   MƏHSULLARI GÖSTƏR
-===================================== */
-
 function renderProducts(products){
 
   const productsElement =
     document.getElementById("products");
-
 
   if(!products || products.length === 0){
 
@@ -909,9 +946,7 @@ function renderProducts(products){
 
   }
 
-
   window.cardProductImages = {};
-
 
   productsElement.innerHTML =
 
@@ -925,14 +960,12 @@ function renderProducts(products){
 
       ].filter(Boolean);
 
-
       window.cardProductImages[index] = {
 
         images:images,
         current:0
 
       };
-
 
       if(images.length === 0){
 
@@ -948,29 +981,24 @@ function renderProducts(products){
 
             </div>
 
-
             <div class="info">
 
               <div class="name">
                 ${esc(product.name)}
               </div>
 
-
               <div class="meta">
                 ${product.ml} ML ·
                 ${product.stock} ƏDƏD
               </div>
 
-
               <div class="price">
                 ${product.price} AZN
               </div>
 
-
               <p class="desc">
                 ${esc(product.description || "")}
               </p>
-
 
               <button
                 class="buy"
@@ -987,21 +1015,17 @@ function renderProducts(products){
 
       }
 
-
       return `
 
         <article class="card">
 
-
           <div class="photo product-photo">
-
 
             <img
               id="product-image-${index}"
               src="${esc(images[0])}"
               alt="${esc(product.name)}"
             >
-
 
             ${
               images.length > 1
@@ -1017,7 +1041,6 @@ function renderProducts(products){
               >
                 ‹
               </button>
-
 
               <button
                 type="button"
@@ -1036,51 +1059,55 @@ function renderProducts(products){
 
             }
 
+            <div
+              class="card-image-dots"
+              id="product-dots-${index}"
+            >
+
+              ${
+                images.map((_, dotIndex) => `
+
+                  <button
+                    type="button"
+                    class="card-image-dot ${dotIndex === 0 ? "active" : ""}"
+                    onclick="setCardImage(${index}, ${dotIndex})"
+                    aria-label="${dotIndex + 1}-ci şəkil"
+                  ></button>
+
+                `).join("")
+              }
+
+            </div>
+
           </div>
 
-
           <div class="info">
-
 
             <div class="name">
               ${esc(product.name)}
             </div>
 
-
             <div class="meta">
-
               ${product.ml} ML ·
               ${product.stock} ƏDƏD
-
             </div>
-
 
             <div class="price">
-
               ${product.price} AZN
-
             </div>
 
-
             <p class="desc">
-
               ${esc(product.description || "")}
-
             </p>
-
 
             <button
               class="buy"
               onclick='showProduct(${JSON.stringify(product)})'
             >
-
               Ətraflı
-
             </button>
 
-
           </div>
-
 
         </article>
 
@@ -1136,6 +1163,19 @@ function changeCardImage(index, direction){
       data.images[data.current];
 
   }
+const dots =
+  document.querySelectorAll(
+    "#product-dots-" + index + " .card-image-dot"
+  );
+
+dots.forEach((dot, dotIndex) => {
+
+  dot.classList.toggle(
+    "active",
+    dotIndex === data.current
+  );
+
+});
 
 }
 
