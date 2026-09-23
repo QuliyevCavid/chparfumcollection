@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="az">
 <head>
   <meta charset="UTF-8">
@@ -7,6 +8,7 @@
   <title>C&H Parfum — Admin</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script src="supabase-config.js"></script>
 
   <style>
@@ -27,7 +29,7 @@
 
     body{
       margin:0;
-      font-family:Arial, sans-serif;
+      font-family:Arial,sans-serif;
       background:var(--bg);
       color:var(--text);
     }
@@ -88,7 +90,8 @@
       font-weight:bold;
     }
 
-    input, textarea{
+    input,
+    textarea{
       width:100%;
       padding:13px;
       border:1px solid var(--line);
@@ -98,7 +101,8 @@
       outline:none;
     }
 
-    input:focus, textarea:focus{
+    input:focus,
+    textarea:focus{
       border-color:var(--gold);
     }
 
@@ -127,6 +131,11 @@
 
     button:hover{
       opacity:.9;
+    }
+
+    button:disabled{
+      opacity:.6;
+      cursor:not-allowed;
     }
 
     .secondary{
@@ -216,9 +225,11 @@
       object-fit:cover;
       border-radius:10px;
       display:none;
+      background:#f3eee8;
     }
 
     @media(max-width:700px){
+
       .row{
         grid-template-columns:1fr;
       }
@@ -243,290 +254,452 @@
       }
     }
   </style>
+
 </head>
 
 <body>
 
 <header>
+
   <div class="logo">
     C&H PARFUM
     <span>COLLECTION</span>
   </div>
 
-  <button id="logoutBtn" class="secondary hidden" onclick="logout()">
-    Çıxış
+<button
+id="logoutBtn"
+class="secondary hidden"
+onclick="logout()"
+
+>
+
+```
+Çıxış
+```
+
   </button>
+
 </header>
 
-
 <!-- LOGIN -->
+
 <div id="loginPage" class="container">
+
   <div class="card login">
 
-    <h1>Admin panel</h1>
-    <p style="color:var(--muted)">
-      Məhsulları idarə etmək üçün daxil olun.
-    </p>
+```
+<h1>Admin panel</h1>
 
-    <label>Email</label>
-    <input
-      type="email"
-      id="email"
-      placeholder="Email ünvanınız"
-    >
+<p style="color:var(--muted)">
+  Məhsulları idarə etmək üçün daxil olun.
+</p>
 
-    <label>Şifrə</label>
-    <input
-      type="password"
-      id="password"
-      placeholder="Şifrəniz"
-    >
+<label>Email</label>
 
-    <button onclick="login()">
-      Daxil ol
-    </button>
+<input
+  type="email"
+  id="email"
+  placeholder="Email ünvanınız"
+>
 
-    <div id="loginError" class="message error"></div>
+<label>Şifrə</label>
+
+<input
+  type="password"
+  id="password"
+  placeholder="Şifrəniz"
+>
+
+<button onclick="login()">
+  Daxil ol
+</button>
+
+<div
+  id="loginError"
+  class="message error"
+></div>
+```
 
   </div>
+
+</div>
+
+<!-- ADMIN PANEL -->
+
+<div
+  id="adminPage"
+  class="container hidden"
+>
+
+  <div class="topbar">
+
+```
+<div>
+
+  <h1>Admin panel</h1>
+
+  <p style="color:var(--muted);margin:0">
+    C&H Parfum Collection məhsullarını idarə et.
+  </p>
+
+</div>
+
+<button
+  class="secondary"
+  onclick="newProduct()"
+>
+  + Yeni məhsul
+</button>
+```
+
+  </div>
+
+  <!-- PRODUCT FORM -->
+
+  <div class="card">
+
+```
+<h2 id="formTitle">
+  Yeni məhsul əlavə et
+</h2>
+
+<input
+  type="hidden"
+  id="productId"
+>
+
+
+<label>Parfum adı</label>
+
+<input
+  type="text"
+  id="name"
+  placeholder="Məsələn: NIGHT OUD"
+>
+
+
+<div class="row">
+
+  <div>
+
+    <label>Qiymət (AZN)</label>
+
+    <input
+      type="number"
+      id="price"
+      step="0.01"
+      placeholder="49"
+    >
+
+  </div>
+
+
+  <div>
+
+    <label>Həcm (ML)</label>
+
+    <input
+      type="number"
+      id="ml"
+      placeholder="50"
+    >
+
+  </div>
+
 </div>
 
 
-<!-- ADMIN PANEL -->
-<div id="adminPage" class="container hidden">
+<label>Anbarda say</label>
 
-  <div class="topbar">
-    <div>
-      <h1>Admin panel</h1>
-      <p style="color:var(--muted);margin:0">
-        C&H Parfum Collection məhsullarını idarə et.
-      </p>
-    </div>
-
-    <button class="secondary" onclick="newProduct()">
-      + Yeni məhsul
-    </button>
-  </div>
+<input
+  type="number"
+  id="stock"
+  placeholder="10"
+>
 
 
-  <!-- PRODUCT FORM -->
-  <div class="card">
+<!-- IMAGE 1 -->
 
-    <h2 id="formTitle">Yeni məhsul əlavə et</h2>
+<label>Şəkil 1</label>
 
-    <input type="hidden" id="productId">
-
-    <label>Parfum adı</label>
-    <input
-      type="text"
-      id="name"
-      placeholder="Məsələn: NIGHT OUD"
-    >
-
-    <div class="row">
-
-      <div>
-        <label>Qiymət (AZN)</label>
-        <input
-          type="number"
-          id="price"
-          step="0.01"
-          placeholder="49"
-        >
-      </div>
-
-      <div>
-        <label>Həcm (ML)</label>
-        <input
-          type="number"
-          id="ml"
-          placeholder="50"
-        >
-      </div>
-
-    </div>
-
-    <label>Anbarda say</label>
-    <input
-      type="number"
-      id="stock"
-      placeholder="10"
-    >
-
-    <label>Şəkil</label>
-    <input
-      type="file"
-      id="image"
-      accept="image/*"
-      onchange="previewImage(event)"
-    >
-    <label>Şəkil 1</label>
 <input
   type="file"
   id="image"
   accept="image/*"
-  onchange="previewImage(event, 'imagePreview')"
+  onchange="previewImage(event,'imagePreview')"
 >
-<img id="imagePreview" class="preview">
+
+<img
+  id="imagePreview"
+  class="preview"
+>
+
+
+<!-- IMAGE 2 -->
 
 <label>Şəkil 2</label>
+
 <input
   type="file"
   id="image2"
   accept="image/*"
-  onchange="previewImage(event, 'imagePreview2')"
+  onchange="previewImage(event,'imagePreview2')"
 >
-<img id="imagePreview2" class="preview">
+
+<img
+  id="imagePreview2"
+  class="preview"
+>
+
+
+<!-- IMAGE 3 -->
 
 <label>Şəkil 3</label>
+
 <input
   type="file"
   id="image3"
   accept="image/*"
-  onchange="previewImage(event, 'imagePreview3')"
+  onchange="previewImage(event,'imagePreview3')"
 >
-<img id="imagePreview3" class="preview">
 
-    <img id="imagePreview" class="preview">
+<img
+  id="imagePreview3"
+  class="preview"
+>
 
-    <label>Açıqlama</label>
-    <textarea
-      id="description"
-      placeholder="Parfum haqqında qısa məlumat..."
-    ></textarea>
 
-    <button onclick="saveProduct()">
-      Yadda saxla
-    </button>
+<label>Açıqlama</label>
 
-    <button
-      class="secondary"
-      onclick="newProduct()"
-      type="button"
-    >
-      Təmizlə
-    </button>
+<textarea
+  id="description"
+  placeholder="Parfum haqqında qısa məlumat..."
+></textarea>
 
-    <div id="formMessage" class="message"></div>
+
+<button
+  id="saveButton"
+  onclick="saveProduct()"
+>
+  Yadda saxla
+</button>
+
+
+<button
+  class="secondary"
+  onclick="newProduct()"
+  type="button"
+>
+  Təmizlə
+</button>
+
+
+<div
+  id="formMessage"
+  class="message"
+></div>
+```
 
   </div>
 
-
   <!-- PRODUCTS -->
+
   <div class="card">
 
-    <h2>Məhsullar</h2>
+```
+<h2>Məhsullar</h2>
 
-    <div id="productsList">
-      Yüklənir...
-    </div>
+<div id="productsList">
+  Yüklənir...
+</div>
+```
 
   </div>
 
 </div>
 
-
 <script>
 
   let editingProduct = null;
+  let isSaving = false;
 
 
+  // =====================================
   // LOGIN
+  // =====================================
+
   async function login(){
 
     const email =
-      document.getElementById("email").value.trim();
+      document
+        .getElementById("email")
+        .value
+        .trim();
 
     const password =
-      document.getElementById("password").value;
+      document
+        .getElementById("password")
+        .value;
 
     const errorBox =
       document.getElementById("loginError");
 
     errorBox.style.display = "none";
 
+
     if(!email || !password){
-      showLoginError("Email və şifrəni daxil edin.");
+
+      showLoginError(
+        "Email və şifrəni daxil edin."
+      );
+
       return;
     }
+
 
     const { data, error } =
       await supabaseClient.auth.signInWithPassword({
-        email: email,
-        password: password
+
+        email:email,
+        password:password
+
       });
 
+
     if(error){
+
       showLoginError(error.message);
+
       return;
     }
+
 
     showAdmin();
   }
 
 
+  function showLoginError(message){
+
+    const box =
+      document.getElementById("loginError");
+
+    box.textContent = message;
+
+    box.style.display = "block";
+  }
+
+
+  // =====================================
+  // IMAGE PREVIEW
+  // =====================================
+
   function previewImage(event, previewId){
-  const file = event.target.files[0];
 
-  if(!file) return;
+    const file =
+      event.target.files[0];
 
-  const preview = document.getElementById(previewId);
-
-  preview.src = URL.createObjectURL(file);
-  preview.style.display = "block";
-}
+    if(!file){
+      return;
+    }
 
 
+    const preview =
+      document.getElementById(previewId);
+
+    if(!preview){
+      return;
+    }
+
+
+    preview.src =
+      URL.createObjectURL(file);
+
+    preview.style.display =
+      "block";
+  }
+
+
+  // =====================================
   // CHECK SESSION
+  // =====================================
+
   async function checkSession(){
 
     const {
       data: { session }
-    } = await supabaseClient.auth.getSession();
+    } =
+      await supabaseClient.auth.getSession();
+
 
     if(session){
+
       showAdmin();
+
     }else{
+
       showLogin();
+
     }
   }
 
+
+  // =====================================
+  // SHOW ADMIN
+  // =====================================
 
   function showAdmin(){
 
     document
       .getElementById("loginPage")
-      .classList.add("hidden");
+      .classList
+      .add("hidden");
+
 
     document
       .getElementById("adminPage")
-      .classList.remove("hidden");
+      .classList
+      .remove("hidden");
+
 
     document
       .getElementById("logoutBtn")
-      .classList.remove("hidden");
+      .classList
+      .remove("hidden");
+
 
     loadProducts();
   }
 
 
+  // =====================================
+  // SHOW LOGIN
+  // =====================================
+
   function showLogin(){
 
     document
       .getElementById("loginPage")
-      .classList.remove("hidden");
+      .classList
+      .remove("hidden");
+
 
     document
       .getElementById("adminPage")
-      .classList.add("hidden");
+      .classList
+      .add("hidden");
+
 
     document
       .getElementById("logoutBtn")
-      .classList.add("hidden");
+      .classList
+      .add("hidden");
   }
 
 
+  // =====================================
   // LOGOUT
+  // =====================================
+
   async function logout(){
 
     await supabaseClient.auth.signOut();
@@ -535,219 +708,418 @@
   }
 
 
+  // =====================================
   // LOAD PRODUCTS
+  // =====================================
+
   async function loadProducts(){
 
     const list =
       document.getElementById("productsList");
 
-    list.innerHTML = "Yüklənir...";
+
+    list.innerHTML =
+      "Yüklənir...";
+
 
     const { data, error } =
       await supabaseClient
         .from("products")
         .select("*")
-        .order("created_at", { ascending:true });
+        .order(
+          "created_at",
+          {
+            ascending:true
+          }
+        );
+
 
     if(error){
 
-      list.innerHTML =
-        `<div class="message error" style="display:block">
-          Məhsullar yüklənmədi: ${escapeHtml(error.message)}
-        </div>`;
-
-      return;
-    }
-
-    if(!data || data.length === 0){
-
-      list.innerHTML =
-        `<p style="color:var(--muted)">
-          Hələ heç bir məhsul əlavə edilməyib.
-        </p>`;
-
-      return;
-    }
-
-    list.innerHTML = data.map(product => {
-
-      const image =
-        product.image_url ||
-        "https://via.placeholder.com/100?text=Parfum";
-
-      return `
-        <div class="product">
-
-          <img
-            src="${escapeAttr(image)}"
-            alt="${escapeAttr(product.name)}"
-          >
-
-          <div>
-
-            <h3>${escapeHtml(product.name)}</h3>
-
-            <p>
-              ${Number(product.price).toFixed(2)} AZN
-              · ${product.ml} ML
-              · Stok: ${product.stock}
-            </p>
-
-            <p>
-              ${escapeHtml(product.description || "")}
-            </p>
-
-          </div>
-
-          <div class="actions">
-
-            <button
-              onclick='editProduct(${JSON.stringify(product)})'
-            >
-              Redaktə
-            </button>
-
-            <button
-              class="danger"
-              onclick="deleteProduct(${product.id})"
-            >
-              Sil
-            </button>
-
-          </div>
-
+      list.innerHTML = `
+        <div
+          class="message error"
+          style="display:block"
+        >
+          Məhsullar yüklənmədi:
+          ${escapeHtml(error.message)}
         </div>
       `;
 
-    }).join("");
+      return;
+    }
+
+
+    if(!data || data.length === 0){
+
+      list.innerHTML = `
+        <p style="color:var(--muted)">
+          Hələ heç bir məhsul əlavə edilməyib.
+        </p>
+      `;
+
+      return;
+    }
+
+
+    list.innerHTML =
+      data.map(product => {
+
+        const image =
+          product.image_url ||
+          "https://via.placeholder.com/100?text=Parfum";
+
+
+        return `
+
+          <div class="product">
+
+            <img
+              src="${escapeAttr(image)}"
+              alt="${escapeAttr(product.name)}"
+            >
+
+
+            <div>
+
+              <h3>
+                ${escapeHtml(product.name)}
+              </h3>
+
+
+              <p>
+                ${Number(product.price).toFixed(2)} AZN
+                · ${product.ml} ML
+                · Stok: ${product.stock}
+              </p>
+
+
+              <p>
+                ${escapeHtml(
+                  product.description || ""
+                )}
+              </p>
+
+            </div>
+
+
+            <div class="actions">
+
+              <button
+                onclick='editProduct(${JSON.stringify(product)})'
+              >
+                Redaktə
+              </button>
+
+
+              <button
+                class="danger"
+                onclick="deleteProduct(${product.id})"
+              >
+                Sil
+              </button>
+
+            </div>
+
+          </div>
+
+        `;
+
+      }).join("");
   }
 
 
+  // =====================================
   // NEW PRODUCT
-function newProduct(){
+  // =====================================
 
-  editingProduct = null;
+  function newProduct(){
 
-  document.getElementById("productId").value = "";
-  document.getElementById("name").value = "";
-  document.getElementById("price").value = "";
-  document.getElementById("ml").value = "";
-  document.getElementById("stock").value = "";
-  document.getElementById("description").value = "";
-
-  document.getElementById("image").value = "";
-  document.getElementById("image2").value = "";
-  document.getElementById("image3").value = "";
-
-  document.getElementById("imagePreview").style.display = "none";
-  document.getElementById("imagePreview2").style.display = "none";
-  document.getElementById("imagePreview3").style.display = "none";
-
-  document.getElementById("formTitle").textContent =
-    "Yeni məhsul əlavə et";
-
-  document.getElementById("formMessage").style.display =
-    "none";
-}
+    editingProduct = null;
 
 
+    document
+      .getElementById("productId")
+      .value = "";
+
+
+    document
+      .getElementById("name")
+      .value = "";
+
+
+    document
+      .getElementById("price")
+      .value = "";
+
+
+    document
+      .getElementById("ml")
+      .value = "";
+
+
+    document
+      .getElementById("stock")
+      .value = "";
+
+
+    document
+      .getElementById("description")
+      .value = "";
+
+
+    document
+      .getElementById("image")
+      .value = "";
+
+
+    document
+      .getElementById("image2")
+      .value = "";
+
+
+    document
+      .getElementById("image3")
+      .value = "";
+
+
+    document
+      .getElementById("imagePreview")
+      .style
+      .display = "none";
+
+
+    document
+      .getElementById("imagePreview2")
+      .style
+      .display = "none";
+
+
+    document
+      .getElementById("imagePreview3")
+      .style
+      .display = "none";
+
+
+    document
+      .getElementById("imagePreview")
+      .src = "";
+
+
+    document
+      .getElementById("imagePreview2")
+      .src = "";
+
+
+    document
+      .getElementById("imagePreview3")
+      .src = "";
+
+
+    document
+      .getElementById("formTitle")
+      .textContent =
+      "Yeni məhsul əlavə et";
+
+
+    document
+      .getElementById("formMessage")
+      .style
+      .display = "none";
+
+
+    const saveButton =
+      document.getElementById("saveButton");
+
+    saveButton.disabled = false;
+
+    saveButton.textContent =
+      "Yadda saxla";
+  }
+
+
+  // =====================================
   // EDIT PRODUCT
+  // =====================================
+
   function editProduct(product){
 
     editingProduct = product;
 
-    document.getElementById("productId").value =
+
+    document
+      .getElementById("productId")
+      .value =
       product.id;
 
-    document.getElementById("name").value =
+
+    document
+      .getElementById("name")
+      .value =
       product.name || "";
 
-    document.getElementById("price").value =
+
+    document
+      .getElementById("price")
+      .value =
       product.price || "";
 
-    document.getElementById("ml").value =
+
+    document
+      .getElementById("ml")
+      .value =
       product.ml || "";
 
-    document.getElementById("stock").value =
+
+    document
+      .getElementById("stock")
+      .value =
       product.stock || "";
 
-    document.getElementById("description").value =
+
+    document
+      .getElementById("description")
+      .value =
       product.description || "";
 
-    document.getElementById("image").value = "";
 
-    document.getElementById("image").value = "";
-document.getElementById("image2").value = "";
-document.getElementById("image3").value = "";
-
-document.getElementById("formTitle").textContent =
-  "Məhsulu redaktə et";
-
-const preview = document.getElementById("imagePreview");
-const preview2 = document.getElementById("imagePreview2");
-const preview3 = document.getElementById("imagePreview3");
-
-if(product.image_url){
-  preview.src = product.image_url;
-  preview.style.display = "block";
-}else{
-  preview.style.display = "none";
-}
-
-if(product.image_url_2){
-  preview2.src = product.image_url_2;
-  preview2.style.display = "block";
-}else{
-  preview2.style.display = "none";
-}
-
-if(product.image_url_3){
-  preview3.src = product.image_url_3;
-  preview3.style.display = "block";
-}else{
-  preview3.style.display = "none";
-}
-
-    window.scrollTo({
-      top:0,
-      behavior:"smooth"
-    });
-  }
+    document
+      .getElementById("image")
+      .value = "";
 
 
-  // IMAGE PREVIEW
-  function previewImage(event){
+    document
+      .getElementById("image2")
+      .value = "";
 
-    const file = event.target.files[0];
 
-    if(!file) return;
+    document
+      .getElementById("image3")
+      .value = "";
+
+
+    document
+      .getElementById("formTitle")
+      .textContent =
+      "Məhsulu redaktə et";
+
 
     const preview =
       document.getElementById("imagePreview");
 
-    preview.src =
-      URL.createObjectURL(file);
+    const preview2 =
+      document.getElementById("imagePreview2");
 
-    preview.style.display = "block";
+    const preview3 =
+      document.getElementById("imagePreview3");
+
+
+    if(product.image_url){
+
+      preview.src =
+        product.image_url;
+
+      preview.style.display =
+        "block";
+
+    }else{
+
+      preview.src = "";
+
+      preview.style.display =
+        "none";
+    }
+
+
+    if(product.image_url_2){
+
+      preview2.src =
+        product.image_url_2;
+
+      preview2.style.display =
+        "block";
+
+    }else{
+
+      preview2.src = "";
+
+      preview2.style.display =
+        "none";
+    }
+
+
+    if(product.image_url_3){
+
+      preview3.src =
+        product.image_url_3;
+
+      preview3.style.display =
+        "block";
+
+    }else{
+
+      preview3.src = "";
+
+      preview3.style.display =
+        "none";
+    }
+
+
+    document
+      .getElementById("formMessage")
+      .style
+      .display = "none";
+
+
+    document
+      .getElementById("saveButton")
+      .disabled = false;
+
+
+    window.scrollTo({
+
+      top:0,
+
+      behavior:"smooth"
+
+    });
   }
 
 
+  // =====================================
   // UPLOAD IMAGE
+  // =====================================
+
   async function uploadImage(file){
 
-    if(!file) return null;
+    if(!file){
+      return null;
+    }
+
 
     const ext =
-      (file.name.split(".").pop() || "jpg")
+      (
+        file.name
+          .split(".")
+          .pop() ||
+        "jpg"
+      )
       .toLowerCase()
-      .replace(/[^a-z0-9]/g,"");
+      .replace(
+        /[^a-z0-9]/g,
+        ""
+      );
+
 
     const path =
       Date.now() +
       "-" +
-      Math.random().toString(36).slice(2) +
+      Math.random()
+        .toString(36)
+        .slice(2) +
       "." +
       ext;
+
 
     const { error } =
       await supabaseClient
@@ -762,9 +1134,11 @@ if(product.image_url_3){
           }
         );
 
+
     if(error){
       throw error;
     }
+
 
     const { data } =
       supabaseClient
@@ -772,181 +1146,390 @@ if(product.image_url_3){
         .from("product-images")
         .getPublicUrl(path);
 
+
     return data.publicUrl;
   }
 
 
- // SAVE PRODUCT
-async function saveProduct(){
+  // =====================================
+  // SAVE PRODUCT
+  // =====================================
 
-  const name =
-    document.getElementById("name").value.trim();
+  async function saveProduct(){
 
-  const price =
-    Number(document.getElementById("price").value);
-
-  const ml =
-    Number(document.getElementById("ml").value);
-
-  const stock =
-    Number(document.getElementById("stock").value);
-
-  const description =
-    document.getElementById("description").value.trim();
-
-  const file1 =
-    document.getElementById("image").files[0];
-
-  const file2 =
-    document.getElementById("image2").files[0];
-
-  const file3 =
-    document.getElementById("image3").files[0];
-
-  const message =
-    document.getElementById("formMessage");
-
-  message.style.display = "none";
-
-  if(!name || !price || !ml){
-
-    showFormMessage(
-      "Ad, qiymət və ML məlumatlarını doldurun.",
-      "error"
-    );
-
-    return;
-  }
-
-  try{
-
-    // Köhnə şəkilləri saxla
-    let imageUrl =
-      editingProduct?.image_url || null;
-
-    let imageUrl2 =
-      editingProduct?.image_url_2 || null;
-
-    let imageUrl3 =
-      editingProduct?.image_url_3 || null;
-
-
-    // Şəkil 1 seçilibsə yüklə
-    if(file1){
-      imageUrl = await uploadImage(file1);
-    }
-
-    // Şəkil 2 seçilibsə yüklə
-    if(file2){
-      imageUrl2 = await uploadImage(file2);
-    }
-
-    // Şəkil 3 seçilibsə yüklə
-    if(file3){
-      imageUrl3 = await uploadImage(file3);
+    if(isSaving){
+      return;
     }
 
 
-    const productData = {
-      name:name,
-      price:price,
-      ml:ml,
-      stock:stock || 0,
-
-      image_url:imageUrl,
-      image_url_2:imageUrl2,
-      image_url_3:imageUrl3,
-
-      description:description
-    };
+    const name =
+      document
+        .getElementById("name")
+        .value
+        .trim();
 
 
-    // EDIT
-    if(editingProduct){
-
-      const { error } =
-        await supabaseClient
-          .from("products")
-          .update(productData)
-          .eq("id", editingProduct.id);
-
-      if(error) throw error;
-
-      showFormMessage(
-        "Məhsul uğurla yeniləndi.",
-        "success"
+    const price =
+      Number(
+        document
+          .getElementById("price")
+          .value
       );
 
-    }
+
+    const ml =
+      Number(
+        document
+          .getElementById("ml")
+          .value
+      );
 
 
-    // NEW
-    else{
+    const stock =
+      Number(
+        document
+          .getElementById("stock")
+          .value
+      );
 
-      const { error } =
-        await supabaseClient
-          .from("products")
-          .insert(productData);
 
-      if(error) throw error;
+    const description =
+      document
+        .getElementById("description")
+        .value
+        .trim();
+
+
+    const file1 =
+      document
+        .getElementById("image")
+        .files[0];
+
+
+    const file2 =
+      document
+        .getElementById("image2")
+        .files[0];
+
+
+    const file3 =
+      document
+        .getElementById("image3")
+        .files[0];
+
+
+    const message =
+      document.getElementById(
+        "formMessage"
+      );
+
+
+    const saveButton =
+      document.getElementById(
+        "saveButton"
+      );
+
+
+    message.style.display =
+      "none";
+
+
+    // VALIDATION
+
+    if(
+      !name ||
+      !price ||
+      !ml
+    ){
 
       showFormMessage(
-        "Məhsul uğurla əlavə edildi.",
-        "success"
+        "Ad, qiymət və ML məlumatlarını doldurun.",
+        "error"
       );
+
+      return;
     }
 
 
-    await loadProducts();
+    isSaving = true;
+
+    saveButton.disabled = true;
+
+    saveButton.textContent =
+      "Yadda saxlanılır...";
 
 
-    setTimeout(() => {
+    try{
+
+      // =================================
+      // KÖHNƏ ŞƏKİLLƏRİ SAXLA
+      // =================================
+
+      let imageUrl =
+        editingProduct?.image_url ||
+        null;
+
+
+      let imageUrl2 =
+        editingProduct?.image_url_2 ||
+        null;
+
+
+      let imageUrl3 =
+        editingProduct?.image_url_3 ||
+        null;
+
+
+      // =================================
+      // YENİ ŞƏKİLLƏRİ YÜKLƏ
+      // =================================
+
+      if(file1){
+
+        imageUrl =
+          await uploadImage(file1);
+
+      }
+
+
+      if(file2){
+
+        imageUrl2 =
+          await uploadImage(file2);
+
+      }
+
+
+      if(file3){
+
+        imageUrl3 =
+          await uploadImage(file3);
+
+      }
+
+
+      // =================================
+      // PRODUCT DATA
+      // =================================
+
+      const productData = {
+
+        name:name,
+
+        price:price,
+
+        ml:ml,
+
+        stock:stock || 0,
+
+        image_url:imageUrl,
+
+        image_url_2:imageUrl2,
+
+        image_url_3:imageUrl3,
+
+        description:description
+
+      };
+
+
+      // =================================
+      // EDIT
+      // =================================
+
+      if(editingProduct){
+
+        const { error } =
+          await supabaseClient
+            .from("products")
+            .update(productData)
+            .eq(
+              "id",
+              editingProduct.id
+            );
+
+
+        if(error){
+          throw error;
+        }
+
+
+        showFormMessage(
+          "Məhsul uğurla yeniləndi.",
+          "success"
+        );
+
+      }
+
+
+      // =================================
+      // NEW PRODUCT
+      // =================================
+
+      else{
+
+        const { error } =
+          await supabaseClient
+            .from("products")
+            .insert(
+              productData
+            );
+
+
+        if(error){
+          throw error;
+        }
+
+
+        showFormMessage(
+          "Məhsul uğurla əlavə edildi.",
+          "success"
+        );
+
+      }
+
+
+      // =================================
+      // ƏVVƏL FORMU TƏMİZLƏ
+      // =================================
+
       newProduct();
-    }, 700);
 
 
-  }catch(error){
+      // =================================
+      // SONRA MƏHSULLARI YENİLƏ
+      // =================================
 
-    showFormMessage(
-      "Xəta: " + error.message,
-      "error"
-    );
+      await loadProducts();
+
+
+    }catch(error){
+
+      showFormMessage(
+        "Xəta: " +
+        error.message,
+        "error"
+      );
+
+    }finally{
+
+      isSaving = false;
+
+      saveButton.disabled =
+        false;
+
+      saveButton.textContent =
+        "Yadda saxla";
+
+    }
+
   }
-}
 
+
+  // =====================================
+  // FORM MESSAGE
+  // =====================================
+
+  function showFormMessage(
+    text,
+    type
+  ){
+
+    const message =
+      document.getElementById(
+        "formMessage"
+      );
+
+
+    message.textContent =
+      text;
+
+
+    message.className =
+      "message " +
+      (
+        type === "success"
+        ? "success"
+        : "error"
+      );
+
+
+    message.style.display =
+      "block";
+  }
+
+
+  // =====================================
   // DELETE
+  // =====================================
+
   async function deleteProduct(id){
 
     const answer =
-      confirm("Bu məhsulu silmək istədiyinizə əminsiniz?");
+      confirm(
+        "Bu məhsulu silmək istədiyinizə əminsiniz?"
+      );
 
-    if(!answer) return;
+
+    if(!answer){
+      return;
+    }
+
 
     const { error } =
       await supabaseClient
         .from("products")
         .delete()
-        .eq("id", id);
+        .eq(
+          "id",
+          id
+        );
+
 
     if(error){
 
-      alert("Silinmədi: " + error.message);
+      alert(
+        "Silinmədi: " +
+        error.message
+      );
+
       return;
     }
+
 
     await loadProducts();
   }
 
 
+  // =====================================
   // SECURITY HELPERS
+  // =====================================
+
   function escapeHtml(value){
 
-    return String(value ?? "")
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;")
-      .replaceAll("'","&#039;");
+    return String(
+      value ?? ""
+    )
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
   }
 
 
@@ -956,7 +1539,10 @@ async function saveProduct(){
   }
 
 
+  // =====================================
   // START
+  // =====================================
+
   checkSession();
 
 </script>
