@@ -1029,55 +1029,57 @@ function renderProducts(products){
 
             ${
               images.length > 1
-              ?
+              ? `
+
+                <button
+                  type="button"
+                  class="card-image-arrow card-image-left"
+                  onclick="changeCardImage(${index}, -1)"
+                  aria-label="Əvvəlki şəkil"
+                >
+                  ‹
+                </button>
+
+                <button
+                  type="button"
+                  class="card-image-arrow card-image-right"
+                  onclick="changeCardImage(${index}, 1)"
+                  aria-label="Növbəti şəkil"
+                >
+                  ›
+                </button>
 
               `
-
-              <button
-                type="button"
-                class="card-image-arrow card-image-left"
-                onclick="changeCardImage(${index}, -1)"
-                aria-label="Əvvəlki şəkil"
-              >
-                ‹
-              </button>
-
-              <button
-                type="button"
-                class="card-image-arrow card-image-right"
-                onclick="changeCardImage(${index}, 1)"
-                aria-label="Növbəti şəkil"
-              >
-                ›
-              </button>
-
-              `
-
-              :
-
-              ""
-
+              : ""
             }
 
-            <div
-              class="card-image-dots"
-              id="product-dots-${index}"
-            >
+            ${
+              images.length > 1
+              ? `
 
-              ${
-                images.map((_, dotIndex) => `
+                <div
+                  class="card-image-dots"
+                  id="product-dots-${index}"
+                >
 
-                  <button
-                    type="button"
-                    class="card-image-dot ${dotIndex === 0 ? "active" : ""}"
-                    onclick="setCardImage(${index}, ${dotIndex})"
-                    aria-label="${dotIndex + 1}-ci şəkil"
-                  ></button>
+                  ${
+                    images.map((_, dotIndex) => `
 
-                `).join("")
-              }
+                      <button
+                        type="button"
+                        class="card-image-dot ${dotIndex === 0 ? "active" : ""}"
+                        onclick="setCardImage(${index}, ${dotIndex})"
+                        aria-label="${dotIndex + 1}-ci şəkil"
+                      ></button>
 
-            </div>
+                    `).join("")
+                  }
+
+                </div>
+
+              `
+              : ""
+            }
 
           </div>
 
@@ -1116,8 +1118,6 @@ function renderProducts(products){
     }).join("");
 
 }
-
-
 /* =====================================
    KARTDA ŞƏKİLİ DƏYİŞ
 ===================================== */
@@ -1127,55 +1127,86 @@ function changeCardImage(index, direction){
   const data =
     window.cardProductImages[index];
 
-
   if(!data || data.images.length <= 1){
     return;
   }
 
-
   data.current += direction;
 
-
   if(data.current < 0){
-
     data.current =
       data.images.length - 1;
-
   }
-
 
   if(data.current >= data.images.length){
-
     data.current = 0;
-
   }
-
 
   const image =
     document.getElementById(
       "product-image-" + index
     );
 
-
   if(image){
-
     image.src =
       data.images[data.current];
-
   }
-const dots =
-  document.querySelectorAll(
-    "#product-dots-" + index + " .card-image-dot"
-  );
 
-dots.forEach((dot, dotIndex) => {
+  const dots =
+    document.querySelectorAll(
+      "#product-dots-" + index + " .card-image-dot"
+    );
 
-  dot.classList.toggle(
-    "active",
-    dotIndex === data.current
-  );
+  dots.forEach((dot, dotIndex) => {
 
-});
+    dot.classList.toggle(
+      "active",
+      dotIndex === data.current
+    );
+
+  });
+
+}
+
+
+/* =====================================
+   NÖQTƏ İLƏ ŞƏKİLİ DƏYİŞ
+===================================== */
+
+function setCardImage(index, imageIndex){
+
+  const data =
+    window.cardProductImages[index];
+
+  if(!data || !data.images[imageIndex]){
+    return;
+  }
+
+  data.current = imageIndex;
+
+  const image =
+    document.getElementById(
+      "product-image-" + index
+    );
+
+  if(image){
+    image.src =
+      data.images[data.current];
+  }
+
+  const dots =
+    document.querySelectorAll(
+      "#product-dots-" + index + " .card-image-dot"
+    );
+
+  dots.forEach((dot, dotIndex) => {
+
+    dot.classList.toggle(
+      "active",
+      dotIndex === imageIndex
+    );
+
+  });
 
 }
 
