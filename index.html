@@ -176,6 +176,13 @@ header{
   border-bottom:1px solid var(--line);
   padding-bottom:22px;
 }
+.collection-tools{
+  transition:transform .25s ease;
+}
+
+.collection-tools.hide-search{
+  transform:translateY(-100%);
+}
 
 .section-title{
   text-align:center;
@@ -1064,7 +1071,21 @@ document
 ===================================== */
 
 loadProducts();
+let lastScrollTop = 0;
+const collectionTools = document.querySelector(".collection-tools");
 
+window.addEventListener("scroll", () => {
+  const currentScroll =
+    window.pageYOffset || document.documentElement.scrollTop;
+
+  if (currentScroll > lastScrollTop && currentScroll > 150) {
+    collectionTools.classList.add("hide-search");
+  } else {
+    collectionTools.classList.remove("hide-search");
+  }
+
+  lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+});
 
 </script>
 
