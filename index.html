@@ -541,13 +541,46 @@ footer{
   top:50%;
   transform:translateY(-50%);
   z-index:3;
-  width:42px;
-  height:42px;
-  border:1px solid var(--line);
-  background:rgba(255,253,249,.9);
-  color:var(--text);
-  font-size:30px;
+
+  width:52px;
+  height:52px;
+
+  border:0;
+  border-radius:50%;
+
+  background:rgba(255,255,255,.72);
+  backdrop-filter:blur(8px);
+
+  color:#211b17;
+  font-size:36px;
+  font-family:Arial,sans-serif;
+  font-weight:300;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
   cursor:pointer;
+
+  box-shadow:0 6px 20px rgba(0,0,0,.12);
+
+  transition:
+    background .2s ease,
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.gallery-arrow:hover{
+  background:rgba(255,255,255,.95);
+  box-shadow:0 8px 25px rgba(0,0,0,.18);
+}
+
+.gallery-arrow.left{
+  left:18px;
+}
+
+.gallery-arrow.right{
+  right:18px;
 }
 
 .gallery-arrow.left{
@@ -1176,12 +1209,20 @@ function showProduct(product){
 
       <div class="product-gallery">
 
-        <button
-          class="gallery-arrow left"
-          onclick="changeProductImage(-1)"
-        >
-          ‹
-        </button>
+        ${
+          images.length > 1
+          ?
+          `
+          <button
+            class="gallery-arrow left"
+            onclick="changeProductImage(-1)"
+          >
+            ‹
+          </button>
+          `
+          :
+          ""
+        }
 
         <img
           id="productModalImage"
@@ -1189,12 +1230,20 @@ function showProduct(product){
           alt="${esc(product.name)}"
         >
 
-        <button
-          class="gallery-arrow right"
-          onclick="changeProductImage(1)"
-        >
-          ›
-        </button>
+        ${
+          images.length > 1
+          ?
+          `
+          <button
+            class="gallery-arrow right"
+            onclick="changeProductImage(1)"
+          >
+            ›
+          </button>
+          `
+          :
+          ""
+        }
 
       </div>
 
@@ -1249,7 +1298,6 @@ function showProduct(product){
   };
 
 }
-
 
 /* =====================================
    HTML TƏHLÜKƏSİZLİYİ
