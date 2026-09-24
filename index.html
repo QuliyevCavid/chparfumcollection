@@ -625,17 +625,23 @@ const supabaseClient =
 
 <header>
 
-  <div>
-
-    <div class="logo">
-      C&H PARFUM
-    </div>
-
-    <div class="sub">
-      COLLECTION
-    </div>
-
+<div>
+  <div class="logo">
+    C&H PARFUM
   </div>
+
+  <div class="sub">
+    COLLECTION
+  </div>
+</div>
+
+<style>
+  .logo,
+  .sub {
+    font-family: "Times New Roman", Times, serif;
+    margin-left: 0.4cm;
+  }
+</style>
 
 
   <nav class="nav">
@@ -679,19 +685,34 @@ const supabaseClient =
 
 </header>
 
-
-
 <section class="hero">
 
   <div class="hero-copy">
 
-    <div class="eyebrow">
-      C&H PARFUM COLLECTION
-    </div>
+   <div class="eyebrow">
+  C&H PARFUM COLLECTION
+</div>
 
+<style>
+  .hero-copy,
+  .hero-copy .eyebrow,
+  .hero-copy h1 {
+    font-family: "Times New Roman", Times, serif;
+  }
+
+  .hero-copy .eyebrow {
+    position: relative;
+    left: 1mm;
+  }
+
+  .story-line {
+    position: relative;
+    top: 0.1mm;
+  }
+</style>
     <h1>
       Qoxunu kəşf et.<br>
-      Öz hekayəni yarat.
+      <span class="story-line">Öz hekayəni yarat.</span>
     </h1>
 
     <p>
@@ -711,7 +732,18 @@ const supabaseClient =
 </section>
 
 
+<style>
+  .hero-copy,
+  .hero-copy .eyebrow,
+  .hero-copy h1 {
+    font-family: "Times New Roman", Times, serif;
+  }
 
+  .story-line {
+    position: relative;
+    top: 0.1mm;
+  }
+</style>
 <section id="collection">
 
 
