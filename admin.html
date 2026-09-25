@@ -11,6 +11,7 @@
   <script src="supabase-config.js"></script>
 
   <style>
+
     :root{
       --bg:#f7f2ec;
       --paper:#fffdf9;
@@ -231,14 +232,14 @@
       background:#f3eee8;
     }
 
-    /* =========================
-       ŞƏKİL LİNKİ
-    ========================= */
+    /* =====================================
+       ŞƏKİL LİNKİ + X DÜYMƏSİ
+    ===================================== */
 
     .image-link-box{
       display:flex;
       align-items:center;
-      gap:8px;
+      gap:10px;
       width:100%;
       max-width:700px;
       margin-top:10px;
@@ -258,43 +259,44 @@
       user-select:text;
     }
 
-    /* =========================
-       X DÜYMƏSİ
-    ========================= */
-.remove-image{
-  width:36px !important;
-  height:36px !important;
-  min-width:36px !important;
-  max-width:36px !important;
+    /* X DÜYMƏSİ */
 
-  padding:0 !important;
-  margin:0 !important;
+    .remove-image{
+      width:40px !important;
+      height:40px !important;
+      min-width:40px !important;
+      max-width:40px !important;
 
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
+      padding:0 !important;
+      margin:0 !important;
 
-  background:#5a321f !important;
-  color:#ffffff !important;
+      display:flex !important;
+      align-items:center !important;
+      justify-content:center !important;
 
-  border:2px solid #3d2115 !important;
-  border-radius:50% !important;
+      background:#5a321f !important;
+      color:#fff !important;
 
-  font-family:Arial,sans-serif !important;
-  font-size:20px !important;
-  font-weight:bold !important;
-  line-height:1 !important;
+      border:2px solid #3d2115 !important;
+      border-radius:50% !important;
 
-  cursor:pointer !important;
+      font-family:Arial,sans-serif !important;
+      font-size:19px !important;
+      font-weight:bold !important;
+      line-height:1 !important;
 
-  box-shadow:0 3px 8px rgba(0,0,0,.25) !important;
-}
+      cursor:pointer !important;
 
-.remove-image:hover{
-  background:#3d2115 !important;
-  color:#ffffff !important;
-}
+      flex-shrink:0 !important;
 
+      box-shadow:0 3px 8px rgba(0,0,0,.25) !important;
+    }
+
+    .remove-image:hover{
+      background:#3d2115 !important;
+      color:#fff !important;
+      transform:scale(1.05);
+    }
     /* =========================
        SIRA
     ========================= */
