@@ -512,155 +512,161 @@
 
     <!-- ŞƏKİL 1 -->
 
-    <label>Şəkil 1</label>
+<label>Şəkil 1</label>
 
-    <input
-      type="file"
-      id="image"
-      accept="image/*"
-      onchange="previewImage(event,1)"
-    >
+<input 
+  type="file" 
+  id="image" 
+  accept="image/*" 
+  onchange="previewImage(event,1)" 
+>
 
-    <img
-      id="imagePreview"
-      class="preview"
-    >
+<img 
+  id="imagePreview" 
+  class="preview" 
+>
 
-    <div
-      id="imageLink1"
-      class="image-link-box hidden"
-    >
+<div 
+  id="imageLink1" 
+  class="image-link-box hidden"
+>
 
-      <div
-        id="imageUrl1"
-        class="image-link"
-      ></div>
+  <div 
+    id="imageUrl1" 
+    class="image-link"
+  ></div>
 
-      <button
-        type="button"
-        class="remove-image"
-        onclick="removeImage(1)"
-        title="Şəkli sil"
-      >×</button>
+  <button 
+    type="button" 
+    class="remove-image" 
+    onclick="removeImage(1)" 
+    title="Şəkli sil"
+  >
+    X
+  </button>
 
-    </div>
-
-
-    <!-- ŞƏKİL 2 -->
-
-    <label>Şəkil 2</label>
-
-    <input
-      type="file"
-      id="image2"
-      accept="image/*"
-      onchange="previewImage(event,2)"
-    >
-
-    <img
-      id="imagePreview2"
-      class="preview"
-    >
-
-    <div
-      id="imageLink2"
-      class="image-link-box hidden"
-    >
-
-      <div
-        id="imageUrl2"
-        class="image-link"
-      ></div>
-
-      <button
-        type="button"
-        class="remove-image"
-        onclick="removeImage(2)"
-        title="Şəkli sil"
-      >×</button>
-
-    </div>
+</div>
 
 
-    <!-- ŞƏKİL 3 -->
+<!-- ŞƏKİL 2 -->
 
-    <label>Şəkil 3</label>
+<label>Şəkil 2</label>
 
-    <input
-      type="file"
-      id="image3"
-      accept="image/*"
-      onchange="previewImage(event,3)"
-    >
+<input 
+  type="file" 
+  id="image2" 
+  accept="image/*" 
+  onchange="previewImage(event,2)" 
+>
 
-    <img
-      id="imagePreview3"
-      class="preview"
-    >
+<img 
+  id="imagePreview2" 
+  class="preview" 
+>
 
-    <div
-      id="imageLink3"
-      class="image-link-box hidden"
-    >
+<div 
+  id="imageLink2" 
+  class="image-link-box hidden"
+>
 
-      <div
-        id="imageUrl3"
-        class="image-link"
-      ></div>
+  <div 
+    id="imageUrl2" 
+    class="image-link"
+  ></div>
 
-      <button
-        type="button"
-        class="remove-image"
-        onclick="removeImage(3)"
-        title="Şəkli sil"
-      >×</button>
+  <button 
+    type="button" 
+    class="remove-image" 
+    onclick="removeImage(2)" 
+    title="Şəkli sil"
+  >
+    X
+  </button>
 
-    </div>
-
-
-    <label>Açıqlama</label>
-
-    <textarea
-      id="description"
-      placeholder="Parfum haqqında qısa məlumat..."
-    ></textarea>
+</div>
 
 
-    <button
-      id="saveButton"
-      onclick="saveProduct()"
-    >
-      Yadda saxla
-    </button>
+<!-- ŞƏKİL 3 -->
 
-    <button
-      class="secondary"
-      onclick="newProduct()"
-      type="button"
-    >
-      Təmizlə
-    </button>
+<label>Şəkil 3</label>
+
+<input 
+  type="file" 
+  id="image3" 
+  accept="image/*" 
+  onchange="previewImage(event,3)" 
+>
+
+<img 
+  id="imagePreview3" 
+  class="preview" 
+>
+
+<div 
+  id="imageLink3" 
+  class="image-link-box hidden"
+>
+
+  <div 
+    id="imageUrl3" 
+    class="image-link"
+  ></div>
+
+  <button 
+    type="button" 
+    class="remove-image" 
+    onclick="removeImage(3)" 
+    title="Şəkli sil"
+  >
+    X
+  </button>
+
+</div>
 
 
-    <div
-      id="formMessage"
-      class="message"
-    ></div>
+<label>Açıqlama</label>
 
+<textarea 
+  id="description" 
+  placeholder="Parfum haqqında qısa məlumat..."
+></textarea>
+
+
+<button 
+  id="saveButton" 
+  onclick="saveProduct()"
+>
+  Yadda saxla
+</button>
+
+<button 
+  class="secondary" 
+  onclick="newProduct()" 
+  type="button"
+>
+  Təmizlə
+</button>
+
+
+<div 
+  id="formMessage" 
+  class="message"
+></div>
+
+</div>
+
+
+<!-- PRODUCTS -->
+
+<div class="card">
+
+  <h2>Məhsullar</h2>
+
+  <div id="productsList">
+    Yüklənir...
   </div>
 
-
-  <!-- PRODUCTS -->
-
-  <div class="card">
-
-    <h2>Məhsullar</h2>
-
-    <div id="productsList">
-      Yüklənir...
-    </div>
-
-  </div>
+</div>
 
 </div>
 
@@ -669,7 +675,6 @@
 
   let editingProduct = null;
   let isSaving = false;
-
 
   // =====================================
   // LOGIN
