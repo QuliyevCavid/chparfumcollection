@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="az">
 
@@ -11,6 +12,7 @@
   <script src="supabase-config.js"></script>
 
   <style>
+
     :root{
       --bg:#f7f2ec;
       --paper:#fffdf9;
@@ -231,14 +233,14 @@
       background:#f3eee8;
     }
 
-    /* =========================
-       ŞƏKİL LİNKİ
-    ========================= */
+    /* =====================================
+       ŞƏKİL LİNKİ + X DÜYMƏSİ
+    ===================================== */
 
     .image-link-box{
       display:flex;
       align-items:center;
-      gap:8px;
+      gap:10px;
       width:100%;
       max-width:700px;
       margin-top:10px;
@@ -258,46 +260,48 @@
       user-select:text;
     }
 
-    /* =========================
-       X DÜYMƏSİ
-    ========================= */
-.remove-image{
-  width:36px !important;
-  height:36px !important;
-  min-width:36px !important;
-  max-width:36px !important;
+    /* X DÜYMƏSİ */
 
-  padding:0 !important;
-  margin:0 !important;
+    .remove-image{
+      width:40px !important;
+      height:40px !important;
+      min-width:40px !important;
+      max-width:40px !important;
 
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
+      padding:0 !important;
+      margin:0 !important;
 
-  background:#5a321f !important;
-  color:#ffffff !important;
+      display:flex !important;
+      align-items:center !important;
+      justify-content:center !important;
 
-  border:2px solid #3d2115 !important;
-  border-radius:50% !important;
+      background:#5a321f !important;
+      color:#fff !important;
 
-  font-family:Arial,sans-serif !important;
-  font-size:20px !important;
-  font-weight:bold !important;
-  line-height:1 !important;
+      border:2px solid #3d2115 !important;
+      border-radius:50% !important;
 
-  cursor:pointer !important;
+      font-family:Arial,sans-serif !important;
+      font-size:19px !important;
+      font-weight:bold !important;
+      line-height:1 !important;
 
-  box-shadow:0 3px 8px rgba(0,0,0,.25) !important;
-}
+      cursor:pointer !important;
 
-.remove-image:hover{
-  background:#3d2115 !important;
-  color:#ffffff !important;
-}
+      flex-shrink:0 !important;
 
-    /* =========================
+      box-shadow:0 3px 8px rgba(0,0,0,.25) !important;
+    }
+
+    .remove-image:hover{
+      background:#3d2115 !important;
+      color:#fff !important;
+      transform:scale(1.05);
+    }
+
+    /* =====================================
        SIRA
-    ========================= */
+    ===================================== */
 
     .sort-number{
       display:inline-flex;
@@ -342,10 +346,13 @@
         max-width:100%;
       }
     }
+
   </style>
 </head>
 
+
 <body>
+
 
 <header>
 
@@ -498,175 +505,179 @@
     >
 
 
-    <!-- SIRA -->
-
     <label>Sıra</label>
 
-    <input 
-      type="number" 
-      id="sort_order" 
-      min="1" 
-      placeholder="Məsələn: 1" 
+    <input
+      type="number"
+      id="sort_order"
+      min="1"
+      placeholder="Məsələn: 1"
     >
 
 
-    <!-- ŞƏKİL 1 -->
+    <!-- ==============================
+         ŞƏKİL 1
+    =============================== -->
 
-<label>Şəkil 1</label>
+    <label>Şəkil 1</label>
 
-<input 
-  type="file" 
-  id="image" 
-  accept="image/*" 
-  onchange="previewImage(event,1)" 
->
+    <input
+      type="file"
+      id="image"
+      accept="image/*"
+      onchange="previewImage(event,1)"
+    >
 
-<img 
-  id="imagePreview" 
-  class="preview" 
->
+    <img
+      id="imagePreview"
+      class="preview"
+    >
 
-<div 
-  id="imageLink1" 
-  class="image-link-box hidden"
->
+    <div
+      id="imageLink1"
+      class="image-link-box hidden"
+    >
 
-  <div 
-    id="imageUrl1" 
-    class="image-link"
-  ></div>
+      <div
+        id="imageUrl1"
+        class="image-link"
+      ></div>
 
-  <button 
-    type="button" 
-    class="remove-image" 
-    onclick="removeImage(1)" 
-    title="Şəkli sil"
-  >
-    X
-  </button>
+      <button
+        type="button"
+        class="remove-image"
+        onclick="removeImage(1)"
+        title="Şəkli sil"
+      >
+        X
+      </button>
 
-</div>
-
-
-<!-- ŞƏKİL 2 -->
-
-<label>Şəkil 2</label>
-
-<input 
-  type="file" 
-  id="image2" 
-  accept="image/*" 
-  onchange="previewImage(event,2)" 
->
-
-<img 
-  id="imagePreview2" 
-  class="preview" 
->
-
-<div 
-  id="imageLink2" 
-  class="image-link-box hidden"
->
-
-  <div 
-    id="imageUrl2" 
-    class="image-link"
-  ></div>
-
-  <button 
-    type="button" 
-    class="remove-image" 
-    onclick="removeImage(2)" 
-    title="Şəkli sil"
-  >
-    X
-  </button>
-
-</div>
+    </div>
 
 
-<!-- ŞƏKİL 3 -->
+    <!-- ==============================
+         ŞƏKİL 2
+    =============================== -->
 
-<label>Şəkil 3</label>
+    <label>Şəkil 2</label>
 
-<input 
-  type="file" 
-  id="image3" 
-  accept="image/*" 
-  onchange="previewImage(event,3)" 
->
+    <input
+      type="file"
+      id="image2"
+      accept="image/*"
+      onchange="previewImage(event,2)"
+    >
 
-<img 
-  id="imagePreview3" 
-  class="preview" 
->
+    <img
+      id="imagePreview2"
+      class="preview"
+    >
 
-<div 
-  id="imageLink3" 
-  class="image-link-box hidden"
->
+    <div
+      id="imageLink2"
+      class="image-link-box hidden"
+    >
 
-  <div 
-    id="imageUrl3" 
-    class="image-link"
-  ></div>
+      <div
+        id="imageUrl2"
+        class="image-link"
+      ></div>
 
-  <button 
-    type="button" 
-    class="remove-image" 
-    onclick="removeImage(3)" 
-    title="Şəkli sil"
-  >
-    X
-  </button>
+      <button
+        type="button"
+        class="remove-image"
+        onclick="removeImage(2)"
+        title="Şəkli sil"
+      >
+        X
+      </button>
 
-</div>
-
-
-<label>Açıqlama</label>
-
-<textarea 
-  id="description" 
-  placeholder="Parfum haqqında qısa məlumat..."
-></textarea>
+    </div>
 
 
-<button 
-  id="saveButton" 
-  onclick="saveProduct()"
->
-  Yadda saxla
-</button>
+    <!-- ==============================
+         ŞƏKİL 3
+    =============================== -->
 
-<button 
-  class="secondary" 
-  onclick="newProduct()" 
-  type="button"
->
-  Təmizlə
-</button>
+    <label>Şəkil 3</label>
+
+    <input
+      type="file"
+      id="image3"
+      accept="image/*"
+      onchange="previewImage(event,3)"
+    >
+
+    <img
+      id="imagePreview3"
+      class="preview"
+    >
+
+    <div
+      id="imageLink3"
+      class="image-link-box hidden"
+    >
+
+      <div
+        id="imageUrl3"
+        class="image-link"
+      ></div>
+
+      <button
+        type="button"
+        class="remove-image"
+        onclick="removeImage(3)"
+        title="Şəkli sil"
+      >
+        X
+      </button>
+
+    </div>
 
 
-<div 
-  id="formMessage" 
-  class="message"
-></div>
+    <label>Açıqlama</label>
 
-</div>
+    <textarea
+      id="description"
+      placeholder="Parfum haqqında qısa məlumat..."
+    ></textarea>
 
 
-<!-- PRODUCTS -->
+    <button
+      id="saveButton"
+      onclick="saveProduct()"
+    >
+      Yadda saxla
+    </button>
 
-<div class="card">
+    <button
+      class="secondary"
+      onclick="newProduct()"
+      type="button"
+    >
+      Təmizlə
+    </button>
 
-  <h2>Məhsullar</h2>
 
-  <div id="productsList">
-    Yüklənir...
+    <div
+      id="formMessage"
+      class="message"
+    ></div>
+
   </div>
 
-</div>
+
+  <!-- PRODUCTS -->
+
+  <div class="card">
+
+    <h2>Məhsullar</h2>
+
+    <div id="productsList">
+      Yüklənir...
+    </div>
+
+  </div>
 
 </div>
 
@@ -675,6 +686,7 @@
 
   let editingProduct = null;
   let isSaving = false;
+
 
   // =====================================
   // LOGIN
@@ -734,165 +746,119 @@
 
     box.style.display = "block";
   }
-// =====================================
-// IMAGE PREVIEW
-// =====================================
 
-function previewImage(event,index){
 
-  const file =
-    event.target.files[0];
+  // =====================================
+  // IMAGE HELPERS
+  // =====================================
 
-  if(!file){
-    return;
+  function getColumn(index){
+
+    if(index === 1){
+      return "image_url";
+    }
+
+    if(index === 2){
+      return "image_url_2";
+    }
+
+    return "image_url_3";
   }
 
 
-  const previewId =
-    getPreviewId(index);
+  function getPreviewId(index){
 
-  const linkBoxId =
-    getLinkBoxId(index);
+    if(index === 1){
+      return "imagePreview";
+    }
 
-  const urlId =
-    getUrlId(index);
+    if(index === 2){
+      return "imagePreview2";
+    }
 
-
-  const preview =
-    document.getElementById(previewId);
-
-  const linkBox =
-    document.getElementById(linkBoxId);
-
-  const urlBox =
-    document.getElementById(urlId);
-
-
-  /* Şəklin önizləməsi */
-
-  preview.src =
-    URL.createObjectURL(file);
-
-  preview.style.display =
-    "block";
-
-
-  /*
-    Yeni şəkil seçiləndə
-    URL qutusunu da göstər
-  */
-
-  if(linkBox){
-
-    linkBox.classList.remove("hidden");
-
+    return "imagePreview3";
   }
 
 
-  /*
-    Yeni şəkil seçildi yazısı
-  */
+  function getLinkBoxId(index){
 
-  if(urlBox){
+    return "imageLink" + index;
+  }
+
+
+  function getUrlId(index){
+
+    return "imageUrl" + index;
+  }
+
+
+  function getFileInputId(index){
+
+    if(index === 1){
+      return "image";
+    }
+
+    return "image" + index;
+  }
+
+
+  // =====================================
+  // IMAGE PREVIEW
+  // =====================================
+
+  function previewImage(event,index){
+
+    const file =
+      event.target.files[0];
+
+    if(!file){
+      return;
+    }
+
+
+    const preview =
+      document.getElementById(
+        getPreviewId(index)
+      );
+
+    const linkBox =
+      document.getElementById(
+        getLinkBoxId(index)
+      );
+
+    const urlBox =
+      document.getElementById(
+        getUrlId(index)
+      );
+
+
+    /*
+      Şəklin önizləməsi
+    */
+
+    preview.src =
+      URL.createObjectURL(file);
+
+    preview.style.display =
+      "block";
+
+
+    /*
+      Link qutusunu göstər
+    */
+
+    linkBox.classList.remove(
+      "hidden"
+    );
+
+
+    /*
+      Link yerində yazı
+    */
 
     urlBox.textContent =
       "Yeni şəkil seçildi";
-
-
-    // =====================================
-    // X DÜYMƏSİ
-    // =====================================
-
-    let removeButton =
-      linkBox.querySelector(".remove-image-link");
-
-
-    // Əgər X hələ yoxdursa yarat
-
-    if(!removeButton){
-
-      removeButton =
-        document.createElement("button");
-
-      removeButton.type =
-        "button";
-
-      removeButton.className =
-        "remove-image-link";
-
-      removeButton.textContent =
-        "×";
-
-
-      /*
-        X düyməsinə basanda
-        yalnız link/yazı silinir
-      */
-
-      removeButton.onclick =
-        function(){
-
-          urlBox.textContent = "";
-
-          removeButton.remove();
-
-        };
-
-
-      linkBox.appendChild(
-        removeButton
-      );
-
-    }
-
   }
-
-}
-
-Bunun altına isə bu CSS-i əlavə et:
-
-/* =====================================
-   IMAGE LINK X DÜYMƏSİ
-   ===================================== */
-
-.remove-image-link {
-
-  border: none;
-
-  background: transparent;
-
-  color: #8b3a3a;
-
-  font-size: 22px;
-
-  font-weight: bold;
-
-  cursor: pointer;
-
-  margin-left: 8px;
-
-  padding: 0 5px;
-
-}
-
-.remove-image-link:hover {
-
-  color: #000;
-
-}
-
-İndi işləmə qaydası belədir:
-
-**Şəkil seçirsən →**
-
-`Yeni şəkil seçildi  ×`
-
-**X-ə basırsan →**
-
-`Yeni şəkil seçildi` yazısı silinir.
-
-Şəklin özü isə **qalır**.
-
 
 
   // =====================================
@@ -918,23 +884,43 @@ Bunun altına isə bu CSS-i əlavə et:
 
 
     const fileInput =
-      document.getElementById(fileInputId);
+      document.getElementById(
+        fileInputId
+      );
 
 
-    /* Yeni seçilmiş şəkli ləğv et */
+    /*
+      Əgər yeni şəkil seçilibsə
+    */
 
-    if(fileInput && fileInput.files.length > 0){
+    if(
+      fileInput &&
+      fileInput.files.length > 0
+    ){
 
       fileInput.value = "";
 
+
       const preview =
-        document.getElementById(previewId);
+        document.getElementById(
+          previewId
+        );
 
       preview.src = "";
-      preview.style.display = "none";
+
+      preview.style.display =
+        "none";
 
 
-      if(editingProduct && editingProduct[column]){
+      /*
+        Əgər redaktə edilən məhsulun
+        köhnə şəkli varsa onu geri göstər
+      */
+
+      if(
+        editingProduct &&
+        editingProduct[column]
+      ){
 
         document
           .getElementById(urlId)
@@ -946,22 +932,39 @@ Bunun altına isə bu CSS-i əlavə et:
           .classList
           .remove("hidden");
 
+
         preview.src =
           editingProduct[column];
 
         preview.style.display =
           "block";
+
+      }else{
+
+        document
+          .getElementById(urlId)
+          .textContent = "";
+
+        document
+          .getElementById(linkBoxId)
+          .classList
+          .add("hidden");
       }
 
       return;
     }
 
 
-    /* Yeni məhsuldursa */
+    /*
+      Yeni məhsuldursa
+    */
 
     if(!editingProduct){
 
-      fileInput.value = "";
+      if(fileInput){
+        fileInput.value = "";
+      }
+
 
       document
         .getElementById(previewId)
@@ -972,9 +975,11 @@ Bunun altına isə bu CSS-i əlavə et:
         .style
         .display = "none";
 
+
       document
         .getElementById(urlId)
         .textContent = "";
+
 
       document
         .getElementById(linkBoxId)
@@ -985,13 +990,20 @@ Bunun altına isə bu CSS-i əlavə et:
     }
 
 
+    /*
+      Mövcud məhsulun şəkli
+    */
+
     const imageUrl =
       editingProduct[column];
 
 
     if(!imageUrl){
 
-      fileInput.value = "";
+      if(fileInput){
+        fileInput.value = "";
+      }
+
 
       document
         .getElementById(previewId)
@@ -1002,9 +1014,11 @@ Bunun altına isə bu CSS-i əlavə et:
         .style
         .display = "none";
 
+
       document
         .getElementById(urlId)
         .textContent = "";
+
 
       document
         .getElementById(linkBoxId)
@@ -1028,7 +1042,9 @@ Bunun altına isə bu CSS-i əlavə et:
 
     try{
 
-      /* DB-dən linki sil */
+      /*
+        DB-dən linki sil
+      */
 
       const updateData = {};
 
@@ -1050,16 +1066,21 @@ Bunun altına isə bu CSS-i əlavə et:
       }
 
 
-      /* Storage-dan şəkli sil */
+      /*
+        Storage-dan şəkli sil
+      */
 
       await deleteStorageImage(
         imageUrl
       );
 
 
-      /* Ekranı təmizlə */
+      /*
+        Ekranı təmizlə
+      */
 
-      editingProduct[column] = null;
+      editingProduct[column] =
+        null;
 
 
       document
@@ -1093,7 +1114,6 @@ Bunun altına isə bu CSS-i əlavə et:
 
 
       await loadProducts();
-
 
     }catch(error){
 
@@ -1201,7 +1221,9 @@ Bunun altına isə bu CSS-i əlavə et:
   async function loadProducts(){
 
     const list =
-      document.getElementById("productsList");
+      document.getElementById(
+        "productsList"
+      );
 
 
     list.innerHTML =
@@ -1242,7 +1264,10 @@ Bunun altına isə bu CSS-i əlavə et:
     }
 
 
-    if(!data || data.length === 0){
+    if(
+      !data ||
+      data.length === 0
+    ){
 
       list.innerHTML = `
         <p style="color:var(--muted)">
@@ -1280,11 +1305,14 @@ Bunun altına isə bu CSS-i əlavə et:
 
                 <div class="sort-number">
                   Sıra:
-                  ${escapeHtml(product.sort_order ?? "")}
+                  ${escapeHtml(
+                    product.sort_order ?? ""
+                  )}
                 </div>
 
                 <p>
-                  ${Number(product.price).toFixed(2)} AZN
+                  ${Number(product.price).toFixed(2)}
+                  AZN
                   · ${product.ml} ML
                   · Stok: ${product.stock}
                 </p>
@@ -1333,25 +1361,31 @@ Bunun altına isə bu CSS-i əlavə et:
       .getElementById("productId")
       .value = "";
 
+
     document
       .getElementById("name")
       .value = "";
+
 
     document
       .getElementById("price")
       .value = "";
 
+
     document
       .getElementById("ml")
       .value = "";
+
 
     document
       .getElementById("stock")
       .value = "";
 
+
     document
       .getElementById("sort_order")
       .value = "";
+
 
     document
       .getElementById("description")
@@ -1362,9 +1396,11 @@ Bunun altına isə bu CSS-i əlavə et:
       .getElementById("image")
       .value = "";
 
+
     document
       .getElementById("image2")
       .value = "";
+
 
     document
       .getElementById("image3")
@@ -1400,6 +1436,7 @@ Bunun altına isə bu CSS-i əlavə et:
         .classList
         .add("hidden");
 
+
       document
         .getElementById(item[1])
         .textContent = "";
@@ -1431,7 +1468,10 @@ Bunun altına isə bu CSS-i əlavə et:
     }
 
 
-    if(!data || data.length === 0){
+    if(
+      !data ||
+      data.length === 0
+    ){
       return 1;
     }
 
@@ -1480,6 +1520,7 @@ Bunun altına isə bu CSS-i əlavə et:
         "saveButton"
       );
 
+
     saveButton.disabled = false;
 
     saveButton.textContent =
@@ -1493,7 +1534,8 @@ Bunun altına isə bu CSS-i əlavə et:
 
   function editProduct(product){
 
-    editingProduct = product;
+    editingProduct =
+      product;
 
 
     document
@@ -1542,9 +1584,11 @@ Bunun altına isə bu CSS-i əlavə et:
       .getElementById("image")
       .value = "";
 
+
     document
       .getElementById("image2")
       .value = "";
+
 
     document
       .getElementById("image3")
@@ -1562,10 +1606,12 @@ Bunun altına isə bu CSS-i əlavə et:
       product.image_url
     );
 
+
     setExistingImage(
       2,
       product.image_url_2
     );
+
 
     setExistingImage(
       3,
@@ -1605,10 +1651,12 @@ Bunun altına isə bu CSS-i əlavə et:
         getPreviewId(index)
       );
 
+
     const linkBox =
       document.getElementById(
         getLinkBoxId(index)
       );
+
 
     const urlBox =
       document.getElementById(
@@ -1618,7 +1666,8 @@ Bunun altına isə bu CSS-i əlavə et:
 
     if(url){
 
-      preview.src = url;
+      preview.src =
+        url;
 
       preview.style.display =
         "block";
@@ -1638,7 +1687,9 @@ Bunun altına isə bu CSS-i əlavə et:
       preview.style.display =
         "none";
 
+
       urlBox.textContent = "";
+
 
       linkBox.classList
         .add("hidden");
@@ -1740,7 +1791,8 @@ Bunun altına isə bu CSS-i əlavə et:
     const filePath =
       decodeURIComponent(
         imageUrl.substring(
-          position + marker.length
+          position +
+          marker.length
         )
       );
 
@@ -1898,9 +1950,11 @@ Bunun altına isə bu CSS-i əlavə et:
         editingProduct?.image_url ||
         null;
 
+
       const oldImageUrl2 =
         editingProduct?.image_url_2 ||
         null;
+
 
       const oldImageUrl3 =
         editingProduct?.image_url_3 ||
@@ -1910,8 +1964,10 @@ Bunun altına isə bu CSS-i əlavə et:
       let imageUrl =
         oldImageUrl;
 
+
       let imageUrl2 =
         oldImageUrl2;
+
 
       let imageUrl3 =
         oldImageUrl3;
@@ -1979,7 +2035,10 @@ Bunun altına isə bu CSS-i əlavə et:
         }
 
 
-        if(file1 && oldImageUrl){
+        if(
+          file1 &&
+          oldImageUrl
+        ){
 
           await deleteStorageImage(
             oldImageUrl
@@ -1987,7 +2046,10 @@ Bunun altına isə bu CSS-i əlavə et:
         }
 
 
-        if(file2 && oldImageUrl2){
+        if(
+          file2 &&
+          oldImageUrl2
+        ){
 
           await deleteStorageImage(
             oldImageUrl2
@@ -1995,7 +2057,10 @@ Bunun altına isə bu CSS-i əlavə et:
         }
 
 
-        if(file3 && oldImageUrl3){
+        if(
+          file3 &&
+          oldImageUrl3
+        ){
 
           await deleteStorageImage(
             oldImageUrl3
@@ -2018,8 +2083,8 @@ Bunun altına isə bu CSS-i əlavə et:
           .getElementById("formTitle")
           .textContent =
           "Yeni məhsul əlavə et";
-      }
 
+      }
 
       // YENİ MƏHSUL
 
@@ -2130,7 +2195,10 @@ Bunun altına isə bu CSS-i əlavə et:
     }
 
 
-    const { data:product,error } =
+    const {
+      data:product,
+      error
+    } =
       await supabaseClient
         .from("products")
         .select(
@@ -2154,7 +2222,9 @@ Bunun altına isə bu CSS-i əlavə et:
     }
 
 
-    const { error:deleteError } =
+    const {
+      error:deleteError
+    } =
       await supabaseClient
         .from("products")
         .delete()
@@ -2179,9 +2249,11 @@ Bunun altına isə bu CSS-i əlavə et:
       product.image_url
     );
 
+
     await deleteStorageImage(
       product.image_url_2
     );
+
 
     await deleteStorageImage(
       product.image_url_3
@@ -2238,5 +2310,7 @@ Bunun altına isə bu CSS-i əlavə et:
 
 </script>
 
+
 </body>
 </html>
+```
