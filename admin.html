@@ -261,39 +261,39 @@
     /* =========================
        X DÜYMƏSİ
     ========================= */
+.remove-image{
+  width:36px !important;
+  height:36px !important;
+  min-width:36px !important;
+  max-width:36px !important;
 
-    .remove-image{
-      width:32px;
-      height:32px;
-      padding:0;
-      margin:0;
-      flex-shrink:0;
+  padding:0 !important;
+  margin:0 !important;
 
-      border-radius:50%;
-      border:2px solid #4b2e20;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
 
-      background:#4b2e20;
-      color:#ffffff;
+  background:#5a321f !important;
+  color:#ffffff !important;
 
-      font-size:22px;
-      font-family:Arial,sans-serif;
-      font-weight:bold;
+  border:2px solid #3d2115 !important;
+  border-radius:50% !important;
 
-      display:flex;
-      align-items:center;
-      justify-content:center;
+  font-family:Arial,sans-serif !important;
+  font-size:20px !important;
+  font-weight:bold !important;
+  line-height:1 !important;
 
-      cursor:pointer;
-      line-height:1;
+  cursor:pointer !important;
 
-      box-shadow:0 3px 10px rgba(80,50,30,.18);
-    }
+  box-shadow:0 3px 8px rgba(0,0,0,.25) !important;
+}
 
-    .remove-image:hover{
-      background:#2f1b12;
-      color:#ffffff;
-      border-color:#2f1b12;
-    }
+.remove-image:hover{
+  background:#3d2115 !important;
+  color:#ffffff !important;
+}
 
     /* =========================
        SIRA
@@ -736,7 +736,7 @@
   }
 
 
-  // =====================================
+    // =====================================
   // IMAGE PREVIEW
   // =====================================
 
@@ -756,12 +756,21 @@
     const linkBoxId =
       getLinkBoxId(index);
 
+    const urlId =
+      getUrlId(index);
+
+
     const preview =
       document.getElementById(previewId);
 
     const linkBox =
       document.getElementById(linkBoxId);
 
+    const urlBox =
+      document.getElementById(urlId);
+
+
+    /* Şəklin önizləməsi */
 
     preview.src =
       URL.createObjectURL(file);
@@ -770,60 +779,31 @@
       "block";
 
 
+    /*
+      Yeni şəkil seçiləndə
+      URL qutusunu da göstər
+    */
+
     if(linkBox){
 
-      linkBox.classList.add("hidden");
-    }
-  }
+      linkBox.classList.remove("hidden");
 
-
-  function getColumn(index){
-
-    if(index === 1){
-      return "image_url";
     }
 
-    if(index === 2){
-      return "image_url_2";
+
+    /*
+      Əgər yeni şəkildirsə,
+      link yerinə "Yeni şəkil seçildi"
+      yazırıq.
+    */
+
+    if(urlBox){
+
+      urlBox.textContent =
+        "Yeni şəkil seçildi";
+
     }
 
-    return "image_url_3";
-  }
-
-
-  function getPreviewId(index){
-
-    if(index === 1){
-      return "imagePreview";
-    }
-
-    if(index === 2){
-      return "imagePreview2";
-    }
-
-    return "imagePreview3";
-  }
-
-
-  function getLinkBoxId(index){
-
-    return "imageLink" + index;
-  }
-
-
-  function getUrlId(index){
-
-    return "imageUrl" + index;
-  }
-
-
-  function getFileInputId(index){
-
-    if(index === 1){
-      return "image";
-    }
-
-    return "image" + index;
   }
 
 
