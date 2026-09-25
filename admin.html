@@ -231,54 +231,50 @@
       background:#f3eee8;
     }
 
-    /* Şəkil linki */
+    /* =========================
+       ŞƏKİL LİNKİ
+    ========================= */
 
     .image-link-box{
       display:flex;
       align-items:center;
       gap:8px;
       width:100%;
-      max-width:600px;
+      max-width:700px;
       margin-top:10px;
     }
 
     .image-link{
       flex:1;
       min-width:0;
-      padding:9px 11px;
+      padding:10px 12px;
       border:1px solid var(--line);
       border-radius:8px;
       background:#fff;
       color:var(--muted);
       font-size:13px;
+      line-height:1.4;
       word-break:break-all;
+      user-select:text;
     }
 
-    /* Şəkil silmə X düyməsi */
-
     .remove-image{
-      width:30px;
-      height:30px;
+      width:32px;
+      height:32px;
       padding:0;
       margin:0;
       flex-shrink:0;
-
       border-radius:50%;
       border:1px solid var(--gold);
-
       background:var(--paper);
       color:var(--brown);
-
-      font-size:18px;
+      font-size:20px;
       font-family:Arial,sans-serif;
       font-weight:normal;
-
       display:flex;
       align-items:center;
       justify-content:center;
-
       cursor:pointer;
-
       box-shadow:0 3px 10px rgba(80,50,30,.12);
     }
 
@@ -286,6 +282,28 @@
       background:var(--brown);
       color:white;
       border-color:var(--brown);
+    }
+
+    /* =========================
+       SIRA
+    ========================= */
+
+    .sort-box{
+      max-width:180px;
+    }
+
+    .sort-number{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:42px;
+      padding:7px 10px;
+      border-radius:8px;
+      background:#f3eee8;
+      color:var(--brown);
+      font-weight:bold;
+      font-size:13px;
+      margin-top:5px;
     }
 
     @media(max-width:700px){
@@ -311,6 +329,10 @@
       .topbar{
         align-items:flex-start;
         flex-direction:column;
+      }
+
+      .image-link-box{
+        max-width:100%;
       }
     }
   </style>
@@ -426,6 +448,7 @@
       id="productId"
     >
 
+
     <label>Parfum adı</label>
 
     <input
@@ -449,6 +472,7 @@
         >
 
       </div>
+
 
       <div>
 
@@ -475,6 +499,27 @@
 
 
     <!-- ================================
+         SIRA
+    ================================ -->
+
+    <label>Sıra</label>
+
+    <input
+      type="number"
+      id="sortOrder"
+      class="sort-box"
+      min="1"
+      step="1"
+      placeholder="1"
+    >
+
+    <p style="color:var(--muted);font-size:13px;margin-top:6px">
+      Məhsullar saytdakı görünüş sırasına görə düzüləcək.
+      Məsələn: 1, 2, 3, 4...
+    </p>
+
+
+    <!-- ================================
          IMAGE 1
     ================================ -->
 
@@ -484,7 +529,7 @@
       type="file"
       id="image"
       accept="image/*"
-      onchange="previewImage(event,'imagePreview','imageLink1')"
+      onchange="previewImage(event,1)"
     >
 
     <img
@@ -522,7 +567,7 @@
       type="file"
       id="image2"
       accept="image/*"
-      onchange="previewImage(event,'imagePreview2','imageLink2')"
+      onchange="previewImage(event,2)"
     >
 
     <img
@@ -560,7 +605,7 @@
       type="file"
       id="image3"
       accept="image/*"
-      onchange="previewImage(event,'imagePreview3','imageLink3')"
+      onchange="previewImage(event,3)"
     >
 
     <img
@@ -678,10 +723,8 @@
 
     const { error } =
       await supabaseClient.auth.signInWithPassword({
-
         email:email,
         password:password
-
       });
 
 
@@ -714,11 +757,7 @@
   // IMAGE PREVIEW
   // =====================================
 
-  function previewImage(
-    event,
-    previewId,
-    linkBoxId
-  ){
+  function previewImage(event,index){
 
     const file =
       event.target.files[0];
@@ -728,12 +767,17 @@
     }
 
 
+    const previewId =
+      getPreviewId(index);
+
+    const linkBoxId =
+      getLinkBoxId(index);
+
     const preview =
       document.getElementById(previewId);
 
-    if(!preview){
-      return;
-    }
+    const linkBox =
+      document.getElementById(linkBoxId);
 
 
     preview.src =
@@ -743,18 +787,68 @@
       "block";
 
 
-    // Yeni şəkil seçildikdə
-    // köhnə linki gizlət
+    /*
+      Yeni şəkil seçiləndə
+      köhnə linki gizlətmirik.
 
-    const linkBox =
-      document.getElementById(linkBoxId);
+      Amma yeni şəkil save olunanda
+      köhnə şəkil avtomatik silinəcək.
+    */
 
     if(linkBox){
 
-      linkBox.classList.add(
-        "hidden"
-      );
+      linkBox.classList.add("hidden");
     }
+  }
+
+
+  function getColumn(index){
+
+    if(index === 1){
+      return "image_url";
+    }
+
+    if(index === 2){
+      return "image_url_2";
+    }
+
+    return "image_url_3";
+  }
+
+
+  function getPreviewId(index){
+
+    if(index === 1){
+      return "imagePreview";
+    }
+
+    if(index === 2){
+      return "imagePreview2";
+    }
+
+    return "imagePreview3";
+  }
+
+
+  function getLinkBoxId(index){
+
+    return "imageLink" + index;
+  }
+
+
+  function getUrlId(index){
+
+    return "imageUrl" + index;
+  }
+
+
+  function getFileInputId(index){
+
+    if(index === 1){
+      return "image";
+    }
+
+    return "image" + index;
   }
 
 
@@ -765,45 +859,81 @@
   async function removeImage(index){
 
     const column =
-      index === 1
-        ? "image_url"
-        : index === 2
-          ? "image_url_2"
-          : "image_url_3";
-
+      getColumn(index);
 
     const previewId =
-      index === 1
-        ? "imagePreview"
-        : index === 2
-          ? "imagePreview2"
-          : "imagePreview3";
-
+      getPreviewId(index);
 
     const linkBoxId =
-      index === 1
-        ? "imageLink1"
-        : index === 2
-          ? "imageLink2"
-          : "imageLink3";
+      getLinkBoxId(index);
 
+    const urlId =
+      getUrlId(index);
 
     const fileInputId =
-      index === 1
-        ? "image"
-        : index === 2
-          ? "image2"
-          : "image3";
+      getFileInputId(index);
 
 
-    // Yeni məhsuldursa
-    // sadəcə seçilmiş şəkli təmizlə
+    const fileInput =
+      document.getElementById(fileInputId);
+
+    /*
+      Əgər yeni şəkil seçilibsə,
+      X düyməsi ilk növbədə həmin
+      seçilmiş şəkli ləğv edir.
+    */
+
+    if(fileInput && fileInput.files.length > 0){
+
+      fileInput.value = "";
+
+      const preview =
+        document.getElementById(previewId);
+
+      preview.src = "";
+      preview.style.display = "none";
+
+      /*
+        Əgər köhnə link varsa,
+        yenidən göstər.
+      */
+
+      if(editingProduct && editingProduct[column]){
+
+        document
+          .getElementById(urlId)
+          .textContent =
+          editingProduct[column];
+
+        document
+          .getElementById(linkBoxId)
+          .classList
+          .remove("hidden");
+
+        document
+          .getElementById(previewId)
+          .src =
+          editingProduct[column];
+
+        document
+          .getElementById(previewId)
+          .style
+          .display =
+          "block";
+      }
+
+      return;
+    }
+
+
+    /*
+      Yeni məhsuldursa,
+      sadəcə sahəni təmizlə.
+    */
 
     if(!editingProduct){
 
-      document
-        .getElementById(fileInputId)
-        .value = "";
+      fileInput.value = "";
 
       document
         .getElementById(previewId)
@@ -811,11 +941,17 @@
 
       document
         .getElementById(previewId)
-        .style.display = "none";
+        .style
+        .display = "none";
+
+      document
+        .getElementById(urlId)
+        .textContent = "";
 
       document
         .getElementById(linkBoxId)
-        .classList.add("hidden");
+        .classList
+        .add("hidden");
 
       return;
     }
@@ -826,6 +962,27 @@
 
 
     if(!imageUrl){
+
+      fileInput.value = "";
+
+      document
+        .getElementById(previewId)
+        .src = "";
+
+      document
+        .getElementById(previewId)
+        .style
+        .display = "none";
+
+      document
+        .getElementById(urlId)
+        .textContent = "";
+
+      document
+        .getElementById(linkBoxId)
+        .classList
+        .add("hidden");
+
       return;
     }
 
@@ -871,48 +1028,16 @@
       // STORAGE-DAN ŞƏKİLİ SİL
       // ================================
 
-      const marker =
-        "/storage/v1/object/public/product-images/";
-
-      const position =
-        imageUrl.indexOf(marker);
-
-
-      if(position !== -1){
-
-        const filePath =
-          decodeURIComponent(
-            imageUrl.substring(
-              position + marker.length
-            )
-          );
-
-
-        const { error:storageError } =
-          await supabaseClient
-            .storage
-            .from("product-images")
-            .remove([
-              filePath
-            ]);
-
-
-        if(storageError){
-
-          console.warn(
-            "Storage şəkli silinmədi:",
-            storageError.message
-          );
-        }
-      }
+      await deleteStorageImage(
+        imageUrl
+      );
 
 
       // ================================
       // EKRANI TƏMİZLƏ
       // ================================
 
-      editingProduct[column] =
-        null;
+      editingProduct[column] = null;
 
 
       document
@@ -921,17 +1046,22 @@
 
       document
         .getElementById(previewId)
-        .style.display = "none";
+        .style
+        .display = "none";
+
+
+      document
+        .getElementById(urlId)
+        .textContent = "";
 
 
       document
         .getElementById(linkBoxId)
-        .classList.add("hidden");
+        .classList
+        .add("hidden");
 
 
-      document
-        .getElementById(fileInputId)
-        .value = "";
+      fileInput.value = "";
 
 
       showFormMessage(
@@ -950,7 +1080,6 @@
         error.message,
         "error"
       );
-
     }
   }
 
@@ -974,7 +1103,6 @@
     }else{
 
       showLogin();
-
     }
   }
 
@@ -1063,6 +1191,12 @@
         .from("products")
         .select("*")
         .order(
+          "sort_order",
+          {
+            ascending:true
+          }
+        )
+        .order(
           "created_at",
           {
             ascending:true
@@ -1122,6 +1256,11 @@
                 <h3>
                   ${escapeHtml(product.name)}
                 </h3>
+
+
+                <div class="sort-number">
+                  Sıra: ${escapeHtml(product.sort_order ?? "")}
+                </div>
 
 
                 <p>
@@ -1194,6 +1333,10 @@
       .value = "";
 
     document
+      .getElementById("sortOrder")
+      .value = "";
+
+    document
       .getElementById("description")
       .value = "";
 
@@ -1226,8 +1369,9 @@
         document.getElementById(id);
 
       preview.src = "";
-      preview.style.display = "none";
 
+      preview.style.display =
+        "none";
     });
 
 
@@ -1248,8 +1392,42 @@
       document
         .getElementById(item[1])
         .textContent = "";
-
     });
+  }
+
+
+  // =====================================
+  // GET NEXT SORT ORDER
+  // =====================================
+
+  async function getNextSortOrder(){
+
+    const { data,error } =
+      await supabaseClient
+        .from("products")
+        .select("sort_order")
+        .order(
+          "sort_order",
+          {
+            ascending:false
+          }
+        )
+        .limit(1);
+
+
+    if(error){
+      return 1;
+    }
+
+
+    if(!data || data.length === 0){
+      return 1;
+    }
+
+
+    return Number(
+      data[0].sort_order || 0
+    ) + 1;
   }
 
 
@@ -1257,7 +1435,7 @@
   // NEW PRODUCT
   // =====================================
 
-  function newProduct(){
+  async function newProduct(){
 
     editingProduct = null;
 
@@ -1274,6 +1452,16 @@
       .getElementById("formMessage")
       .style
       .display = "none";
+
+
+    const nextOrder =
+      await getNextSortOrder();
+
+
+    document
+      .getElementById("sortOrder")
+      .value =
+      nextOrder;
 
 
     const saveButton =
@@ -1328,12 +1516,18 @@
 
 
     document
+      .getElementById("sortOrder")
+      .value =
+      product.sort_order ?? "";
+
+
+    document
       .getElementById("description")
       .value =
       product.description || "";
 
 
-    // Fayl inputlarını təmiz saxla
+    // Fayl inputlarını təmizlə
 
     document
       .getElementById("image")
@@ -1402,43 +1596,19 @@
     url
   ){
 
-    const previewId =
-      index === 1
-        ? "imagePreview"
-        : index === 2
-          ? "imagePreview2"
-          : "imagePreview3";
-
-
-    const linkBoxId =
-      index === 1
-        ? "imageLink1"
-        : index === 2
-          ? "imageLink2"
-          : "imageLink3";
-
-
-    const urlId =
-      index === 1
-        ? "imageUrl1"
-        : index === 2
-          ? "imageUrl2"
-          : "imageUrl3";
-
-
     const preview =
       document.getElementById(
-        previewId
+        getPreviewId(index)
       );
 
     const linkBox =
       document.getElementById(
-        linkBoxId
+        getLinkBoxId(index)
       );
 
     const urlBox =
       document.getElementById(
-        urlId
+        getUrlId(index)
       );
 
 
@@ -1449,8 +1619,14 @@
       preview.style.display =
         "block";
 
+
+      /*
+        LINK MÜTLƏQ GÖRÜNÜR
+      */
+
       urlBox.textContent =
         url;
+
 
       linkBox.classList
         .remove("hidden");
@@ -1462,7 +1638,9 @@
       preview.style.display =
         "none";
 
+
       urlBox.textContent = "";
+
 
       linkBox.classList
         .add("hidden");
@@ -1536,7 +1714,7 @@
 
 
   // =====================================
-  // DELETE OLD STORAGE IMAGE
+  // DELETE STORAGE IMAGE
   // =====================================
 
   async function deleteStorageImage(
@@ -1581,7 +1759,7 @@
     if(error){
 
       console.warn(
-        "Köhnə şəkil Storage-dan silinmədi:",
+        "Şəkil Storage-dan silinmədi:",
         error.message
       );
     }
@@ -1626,6 +1804,14 @@
       Number(
         document
           .getElementById("stock")
+          .value
+      );
+
+
+    const sortOrder =
+      Number(
+        document
+          .getElementById("sortOrder")
           .value
       );
 
@@ -1681,6 +1867,20 @@
 
       showFormMessage(
         "Ad, qiymət və ML məlumatlarını doldurun.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    if(
+      !sortOrder ||
+      sortOrder < 1
+    ){
+
+      showFormMessage(
+        "Sıra nömrəsini 1 və ya daha böyük yazın.",
         "error"
       );
 
@@ -1760,6 +1960,8 @@
 
         stock:stock || 0,
 
+        sort_order:sortOrder,
+
         image_url:imageUrl,
 
         image_url_2:imageUrl2,
@@ -1767,7 +1969,6 @@
         image_url_3:imageUrl3,
 
         description:description
-
       };
 
 
@@ -1792,8 +1993,8 @@
         }
 
 
-        // Yeni şəkil qoyulubsa,
-        // köhnə şəkli Storage-dan sil
+        // Yeni şəkil qoyulubsa
+        // köhnə şəkli sil
 
         if(file1 && oldImageUrl){
 
@@ -1819,15 +2020,11 @@
         }
 
 
-        // Uğurlu mesaj
-
         showFormMessage(
           "Məhsul uğurla yeniləndi.",
           "success"
         );
 
-
-        // Formu təmizlə
 
         editingProduct = null;
 
@@ -1878,8 +2075,6 @@
           "Yeni məhsul əlavə et";
       }
 
-
-      // Məhsulları yenilə
 
       await loadProducts();
 
