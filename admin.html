@@ -734,77 +734,165 @@
 
     box.style.display = "block";
   }
+// =====================================
+// IMAGE PREVIEW
+// =====================================
+
+function previewImage(event,index){
+
+  const file =
+    event.target.files[0];
+
+  if(!file){
+    return;
+  }
+
+
+  const previewId =
+    getPreviewId(index);
+
+  const linkBoxId =
+    getLinkBoxId(index);
+
+  const urlId =
+    getUrlId(index);
+
+
+  const preview =
+    document.getElementById(previewId);
+
+  const linkBox =
+    document.getElementById(linkBoxId);
+
+  const urlBox =
+    document.getElementById(urlId);
+
+
+  /* Şəklin önizləməsi */
+
+  preview.src =
+    URL.createObjectURL(file);
+
+  preview.style.display =
+    "block";
+
+
+  /*
+    Yeni şəkil seçiləndə
+    URL qutusunu da göstər
+  */
+
+  if(linkBox){
+
+    linkBox.classList.remove("hidden");
+
+  }
+
+
+  /*
+    Yeni şəkil seçildi yazısı
+  */
+
+  if(urlBox){
+
+    urlBox.textContent =
+      "Yeni şəkil seçildi";
 
 
     // =====================================
-  // IMAGE PREVIEW
-  // =====================================
+    // X DÜYMƏSİ
+    // =====================================
 
-  function previewImage(event,index){
-
-    const file =
-      event.target.files[0];
-
-    if(!file){
-      return;
-    }
+    let removeButton =
+      linkBox.querySelector(".remove-image-link");
 
 
-    const previewId =
-      getPreviewId(index);
+    // Əgər X hələ yoxdursa yarat
 
-    const linkBoxId =
-      getLinkBoxId(index);
+    if(!removeButton){
 
-    const urlId =
-      getUrlId(index);
+      removeButton =
+        document.createElement("button");
 
+      removeButton.type =
+        "button";
 
-    const preview =
-      document.getElementById(previewId);
+      removeButton.className =
+        "remove-image-link";
 
-    const linkBox =
-      document.getElementById(linkBoxId);
-
-    const urlBox =
-      document.getElementById(urlId);
+      removeButton.textContent =
+        "×";
 
 
-    /* Şəklin önizləməsi */
+      /*
+        X düyməsinə basanda
+        yalnız link/yazı silinir
+      */
 
-    preview.src =
-      URL.createObjectURL(file);
+      removeButton.onclick =
+        function(){
 
-    preview.style.display =
-      "block";
+          urlBox.textContent = "";
 
+          removeButton.remove();
 
-    /*
-      Yeni şəkil seçiləndə
-      URL qutusunu da göstər
-    */
-
-    if(linkBox){
-
-      linkBox.classList.remove("hidden");
-
-    }
+        };
 
 
-    /*
-      Əgər yeni şəkildirsə,
-      link yerinə "Yeni şəkil seçildi"
-      yazırıq.
-    */
-
-    if(urlBox){
-
-      urlBox.textContent =
-        "Yeni şəkil seçildi";
+      linkBox.appendChild(
+        removeButton
+      );
 
     }
 
   }
+
+}
+
+Bunun altına isə bu CSS-i əlavə et:
+
+/* =====================================
+   IMAGE LINK X DÜYMƏSİ
+   ===================================== */
+
+.remove-image-link {
+
+  border: none;
+
+  background: transparent;
+
+  color: #8b3a3a;
+
+  font-size: 22px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  margin-left: 8px;
+
+  padding: 0 5px;
+
+}
+
+.remove-image-link:hover {
+
+  color: #000;
+
+}
+
+İndi işləmə qaydası belədir:
+
+**Şəkil seçirsən →**
+
+`Yeni şəkil seçildi  ×`
+
+**X-ə basırsan →**
+
+`Yeni şəkil seçildi` yazısı silinir.
+
+Şəklin özü isə **qalır**.
+
 
 
   // =====================================
