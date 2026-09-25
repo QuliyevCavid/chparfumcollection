@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-
 <html lang="az">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,6 @@
   <title>C&H Parfum — Admin</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <script src="supabase-config.js"></script>
 
   <style>
@@ -44,10 +43,13 @@
     }
 
     .logo{
+      font-family:"Times New Roman",Times,serif;
       font-size:22px;
       font-weight:bold;
       letter-spacing:3px;
       color:var(--brown);
+      position:relative;
+      left:.78cm;
     }
 
     .logo span{
@@ -73,7 +75,8 @@
       box-shadow:0 8px 30px rgba(80,50,30,.05);
     }
 
-    h1,h2{
+    h1,
+    h2{
       margin-top:0;
       color:var(--brown);
     }
@@ -228,6 +231,63 @@
       background:#f3eee8;
     }
 
+    /* Şəkil linki */
+
+    .image-link-box{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      width:100%;
+      max-width:600px;
+      margin-top:10px;
+    }
+
+    .image-link{
+      flex:1;
+      min-width:0;
+      padding:9px 11px;
+      border:1px solid var(--line);
+      border-radius:8px;
+      background:#fff;
+      color:var(--muted);
+      font-size:13px;
+      word-break:break-all;
+    }
+
+    /* Şəkil silmə X düyməsi */
+
+    .remove-image{
+      width:30px;
+      height:30px;
+      padding:0;
+      margin:0;
+      flex-shrink:0;
+
+      border-radius:50%;
+      border:1px solid var(--gold);
+
+      background:var(--paper);
+      color:var(--brown);
+
+      font-size:18px;
+      font-family:Arial,sans-serif;
+      font-weight:normal;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      cursor:pointer;
+
+      box-shadow:0 3px 10px rgba(80,50,30,.12);
+    }
+
+    .remove-image:hover{
+      background:var(--brown);
+      color:white;
+      border-color:var(--brown);
+    }
+
     @media(max-width:700px){
 
       .row{
@@ -254,7 +314,6 @@
       }
     }
   </style>
-
 </head>
 
 <body>
@@ -262,77 +321,68 @@
 <header>
 
   <div class="logo">
-  C&H PARFUM
-  <span>COLLECTION</span>
-</div>
+    C&H PARFUM
+    <span>COLLECTION</span>
+  </div>
 
-<style>
-  .logo {
-    font-family: "Times New Roman", Times, serif;
-    position: relative;
-    left: 0.78cm;
-  }
-
-  .logo span {
-    display: block;
-  }
-</style>
-
-<button
-id="logoutBtn"
-class="secondary hidden"
-onclick="logout()"
-
->
-
-Çıxış
+  <button
+    id="logoutBtn"
+    class="secondary hidden"
+    onclick="logout()"
+  >
+    Çıxış
   </button>
 
 </header>
 
-<!-- LOGIN -->
+
+<!-- ================================
+     LOGIN
+================================ -->
 
 <div id="loginPage" class="container">
 
   <div class="card login">
 
-<h1>Admin panel</h1>
+    <h1>Admin panel</h1>
 
-<p style="color:var(--muted)">
-  Məhsulları idarə etmək üçün daxil olun.
-</p>
+    <p style="color:var(--muted)">
+      Məhsulları idarə etmək üçün daxil olun.
+    </p>
 
-<label>Email</label>
+    <label>Email</label>
 
-<input
-  type="email"
-  id="email"
-  placeholder="Email ünvanınız"
->
+    <input
+      type="email"
+      id="email"
+      placeholder="Email ünvanınız"
+    >
 
-<label>Şifrə</label>
+    <label>Şifrə</label>
 
-<input
-  type="password"
-  id="password"
-  placeholder="Şifrəniz"
->
+    <input
+      type="password"
+      id="password"
+      placeholder="Şifrəniz"
+    >
 
-<button onclick="login()">
-  Daxil ol
-</button>
+    <button onclick="login()">
+      Daxil ol
+    </button>
 
-<div
-  id="loginError"
-  class="message error"
-></div>
-
+    <div
+      id="loginError"
+      class="message error"
+    ></div>
 
   </div>
 
 </div>
 
-<!-- ADMIN PANEL -->
+
+<!-- ================================
+     ADMIN PANEL
+================================ -->
 
 <div
   id="adminPage"
@@ -341,187 +391,251 @@ onclick="logout()"
 
   <div class="topbar">
 
+    <div>
 
-<div>
+      <h1>Admin panel</h1>
 
-  <h1>Admin panel</h1>
+      <p style="color:var(--muted);margin:0">
+        C&H Parfum Collection məhsullarını idarə et.
+      </p>
 
-  <p style="color:var(--muted);margin:0">
-    C&H Parfum Collection məhsullarını idarə et.
-  </p>
+    </div>
 
-</div>
-
-<button
-  class="secondary"
-  onclick="newProduct()"
->
-  + Yeni məhsul
-</button>
+    <button
+      class="secondary"
+      onclick="newProduct()"
+    >
+      + Yeni məhsul
+    </button>
 
   </div>
 
-  <!-- PRODUCT FORM -->
+
+  <!-- ================================
+       PRODUCT FORM
+  ================================ -->
 
   <div class="card">
 
+    <h2 id="formTitle">
+      Yeni məhsul əlavə et
+    </h2>
 
-<h2 id="formTitle">
-  Yeni məhsul əlavə et
-</h2>
+    <input
+      type="hidden"
+      id="productId"
+    >
 
-<input
-  type="hidden"
-  id="productId"
->
+    <label>Parfum adı</label>
 
-
-<label>Parfum adı</label>
-
-<input
-  type="text"
-  id="name"
-  placeholder="Məsələn: NIGHT OUD"
->
+    <input
+      type="text"
+      id="name"
+      placeholder="Məsələn: NIGHT OUD"
+    >
 
 
-<div class="row">
+    <div class="row">
 
-  <div>
+      <div>
 
-    <label>Qiymət (AZN)</label>
+        <label>Qiymət (AZN)</label>
+
+        <input
+          type="number"
+          id="price"
+          step="0.01"
+          placeholder="49"
+        >
+
+      </div>
+
+      <div>
+
+        <label>Həcm (ML)</label>
+
+        <input
+          type="number"
+          id="ml"
+          placeholder="50"
+        >
+
+      </div>
+
+    </div>
+
+
+    <label>Anbarda say</label>
 
     <input
       type="number"
-      id="price"
-      step="0.01"
-      placeholder="49"
+      id="stock"
+      placeholder="10"
     >
 
-  </div>
 
+    <!-- ================================
+         IMAGE 1
+    ================================ -->
 
-  <div>
-
-    <label>Həcm (ML)</label>
+    <label>Şəkil 1</label>
 
     <input
-      type="number"
-      id="ml"
-      placeholder="50"
+      type="file"
+      id="image"
+      accept="image/*"
+      onchange="previewImage(event,'imagePreview','imageLink1')"
     >
 
+    <img
+      id="imagePreview"
+      class="preview"
+    >
+
+    <div
+      id="imageLink1"
+      class="image-link-box hidden"
+    >
+
+      <div
+        id="imageUrl1"
+        class="image-link"
+      ></div>
+
+      <button
+        type="button"
+        class="remove-image"
+        onclick="removeImage(1)"
+        title="Şəkli sil"
+      >×</button>
+
+    </div>
+
+
+    <!-- ================================
+         IMAGE 2
+    ================================ -->
+
+    <label>Şəkil 2</label>
+
+    <input
+      type="file"
+      id="image2"
+      accept="image/*"
+      onchange="previewImage(event,'imagePreview2','imageLink2')"
+    >
+
+    <img
+      id="imagePreview2"
+      class="preview"
+    >
+
+    <div
+      id="imageLink2"
+      class="image-link-box hidden"
+    >
+
+      <div
+        id="imageUrl2"
+        class="image-link"
+      ></div>
+
+      <button
+        type="button"
+        class="remove-image"
+        onclick="removeImage(2)"
+        title="Şəkli sil"
+      >×</button>
+
+    </div>
+
+
+    <!-- ================================
+         IMAGE 3
+    ================================ -->
+
+    <label>Şəkil 3</label>
+
+    <input
+      type="file"
+      id="image3"
+      accept="image/*"
+      onchange="previewImage(event,'imagePreview3','imageLink3')"
+    >
+
+    <img
+      id="imagePreview3"
+      class="preview"
+    >
+
+    <div
+      id="imageLink3"
+      class="image-link-box hidden"
+    >
+
+      <div
+        id="imageUrl3"
+        class="image-link"
+      ></div>
+
+      <button
+        type="button"
+        class="remove-image"
+        onclick="removeImage(3)"
+        title="Şəkli sil"
+      >×</button>
+
+    </div>
+
+
+    <label>Açıqlama</label>
+
+    <textarea
+      id="description"
+      placeholder="Parfum haqqında qısa məlumat..."
+    ></textarea>
+
+
+    <button
+      id="saveButton"
+      onclick="saveProduct()"
+    >
+      Yadda saxla
+    </button>
+
+    <button
+      class="secondary"
+      onclick="newProduct()"
+      type="button"
+    >
+      Təmizlə
+    </button>
+
+
+    <div
+      id="formMessage"
+      class="message"
+    ></div>
+
   </div>
 
-</div>
 
-
-<label>Anbarda say</label>
-
-<input
-  type="number"
-  id="stock"
-  placeholder="10"
->
-
-
-<!-- IMAGE 1 -->
-
-<label>Şəkil 1</label>
-
-<input
-  type="file"
-  id="image"
-  accept="image/*"
-  onchange="previewImage(event,'imagePreview')"
->
-
-<img
-  id="imagePreview"
-  class="preview"
->
-
-
-<!-- IMAGE 2 -->
-
-<label>Şəkil 2</label>
-
-<input
-  type="file"
-  id="image2"
-  accept="image/*"
-  onchange="previewImage(event,'imagePreview2')"
->
-
-<img
-  id="imagePreview2"
-  class="preview"
->
-
-
-<!-- IMAGE 3 -->
-
-<label>Şəkil 3</label>
-
-<input
-  type="file"
-  id="image3"
-  accept="image/*"
-  onchange="previewImage(event,'imagePreview3')"
->
-
-<img
-  id="imagePreview3"
-  class="preview"
->
-
-
-<label>Açıqlama</label>
-
-<textarea
-  id="description"
-  placeholder="Parfum haqqında qısa məlumat..."
-></textarea>
-
-
-<button
-  id="saveButton"
-  onclick="saveProduct()"
->
-  Yadda saxla
-</button>
-
-
-<button
-  class="secondary"
-  onclick="newProduct()"
-  type="button"
->
-  Təmizlə
-</button>
-
-
-<div
-  id="formMessage"
-  class="message"
-></div>
-
-
-  </div>
-
-  <!-- PRODUCTS -->
+  <!-- ================================
+       PRODUCTS
+  ================================ -->
 
   <div class="card">
 
-<h2>Məhsullar</h2>
+    <h2>Məhsullar</h2>
 
-<div id="productsList">
-  Yüklənir...
-</div>
+    <div id="productsList">
+      Yüklənir...
+    </div>
 
   </div>
 
 </div>
+
 
 <script>
 
@@ -562,7 +676,7 @@ onclick="logout()"
     }
 
 
-    const { data, error } =
+    const { error } =
       await supabaseClient.auth.signInWithPassword({
 
         email:email,
@@ -573,7 +687,9 @@ onclick="logout()"
 
     if(error){
 
-      showLoginError(error.message);
+      showLoginError(
+        error.message
+      );
 
       return;
     }
@@ -598,7 +714,11 @@ onclick="logout()"
   // IMAGE PREVIEW
   // =====================================
 
-  function previewImage(event, previewId){
+  function previewImage(
+    event,
+    previewId,
+    linkBoxId
+  ){
 
     const file =
       event.target.files[0];
@@ -621,6 +741,217 @@ onclick="logout()"
 
     preview.style.display =
       "block";
+
+
+    // Yeni şəkil seçildikdə
+    // köhnə linki gizlət
+
+    const linkBox =
+      document.getElementById(linkBoxId);
+
+    if(linkBox){
+
+      linkBox.classList.add(
+        "hidden"
+      );
+    }
+  }
+
+
+  // =====================================
+  // IMAGE DELETE
+  // =====================================
+
+  async function removeImage(index){
+
+    const column =
+      index === 1
+        ? "image_url"
+        : index === 2
+          ? "image_url_2"
+          : "image_url_3";
+
+
+    const previewId =
+      index === 1
+        ? "imagePreview"
+        : index === 2
+          ? "imagePreview2"
+          : "imagePreview3";
+
+
+    const linkBoxId =
+      index === 1
+        ? "imageLink1"
+        : index === 2
+          ? "imageLink2"
+          : "imageLink3";
+
+
+    const fileInputId =
+      index === 1
+        ? "image"
+        : index === 2
+          ? "image2"
+          : "image3";
+
+
+    // Yeni məhsuldursa
+    // sadəcə seçilmiş şəkli təmizlə
+
+    if(!editingProduct){
+
+      document
+        .getElementById(fileInputId)
+        .value = "";
+
+      document
+        .getElementById(previewId)
+        .src = "";
+
+      document
+        .getElementById(previewId)
+        .style.display = "none";
+
+      document
+        .getElementById(linkBoxId)
+        .classList.add("hidden");
+
+      return;
+    }
+
+
+    const imageUrl =
+      editingProduct[column];
+
+
+    if(!imageUrl){
+      return;
+    }
+
+
+    const answer =
+      confirm(
+        "Bu şəkli silmək istədiyinizə əminsiniz?"
+      );
+
+
+    if(!answer){
+      return;
+    }
+
+
+    try{
+
+      // ================================
+      // DATABASE-DƏN LINKİ SİL
+      // ================================
+
+      const updateData = {};
+
+      updateData[column] = null;
+
+
+      const { error:dbError } =
+        await supabaseClient
+          .from("products")
+          .update(updateData)
+          .eq(
+            "id",
+            editingProduct.id
+          );
+
+
+      if(dbError){
+        throw dbError;
+      }
+
+
+      // ================================
+      // STORAGE-DAN ŞƏKİLİ SİL
+      // ================================
+
+      const marker =
+        "/storage/v1/object/public/product-images/";
+
+      const position =
+        imageUrl.indexOf(marker);
+
+
+      if(position !== -1){
+
+        const filePath =
+          decodeURIComponent(
+            imageUrl.substring(
+              position + marker.length
+            )
+          );
+
+
+        const { error:storageError } =
+          await supabaseClient
+            .storage
+            .from("product-images")
+            .remove([
+              filePath
+            ]);
+
+
+        if(storageError){
+
+          console.warn(
+            "Storage şəkli silinmədi:",
+            storageError.message
+          );
+        }
+      }
+
+
+      // ================================
+      // EKRANI TƏMİZLƏ
+      // ================================
+
+      editingProduct[column] =
+        null;
+
+
+      document
+        .getElementById(previewId)
+        .src = "";
+
+      document
+        .getElementById(previewId)
+        .style.display = "none";
+
+
+      document
+        .getElementById(linkBoxId)
+        .classList.add("hidden");
+
+
+      document
+        .getElementById(fileInputId)
+        .value = "";
+
+
+      showFormMessage(
+        "Şəkil uğurla silindi.",
+        "success"
+      );
+
+
+      await loadProducts();
+
+
+    }catch(error){
+
+      showFormMessage(
+        "Şəkil silinmədi: " +
+        error.message,
+        "error"
+      );
+
+    }
   }
 
 
@@ -631,7 +962,7 @@ onclick="logout()"
   async function checkSession(){
 
     const {
-      data: { session }
+      data:{session}
     } =
       await supabaseClient.auth.getSession();
 
@@ -727,7 +1058,7 @@ onclick="logout()"
       "Yüklənir...";
 
 
-    const { data, error } =
+    const { data,error } =
       await supabaseClient
         .from("products")
         .select("*")
@@ -768,69 +1099,157 @@ onclick="logout()"
 
 
     list.innerHTML =
-      data.map(product => {
+      data
+        .map(product => {
 
-        const image =
-          product.image_url ||
-          "https://via.placeholder.com/100?text=Parfum";
-
-
-        return `
-
-          <div class="product">
-
-            <img
-              src="${escapeAttr(image)}"
-              alt="${escapeAttr(product.name)}"
-            >
+          const image =
+            product.image_url ||
+            "https://via.placeholder.com/100?text=Parfum";
 
 
-            <div>
+          return `
 
-              <h3>
-                ${escapeHtml(product.name)}
-              </h3>
+            <div class="product">
 
-
-              <p>
-                ${Number(product.price).toFixed(2)} AZN
-                · ${product.ml} ML
-                · Stok: ${product.stock}
-              </p>
+              <img
+                src="${escapeAttr(image)}"
+                alt="${escapeAttr(product.name)}"
+              >
 
 
-              <p>
-                ${escapeHtml(
-                  product.description || ""
-                )}
-              </p>
+              <div>
+
+                <h3>
+                  ${escapeHtml(product.name)}
+                </h3>
+
+
+                <p>
+                  ${Number(product.price).toFixed(2)} AZN
+                  · ${product.ml} ML
+                  · Stok: ${product.stock}
+                </p>
+
+
+                <p>
+                  ${escapeHtml(
+                    product.description || ""
+                  )}
+                </p>
+
+              </div>
+
+
+              <div class="actions">
+
+                <button
+                  onclick='editProduct(${JSON.stringify(product)})'
+                >
+                  Redaktə
+                </button>
+
+
+                <button
+                  class="danger"
+                  onclick="deleteProduct(${product.id})"
+                >
+                  Sil
+                </button>
+
+              </div>
 
             </div>
 
+          `;
 
-            <div class="actions">
-
-              <button
-                onclick='editProduct(${JSON.stringify(product)})'
-              >
-                Redaktə
-              </button>
+        })
+        .join("");
+  }
 
 
-              <button
-                class="danger"
-                onclick="deleteProduct(${product.id})"
-              >
-                Sil
-              </button>
+  // =====================================
+  // CLEAR FORM
+  // =====================================
 
-            </div>
+  function clearForm(){
 
-          </div>
+    document
+      .getElementById("productId")
+      .value = "";
 
-        `;
+    document
+      .getElementById("name")
+      .value = "";
 
-      }).join("");
+    document
+      .getElementById("price")
+      .value = "";
+
+    document
+      .getElementById("ml")
+      .value = "";
+
+    document
+      .getElementById("stock")
+      .value = "";
+
+    document
+      .getElementById("description")
+      .value = "";
+
+
+    // Faylları təmizlə
+
+    document
+      .getElementById("image")
+      .value = "";
+
+    document
+      .getElementById("image2")
+      .value = "";
+
+    document
+      .getElementById("image3")
+      .value = "";
+
+
+    // Preview-ləri təmizlə
+
+    [
+      "imagePreview",
+      "imagePreview2",
+      "imagePreview3"
+    ]
+    .forEach(id => {
+
+      const preview =
+        document.getElementById(id);
+
+      preview.src = "";
+      preview.style.display = "none";
+
+    });
+
+
+    // Linkləri təmizlə
+
+    [
+      ["imageLink1","imageUrl1"],
+      ["imageLink2","imageUrl2"],
+      ["imageLink3","imageUrl3"]
+    ]
+    .forEach(item => {
+
+      document
+        .getElementById(item[0])
+        .classList
+        .add("hidden");
+
+      document
+        .getElementById(item[1])
+        .textContent = "";
+
+    });
   }
 
 
@@ -842,83 +1261,7 @@ onclick="logout()"
 
     editingProduct = null;
 
-
-    document
-      .getElementById("productId")
-      .value = "";
-
-
-    document
-      .getElementById("name")
-      .value = "";
-
-
-    document
-      .getElementById("price")
-      .value = "";
-
-
-    document
-      .getElementById("ml")
-      .value = "";
-
-
-    document
-      .getElementById("stock")
-      .value = "";
-
-
-    document
-      .getElementById("description")
-      .value = "";
-
-
-    document
-      .getElementById("image")
-      .value = "";
-
-
-    document
-      .getElementById("image2")
-      .value = "";
-
-
-    document
-      .getElementById("image3")
-      .value = "";
-
-
-    document
-      .getElementById("imagePreview")
-      .style
-      .display = "none";
-
-
-    document
-      .getElementById("imagePreview2")
-      .style
-      .display = "none";
-
-
-    document
-      .getElementById("imagePreview3")
-      .style
-      .display = "none";
-
-
-    document
-      .getElementById("imagePreview")
-      .src = "";
-
-
-    document
-      .getElementById("imagePreview2")
-      .src = "";
-
-
-    document
-      .getElementById("imagePreview3")
-      .src = "";
+    clearForm();
 
 
     document
@@ -934,7 +1277,9 @@ onclick="logout()"
 
 
     const saveButton =
-      document.getElementById("saveButton");
+      document.getElementById(
+        "saveButton"
+      );
 
     saveButton.disabled = false;
 
@@ -967,19 +1312,19 @@ onclick="logout()"
     document
       .getElementById("price")
       .value =
-      product.price || "";
+      product.price ?? "";
 
 
     document
       .getElementById("ml")
       .value =
-      product.ml || "";
+      product.ml ?? "";
 
 
     document
       .getElementById("stock")
       .value =
-      product.stock || "";
+      product.stock ?? "";
 
 
     document
@@ -988,15 +1333,15 @@ onclick="logout()"
       product.description || "";
 
 
+    // Fayl inputlarını təmiz saxla
+
     document
       .getElementById("image")
       .value = "";
 
-
     document
       .getElementById("image2")
       .value = "";
-
 
     document
       .getElementById("image3")
@@ -1009,65 +1354,22 @@ onclick="logout()"
       "Məhsulu redaktə et";
 
 
-    const preview =
-      document.getElementById("imagePreview");
+    // Şəkilləri göstər
 
-    const preview2 =
-      document.getElementById("imagePreview2");
+    setExistingImage(
+      1,
+      product.image_url
+    );
 
-    const preview3 =
-      document.getElementById("imagePreview3");
+    setExistingImage(
+      2,
+      product.image_url_2
+    );
 
-
-    if(product.image_url){
-
-      preview.src =
-        product.image_url;
-
-      preview.style.display =
-        "block";
-
-    }else{
-
-      preview.src = "";
-
-      preview.style.display =
-        "none";
-    }
-
-
-    if(product.image_url_2){
-
-      preview2.src =
-        product.image_url_2;
-
-      preview2.style.display =
-        "block";
-
-    }else{
-
-      preview2.src = "";
-
-      preview2.style.display =
-        "none";
-    }
-
-
-    if(product.image_url_3){
-
-      preview3.src =
-        product.image_url_3;
-
-      preview3.style.display =
-        "block";
-
-    }else{
-
-      preview3.src = "";
-
-      preview3.style.display =
-        "none";
-    }
+    setExistingImage(
+      3,
+      product.image_url_3
+    );
 
 
     document
@@ -1088,6 +1390,83 @@ onclick="logout()"
       behavior:"smooth"
 
     });
+  }
+
+
+  // =====================================
+  // SHOW EXISTING IMAGE
+  // =====================================
+
+  function setExistingImage(
+    index,
+    url
+  ){
+
+    const previewId =
+      index === 1
+        ? "imagePreview"
+        : index === 2
+          ? "imagePreview2"
+          : "imagePreview3";
+
+
+    const linkBoxId =
+      index === 1
+        ? "imageLink1"
+        : index === 2
+          ? "imageLink2"
+          : "imageLink3";
+
+
+    const urlId =
+      index === 1
+        ? "imageUrl1"
+        : index === 2
+          ? "imageUrl2"
+          : "imageUrl3";
+
+
+    const preview =
+      document.getElementById(
+        previewId
+      );
+
+    const linkBox =
+      document.getElementById(
+        linkBoxId
+      );
+
+    const urlBox =
+      document.getElementById(
+        urlId
+      );
+
+
+    if(url){
+
+      preview.src = url;
+
+      preview.style.display =
+        "block";
+
+      urlBox.textContent =
+        url;
+
+      linkBox.classList
+        .remove("hidden");
+
+    }else{
+
+      preview.src = "";
+
+      preview.style.display =
+        "none";
+
+      urlBox.textContent = "";
+
+      linkBox.classList
+        .add("hidden");
+    }
   }
 
 
@@ -1153,6 +1532,59 @@ onclick="logout()"
 
 
     return data.publicUrl;
+  }
+
+
+  // =====================================
+  // DELETE OLD STORAGE IMAGE
+  // =====================================
+
+  async function deleteStorageImage(
+    imageUrl
+  ){
+
+    if(!imageUrl){
+      return;
+    }
+
+
+    const marker =
+      "/storage/v1/object/public/product-images/";
+
+
+    const position =
+      imageUrl.indexOf(marker);
+
+
+    if(position === -1){
+      return;
+    }
+
+
+    const filePath =
+      decodeURIComponent(
+        imageUrl.substring(
+          position + marker.length
+        )
+      );
+
+
+    const { error } =
+      await supabaseClient
+        .storage
+        .from("product-images")
+        .remove([
+          filePath
+        ]);
+
+
+    if(error){
+
+      console.warn(
+        "Köhnə şəkil Storage-dan silinmədi:",
+        error.message
+      );
+    }
   }
 
 
@@ -1266,34 +1698,39 @@ onclick="logout()"
 
     try{
 
-      // =================================
-      // KÖHNƏ ŞƏKİLLƏRİ SAXLA
-      // =================================
+      // Köhnə şəkillər
 
-      let imageUrl =
+      const oldImageUrl =
         editingProduct?.image_url ||
         null;
 
-
-      let imageUrl2 =
+      const oldImageUrl2 =
         editingProduct?.image_url_2 ||
         null;
 
-
-      let imageUrl3 =
+      const oldImageUrl3 =
         editingProduct?.image_url_3 ||
         null;
 
 
-      // =================================
-      // YENİ ŞƏKİLLƏRİ YÜKLƏ
-      // =================================
+      // Hazırkı linklər
+
+      let imageUrl =
+        oldImageUrl;
+
+      let imageUrl2 =
+        oldImageUrl2;
+
+      let imageUrl3 =
+        oldImageUrl3;
+
+
+      // Yeni şəkilləri yüklə
 
       if(file1){
 
         imageUrl =
           await uploadImage(file1);
-
       }
 
 
@@ -1301,7 +1738,6 @@ onclick="logout()"
 
         imageUrl2 =
           await uploadImage(file2);
-
       }
 
 
@@ -1309,13 +1745,10 @@ onclick="logout()"
 
         imageUrl3 =
           await uploadImage(file3);
-
       }
 
 
-      // =================================
-      // PRODUCT DATA
-      // =================================
+      // Məhsul məlumatları
 
       const productData = {
 
@@ -1338,9 +1771,9 @@ onclick="logout()"
       };
 
 
-      // =================================
-      // EDIT
-      // =================================
+      // ================================
+      // MÖVCUD MƏHSULU YENİLƏ
+      // ================================
 
       if(editingProduct){
 
@@ -1359,17 +1792,59 @@ onclick="logout()"
         }
 
 
+        // Yeni şəkil qoyulubsa,
+        // köhnə şəkli Storage-dan sil
+
+        if(file1 && oldImageUrl){
+
+          await deleteStorageImage(
+            oldImageUrl
+          );
+        }
+
+
+        if(file2 && oldImageUrl2){
+
+          await deleteStorageImage(
+            oldImageUrl2
+          );
+        }
+
+
+        if(file3 && oldImageUrl3){
+
+          await deleteStorageImage(
+            oldImageUrl3
+          );
+        }
+
+
+        // Uğurlu mesaj
+
         showFormMessage(
           "Məhsul uğurla yeniləndi.",
           "success"
         );
 
+
+        // Formu təmizlə
+
+        editingProduct = null;
+
+        clearForm();
+
+
+        document
+          .getElementById("formTitle")
+          .textContent =
+          "Yeni məhsul əlavə et";
+
       }
 
 
-      // =================================
-      // NEW PRODUCT
-      // =================================
+      // ================================
+      // YENİ MƏHSUL ƏLAVƏ ET
+      // ================================
 
       else{
 
@@ -1391,19 +1866,20 @@ onclick="logout()"
           "success"
         );
 
+
+        editingProduct = null;
+
+        clearForm();
+
+
+        document
+          .getElementById("formTitle")
+          .textContent =
+          "Yeni məhsul əlavə et";
       }
 
 
-      // =================================
-      // ƏVVƏL FORMU TƏMİZLƏ
-      // =================================
-
-      newProduct();
-
-
-      // =================================
-      // SONRA MƏHSULLARI YENİLƏ
-      // =================================
+      // Məhsulları yenilə
 
       await loadProducts();
 
@@ -1425,9 +1901,7 @@ onclick="logout()"
 
       saveButton.textContent =
         "Yadda saxla";
-
     }
-
   }
 
 
@@ -1454,8 +1928,8 @@ onclick="logout()"
       "message " +
       (
         type === "success"
-        ? "success"
-        : "error"
+          ? "success"
+          : "error"
       );
 
 
@@ -1465,7 +1939,7 @@ onclick="logout()"
 
 
   // =====================================
-  // DELETE
+  // DELETE PRODUCT
   // =====================================
 
   async function deleteProduct(id){
@@ -1481,7 +1955,31 @@ onclick="logout()"
     }
 
 
-    const { error } =
+    const { data:product,error } =
+      await supabaseClient
+        .from("products")
+        .select(
+          "image_url,image_url_2,image_url_3"
+        )
+        .eq(
+          "id",
+          id
+        )
+        .single();
+
+
+    if(error){
+
+      alert(
+        "Məhsul məlumatı alınmadı: " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    const { error:deleteError } =
       await supabaseClient
         .from("products")
         .delete()
@@ -1491,15 +1989,30 @@ onclick="logout()"
         );
 
 
-    if(error){
+    if(deleteError){
 
       alert(
-        "Silinmədi: " +
-        error.message
+        "Məhsul silinmədi: " +
+        deleteError.message
       );
 
       return;
     }
+
+
+    // Məhsulla birlikdə şəkilləri də sil
+
+    await deleteStorageImage(
+      product.image_url
+    );
+
+    await deleteStorageImage(
+      product.image_url_2
+    );
+
+    await deleteStorageImage(
+      product.image_url_3
+    );
 
 
     await loadProducts();
