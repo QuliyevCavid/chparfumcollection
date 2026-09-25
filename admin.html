@@ -251,12 +251,16 @@
       border:1px solid var(--line);
       border-radius:8px;
       background:#fff;
-      color:var(--muted);
+      color:#5d5048;
       font-size:13px;
       line-height:1.4;
       word-break:break-all;
       user-select:text;
     }
+
+    /* =========================
+       X DÜYMƏSİ
+    ========================= */
 
     .remove-image{
       width:32px;
@@ -264,33 +268,36 @@
       padding:0;
       margin:0;
       flex-shrink:0;
+
       border-radius:50%;
-      border:1px solid var(--gold);
-      background:var(--paper);
-      color:var(--brown);
-      font-size:20px;
+      border:2px solid #4b2e20;
+
+      background:#4b2e20;
+      color:#ffffff;
+
+      font-size:22px;
       font-family:Arial,sans-serif;
-      font-weight:normal;
+      font-weight:bold;
+
       display:flex;
       align-items:center;
       justify-content:center;
+
       cursor:pointer;
-      box-shadow:0 3px 10px rgba(80,50,30,.12);
+      line-height:1;
+
+      box-shadow:0 3px 10px rgba(80,50,30,.18);
     }
 
     .remove-image:hover{
-      background:var(--brown);
-      color:white;
-      border-color:var(--brown);
+      background:#2f1b12;
+      color:#ffffff;
+      border-color:#2f1b12;
     }
 
     /* =========================
        SIRA
     ========================= */
-
-    .sort-box{
-      max-width:180px;
-    }
 
     .sort-number{
       display:inline-flex;
@@ -358,9 +365,7 @@
 </header>
 
 
-<!-- ================================
-     LOGIN
-================================ -->
+<!-- LOGIN -->
 
 <div id="loginPage" class="container">
 
@@ -402,9 +407,7 @@
 </div>
 
 
-<!-- ================================
-     ADMIN PANEL
-================================ -->
+<!-- ADMIN PANEL -->
 
 <div
   id="adminPage"
@@ -433,9 +436,7 @@
   </div>
 
 
-  <!-- ================================
-       PRODUCT FORM
-  ================================ -->
+  <!-- PRODUCT FORM -->
 
   <div class="card">
 
@@ -473,7 +474,6 @@
 
       </div>
 
-
       <div>
 
         <label>Həcm (ML)</label>
@@ -498,30 +498,19 @@
     >
 
 
-    <!-- ================================
-         SIRA
-    ================================ -->
+    <!-- SIRA -->
 
     <label>Sıra</label>
 
-    <input
-      type="number"
-      id="sortOrder"
-      class="sort-box"
-      min="1"
-      step="1"
-      placeholder="1"
+    <input 
+      type="number" 
+      id="sort_order" 
+      min="1" 
+      placeholder="Məsələn: 1" 
     >
 
-    <p style="color:var(--muted);font-size:13px;margin-top:6px">
-      Məhsullar saytdakı görünüş sırasına görə düzüləcək.
-      Məsələn: 1, 2, 3, 4...
-    </p>
 
-
-    <!-- ================================
-         IMAGE 1
-    ================================ -->
+    <!-- ŞƏKİL 1 -->
 
     <label>Şəkil 1</label>
 
@@ -557,9 +546,7 @@
     </div>
 
 
-    <!-- ================================
-         IMAGE 2
-    ================================ -->
+    <!-- ŞƏKİL 2 -->
 
     <label>Şəkil 2</label>
 
@@ -595,9 +582,7 @@
     </div>
 
 
-    <!-- ================================
-         IMAGE 3
-    ================================ -->
+    <!-- ŞƏKİL 3 -->
 
     <label>Şəkil 3</label>
 
@@ -665,9 +650,7 @@
   </div>
 
 
-  <!-- ================================
-       PRODUCTS
-  ================================ -->
+  <!-- PRODUCTS -->
 
   <div class="card">
 
@@ -695,15 +678,10 @@
   async function login(){
 
     const email =
-      document
-        .getElementById("email")
-        .value
-        .trim();
+      document.getElementById("email").value.trim();
 
     const password =
-      document
-        .getElementById("password")
-        .value;
+      document.getElementById("password").value;
 
     const errorBox =
       document.getElementById("loginError");
@@ -787,14 +765,6 @@
       "block";
 
 
-    /*
-      Yeni şəkil seçiləndə
-      köhnə linki gizlətmirik.
-
-      Amma yeni şəkil save olunanda
-      köhnə şəkil avtomatik silinəcək.
-    */
-
     if(linkBox){
 
       linkBox.classList.add("hidden");
@@ -877,11 +847,8 @@
     const fileInput =
       document.getElementById(fileInputId);
 
-    /*
-      Əgər yeni şəkil seçilibsə,
-      X düyməsi ilk növbədə həmin
-      seçilmiş şəkli ləğv edir.
-    */
+
+    /* Yeni seçilmiş şəkli ləğv et */
 
     if(fileInput && fileInput.files.length > 0){
 
@@ -893,10 +860,6 @@
       preview.src = "";
       preview.style.display = "none";
 
-      /*
-        Əgər köhnə link varsa,
-        yenidən göstər.
-      */
 
       if(editingProduct && editingProduct[column]){
 
@@ -910,15 +873,10 @@
           .classList
           .remove("hidden");
 
-        document
-          .getElementById(previewId)
-          .src =
+        preview.src =
           editingProduct[column];
 
-        document
-          .getElementById(previewId)
-          .style
-          .display =
+        preview.style.display =
           "block";
       }
 
@@ -926,10 +884,7 @@
     }
 
 
-    /*
-      Yeni məhsuldursa,
-      sadəcə sahəni təmizlə.
-    */
+    /* Yeni məhsuldursa */
 
     if(!editingProduct){
 
@@ -1000,9 +955,7 @@
 
     try{
 
-      // ================================
-      // DATABASE-DƏN LINKİ SİL
-      // ================================
+      /* DB-dən linki sil */
 
       const updateData = {};
 
@@ -1024,18 +977,14 @@
       }
 
 
-      // ================================
-      // STORAGE-DAN ŞƏKİLİ SİL
-      // ================================
+      /* Storage-dan şəkli sil */
 
       await deleteStorageImage(
         imageUrl
       );
 
 
-      // ================================
-      // EKRANI TƏMİZLƏ
-      // ================================
+      /* Ekranı təmizlə */
 
       editingProduct[column] = null;
 
@@ -1085,7 +1034,7 @@
 
 
   // =====================================
-  // CHECK SESSION
+  // SESSION
   // =====================================
 
   async function checkSession(){
@@ -1250,25 +1199,22 @@
                 alt="${escapeAttr(product.name)}"
               >
 
-
               <div>
 
                 <h3>
                   ${escapeHtml(product.name)}
                 </h3>
 
-
                 <div class="sort-number">
-                  Sıra: ${escapeHtml(product.sort_order ?? "")}
+                  Sıra:
+                  ${escapeHtml(product.sort_order ?? "")}
                 </div>
-
 
                 <p>
                   ${Number(product.price).toFixed(2)} AZN
                   · ${product.ml} ML
                   · Stok: ${product.stock}
                 </p>
-
 
                 <p>
                   ${escapeHtml(
@@ -1278,7 +1224,6 @@
 
               </div>
 
-
               <div class="actions">
 
                 <button
@@ -1286,7 +1231,6 @@
                 >
                   Redaktə
                 </button>
-
 
                 <button
                   class="danger"
@@ -1333,15 +1277,13 @@
       .value = "";
 
     document
-      .getElementById("sortOrder")
+      .getElementById("sort_order")
       .value = "";
 
     document
       .getElementById("description")
       .value = "";
 
-
-    // Faylları təmizlə
 
     document
       .getElementById("image")
@@ -1355,8 +1297,6 @@
       .getElementById("image3")
       .value = "";
 
-
-    // Preview-ləri təmizlə
 
     [
       "imagePreview",
@@ -1374,8 +1314,6 @@
         "none";
     });
 
-
-    // Linkləri təmizlə
 
     [
       ["imageLink1","imageUrl1"],
@@ -1397,7 +1335,7 @@
 
 
   // =====================================
-  // GET NEXT SORT ORDER
+  // NEXT SORT ORDER
   // =====================================
 
   async function getNextSortOrder(){
@@ -1459,7 +1397,7 @@
 
 
     document
-      .getElementById("sortOrder")
+      .getElementById("sort_order")
       .value =
       nextOrder;
 
@@ -1516,7 +1454,7 @@
 
 
     document
-      .getElementById("sortOrder")
+      .getElementById("sort_order")
       .value =
       product.sort_order ?? "";
 
@@ -1526,8 +1464,6 @@
       .value =
       product.description || "";
 
-
-    // Fayl inputlarını təmizlə
 
     document
       .getElementById("image")
@@ -1547,8 +1483,6 @@
       .textContent =
       "Məhsulu redaktə et";
 
-
-    // Şəkilləri göstər
 
     setExistingImage(
       1,
@@ -1578,17 +1512,14 @@
 
 
     window.scrollTo({
-
       top:0,
-
       behavior:"smooth"
-
     });
   }
 
 
   // =====================================
-  // SHOW EXISTING IMAGE
+  // EXISTING IMAGE
   // =====================================
 
   function setExistingImage(
@@ -1620,10 +1551,6 @@
         "block";
 
 
-      /*
-        LINK MÜTLƏQ GÖRÜNÜR
-      */
-
       urlBox.textContent =
         url;
 
@@ -1638,9 +1565,7 @@
       preview.style.display =
         "none";
 
-
       urlBox.textContent = "";
-
 
       linkBox.classList
         .add("hidden");
@@ -1808,10 +1733,10 @@
       );
 
 
-    const sortOrder =
+    const sort_order =
       Number(
         document
-          .getElementById("sortOrder")
+          .getElementById("sort_order")
           .value
       );
 
@@ -1857,8 +1782,6 @@
       "none";
 
 
-    // VALIDATION
-
     if(
       !name ||
       !price ||
@@ -1875,8 +1798,8 @@
 
 
     if(
-      !sortOrder ||
-      sortOrder < 1
+      !sort_order ||
+      sort_order < 1
     ){
 
       showFormMessage(
@@ -1898,8 +1821,6 @@
 
     try{
 
-      // Köhnə şəkillər
-
       const oldImageUrl =
         editingProduct?.image_url ||
         null;
@@ -1913,8 +1834,6 @@
         null;
 
 
-      // Hazırkı linklər
-
       let imageUrl =
         oldImageUrl;
 
@@ -1924,8 +1843,6 @@
       let imageUrl3 =
         oldImageUrl3;
 
-
-      // Yeni şəkilləri yüklə
 
       if(file1){
 
@@ -1948,8 +1865,6 @@
       }
 
 
-      // Məhsul məlumatları
-
       const productData = {
 
         name:name,
@@ -1960,7 +1875,7 @@
 
         stock:stock || 0,
 
-        sort_order:sortOrder,
+        sort_order:sort_order,
 
         image_url:imageUrl,
 
@@ -1972,9 +1887,7 @@
       };
 
 
-      // ================================
-      // MÖVCUD MƏHSULU YENİLƏ
-      // ================================
+      // MÖVCUD MƏHSUL
 
       if(editingProduct){
 
@@ -1992,9 +1905,6 @@
           throw error;
         }
 
-
-        // Yeni şəkil qoyulubsa
-        // köhnə şəkli sil
 
         if(file1 && oldImageUrl){
 
@@ -2035,13 +1945,10 @@
           .getElementById("formTitle")
           .textContent =
           "Yeni məhsul əlavə et";
-
       }
 
 
-      // ================================
-      // YENİ MƏHSUL ƏLAVƏ ET
-      // ================================
+      // YENİ MƏHSUL
 
       else{
 
@@ -2194,8 +2101,6 @@
       return;
     }
 
-
-    // Məhsulla birlikdə şəkilləri də sil
 
     await deleteStorageImage(
       product.image_url
