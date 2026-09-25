@@ -237,17 +237,18 @@
     ===================================== */
 
     .image-link-box{
-  position:relative;
+  display:flex;
+  align-items:center;
   width:100%;
   max-width:700px;
   margin-top:10px;
 }
 
 .image-link{
-  width:100%;
-  min-height:40px;
+  flex:1;
+  min-width:0;
 
-  padding:10px 55px 10px 12px;
+  padding:10px 12px;
 
   border:1px solid var(--line);
   border-radius:8px;
@@ -262,24 +263,17 @@
   user-select:text;
 }
 
-/* X link qutusunun İÇİNDƏ, sağ tərəfdə */
+/* X — linkin tam sağında */
 
 .remove-image{
-  position:absolute !important;
+  width:40px !important;
+  height:40px !important;
 
-  right:6px !important;
-  top:50% !important;
+  min-width:40px !important;
+  max-width:40px !important;
 
-  transform:translateY(-50%) !important;
-
-  width:32px !important;
-  height:32px !important;
-
-  min-width:32px !important;
-  max-width:32px !important;
-
+  margin-left:10px !important;
   padding:0 !important;
-  margin:0 !important;
 
   display:flex !important;
   align-items:center !important;
@@ -292,18 +286,21 @@
   border-radius:50% !important;
 
   font-family:Arial,sans-serif !important;
-  font-size:17px !important;
+  font-size:19px !important;
   font-weight:bold !important;
   line-height:1 !important;
 
   cursor:pointer !important;
 
-  z-index:5 !important;
+  flex-shrink:0 !important;
+
+  box-shadow:0 3px 8px rgba(0,0,0,.25) !important;
 }
 
 .remove-image:hover{
   background:#3d2115 !important;
-  transform:translateY(-50%) scale(1.05) !important;
+  color:#fff !important;
+  transform:scale(1.05);
 }
 
     /* =====================================
