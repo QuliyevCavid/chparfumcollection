@@ -1341,112 +1341,88 @@ function searchProducts(){
     : "none";
 
 
-  if(!searchValue){
-
   let filteredProducts = allProducts;
 
+
   if(selectedCategory !== "all"){
-    filteredProducts = allProducts.filter(product =>
-      product.category === selectedCategory
-    );
+
+    filteredProducts =
+      filteredProducts.filter(product =>
+        product.category === selectedCategory
+      );
+
   }
+
+
+  if(searchValue){
+
+    filteredProducts =
+      filteredProducts.filter(product => {
+
+        const name =
+          String(product.name || "")
+            .toLowerCase();
+
+
+        const description =
+          String(product.description || "")
+            .toLowerCase();
+
+
+        const ml =
+          String(product.ml || "")
+            .toLowerCase();
+
+
+        return (
+
+          name.includes(searchValue) ||
+
+          description.includes(searchValue) ||
+
+          ml.includes(searchValue)
+
+        );
+
+      });
+
+  }
+
 
   renderProducts(filteredProducts);
 
-  resultText.textContent = "";
 
-  return;
+  if(searchValue){
 
-}
+    if(filteredProducts.length === 1){
 
-      const filteredProducts =
-  allProducts.filter(product => {
+      resultText.textContent =
+        "1 ətir tapıldı";
 
-    const categoryMatch =
-      selectedCategory === "all" ||
-      product.category === selectedCategory;
+    }
 
+    else if(filteredProducts.length > 1){
 
-    const name =
-      String(product.name || "")
-        .toLowerCase();
+      resultText.textContent =
+        filteredProducts.length +
+        " ətir tapıldı";
 
+    }
 
-    const description =
-      String(product.description || "")
-        .toLowerCase();
+    else{
 
+      resultText.textContent =
+        "Nəticə tapılmadı";
 
-    const ml =
-      String(product.ml || "")
-        .toLowerCase();
+    }
 
+  }
 
-    return (
+  else{
 
-      categoryMatch && (
+    resultText.textContent = "";
 
-        name.includes(searchValue) ||
-
-        description.includes(searchValue) ||
-
-        ml.includes(searchValue)
-
-      )
-
-    );
-
-  });
-
-
-renderProducts(filteredProducts);
-
-
-if(filteredProducts.length === 1){
-
-  resultText.textContent =
-    "1 ətir tapıldı";
-
-}
-
-else if(filteredProducts.length > 1){
-
-  resultText.textContent =
-    filteredProducts.length +
-    " ətir tapıldı";
-
-}
-
-else{
-
-  resultText.textContent =
-    "Nəticə tapılmadı";
-
-}
-
-
-renderProducts(filteredProducts);
-
-
-if(filteredProducts.length === 1){
-
-  resultText.textContent =
-    "1 ətir tapıldı";
-
-}
-
-else if(filteredProducts.length > 1){
-
-  resultText.textContent =
-    filteredProducts.length +
-    " ətir tapıldı";
-
-}
-
-else{
-
-  resultText.textContent =
-    "Nəticə tapılmadı";
+  }
 
 }
 
