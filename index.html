@@ -1341,10 +1341,6 @@ function renderProducts(products){
                 ${product.price} AZN
               </div>
 
-              <p class="desc">
-                ${esc(product.description || "")}
-              </p>
-
               <button
                 class="buy"
                 onclick='showProduct(${JSON.stringify(product)})'
@@ -1442,10 +1438,6 @@ function renderProducts(products){
             <div class="price">
               ${product.price} AZN
             </div>
-
-            <p class="desc">
-              ${esc(product.description || "")}
-            </p>
 
             <button
               class="buy"
