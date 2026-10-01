@@ -643,6 +643,172 @@ footer{
 .category-btn{
   font-size:17px !important;
 }
+  /* =====================================
+   MƏHSUL ƏTRAFLI PƏNCƏRƏSİ
+===================================== */
+
+.product-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(33,27,23,.65);
+  z-index:1000;
+  padding:30px 15px;
+  overflow-y:auto;
+}
+
+.product-modal.active{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.product-modal-box{
+  width:min(950px,100%);
+  max-height:90vh;
+  overflow-y:auto;
+  background:var(--paper);
+  border:1px solid var(--line);
+  position:relative;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+}
+
+.product-modal-close{
+  position:absolute;
+  right:18px;
+  top:12px;
+  width:38px;
+  height:38px;
+  border:0;
+  background:rgba(255,255,255,.9);
+  color:var(--brown);
+  font-size:30px;
+  line-height:1;
+  cursor:pointer;
+  z-index:10;
+}
+
+.product-modal-content{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+}
+
+.product-modal-images{
+  background:#eee5dd;
+  min-height:550px;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.product-modal-images img{
+  width:100%;
+  height:100%;
+  min-height:550px;
+  object-fit:cover;
+  display:block;
+}
+
+.product-modal-info{
+  padding:50px 40px;
+  overflow-y:auto;
+}
+
+.product-modal-name{
+  font-family:"Times New Roman",Times,serif;
+  font-size:34px;
+  color:var(--text);
+  margin-bottom:12px;
+}
+
+.product-modal-meta{
+  color:var(--muted);
+  font-size:14px;
+  margin-bottom:18px;
+}
+
+.product-modal-price{
+  color:var(--brown);
+  font-size:24px;
+  font-weight:bold;
+  margin-bottom:25px;
+}
+
+.product-modal-description{
+  color:#6e6259;
+  font-size:15px;
+  line-height:1.8;
+
+  /* ADMIN PANELDƏKİ SƏTİR VƏ BOŞLUQLARI SAXLAYIR */
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+
+.product-modal-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:38px;
+  height:50px;
+  border:0;
+  background:rgba(255,255,255,.75);
+  color:var(--brown);
+  font-size:35px;
+  cursor:pointer;
+  z-index:5;
+}
+
+.product-modal-arrow:hover{
+  background:white;
+}
+
+.product-modal-arrow.left{
+  left:12px;
+}
+
+.product-modal-arrow.right{
+  right:12px;
+}
+
+@media(max-width:700px){
+
+  .product-modal{
+    padding:10px;
+  }
+
+  .product-modal-box{
+    max-height:95vh;
+  }
+
+  .product-modal-content{
+    grid-template-columns:1fr;
+  }
+
+  .product-modal-images{
+    min-height:350px;
+    height:350px;
+  }
+
+  .product-modal-images img{
+    min-height:350px;
+  }
+
+  .product-modal-info{
+    padding:30px 22px 35px;
+  }
+
+  .product-modal-name{
+    font-size:28px;
+  }
+
+  .product-modal-description{
+    font-size:14px;
+    line-height:1.75;
+  }
+
+}
 
 </style>
 
@@ -911,6 +1077,86 @@ const supabaseClient =
 
 </section>
 
+  <!-- MƏHSUL ƏTRAFLI PƏNCƏRƏSİ -->
+
+<div
+  class="product-modal"
+  id="productModal"
+  onclick="closeProductModal(event)"
+>
+
+  <div
+    class="product-modal-box"
+    onclick="event.stopPropagation()"
+  >
+
+    <button
+      type="button"
+      class="product-modal-close"
+      onclick="closeProductModal()"
+    >
+      ×
+    </button>
+
+    <div class="product-modal-content">
+
+      <div class="product-modal-images">
+
+        <img
+          id="modalProductImage"
+          src=""
+          alt=""
+        >
+
+        <button
+          type="button"
+          class="product-modal-arrow left"
+          id="modalPrev"
+          onclick="changeModalImage(-1)"
+        >
+          ‹
+        </button>
+
+        <button
+          type="button"
+          class="product-modal-arrow right"
+          id="modalNext"
+          onclick="changeModalImage(1)"
+        >
+          ›
+        </button>
+
+      </div>
+
+      <div class="product-modal-info">
+
+        <div
+          class="product-modal-name"
+          id="modalProductName"
+        ></div>
+
+        <div
+          class="product-modal-meta"
+          id="modalProductMeta"
+        ></div>
+
+        <div
+          class="product-modal-price"
+          id="modalProductPrice"
+        ></div>
+
+        <div
+          class="product-modal-description"
+          id="modalProductDescription"
+        ></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
 
 
 <footer id="about">
@@ -1464,25 +1710,192 @@ function clearSearch(){
    MƏHSUL DETALI
 ===================================== */
 
+let modalProduct = null;
+let modalImages = [];
+let modalImageIndex = 0;
+
+
+/* =====================================
+   MƏHSUL ƏTRAFLISINI AÇ
+===================================== */
+
 function showProduct(product){
 
-  alert(
+  modalProduct = product;
 
-    product.name +
+  modalImages = [
+    product.image_url,
+    product.image_url_2,
+    product.image_url_3
+  ].filter(Boolean);
 
-    "\n\n" +
+  modalImageIndex = 0;
 
-    (product.description || "") +
+  document.getElementById(
+    "modalProductName"
+  ).textContent =
+    product.name || "";
 
-    "\n\n" +
 
-    "Qiymət: " +
+  document.getElementById(
+    "modalProductMeta"
+  ).textContent =
+    (product.ml || "") +
+    " ML · " +
+    (product.stock || 0) +
+    " ƏDƏD";
 
-    product.price +
 
-    " AZN"
+  document.getElementById(
+    "modalProductPrice"
+  ).textContent =
+    (product.price || "0") +
+    " AZN";
 
-  );
+
+  /*
+    VACİB:
+    textContent + white-space:pre-wrap
+    admin paneldəki Enter və boşluqları saxlayır.
+  */
+
+  document.getElementById(
+    "modalProductDescription"
+  ).textContent =
+    product.description || "";
+
+
+  updateModalImage();
+
+
+  document.getElementById(
+    "productModal"
+  ).classList.add("active");
+
+
+  document.body.style.overflow =
+    "hidden";
+
+}
+
+
+/* =====================================
+   ƏTRAFLI ŞƏKLİ DƏYİŞ
+===================================== */
+
+function updateModalImage(){
+
+  const image =
+    document.getElementById(
+      "modalProductImage"
+    );
+
+  const prev =
+    document.getElementById(
+      "modalPrev"
+    );
+
+  const next =
+    document.getElementById(
+      "modalNext"
+    );
+
+
+  if(modalImages.length === 0){
+
+    image.style.display = "none";
+
+    prev.style.display = "none";
+    next.style.display = "none";
+
+    return;
+
+  }
+
+
+  image.style.display = "block";
+
+  image.src =
+    modalImages[modalImageIndex];
+
+
+  if(modalImages.length > 1){
+
+    prev.style.display = "flex";
+    next.style.display = "flex";
+
+  }
+
+  else{
+
+    prev.style.display = "none";
+    next.style.display = "none";
+
+  }
+
+}
+
+
+/* =====================================
+   ƏTRAFLI ŞƏKİLİ DƏYİŞ
+===================================== */
+
+function changeModalImage(direction){
+
+  if(modalImages.length <= 1){
+    return;
+  }
+
+
+  modalImageIndex += direction;
+
+
+  if(modalImageIndex < 0){
+
+    modalImageIndex =
+      modalImages.length - 1;
+
+  }
+
+
+  if(
+    modalImageIndex >=
+    modalImages.length
+  ){
+
+    modalImageIndex = 0;
+
+  }
+
+
+  updateModalImage();
+
+}
+
+
+/* =====================================
+   ƏTRAFLINI BAĞLA
+===================================== */
+
+function closeProductModal(event){
+
+  if(
+    event &&
+    event.target &&
+    event.target.id !== "productModal"
+  ){
+
+    return;
+
+  }
+
+
+  document.getElementById(
+    "productModal"
+  ).classList.remove("active");
+
+
+  document.body.style.overflow = "";
 
 }
 
