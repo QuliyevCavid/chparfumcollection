@@ -1334,7 +1334,7 @@ function renderProducts(products){
 
               <div class="meta">
               ${product.ml} ML ·
-              ${product.stock} Ədəd ·
+              ${product.stock} ƏDƏD ·
               ${product.category || ""}
               </div>
 
@@ -1433,7 +1433,7 @@ function renderProducts(products){
 
            <div class="meta">
           ${product.ml} ML ·
-          ${product.stock} Ədəd ·
+          ${product.stock} ƏDƏD ·
           ${product.category || ""}
           </div>
 
@@ -1732,12 +1732,13 @@ function showProduct(product){
 
 
   document.getElementById(
-    "modalProductMeta"
-  ).textContent =
-    (product.ml || "") +
-    " ML · " +
-    (product.stock || 0) +
-    " Ədəd";
+  "modalProductMeta"
+).textContent =
+  (product.ml || "") +
+  " ML · " +
+  (product.stock || 0) +
+  " ƏDƏD · " +
+  (product.category || "");
 
 
   document.getElementById(
