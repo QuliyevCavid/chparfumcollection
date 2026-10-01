@@ -204,6 +204,41 @@ header{
   margin:0
 }
 
+  .category-filter{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+
+.category-btn{
+  padding:10px 22px;
+  border:1px solid var(--line);
+  border-radius:25px;
+  background:white;
+  color:var(--text);
+  font-size:14px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.category-btn:hover{
+  border-color:var(--brown);
+}
+
+.category-btn.active{
+  background:var(--brown);
+  color:white;
+  border-color:var(--brown);
+}
+
+.search-wrap{
+  width:min(700px,88%);
+  margin:0 auto;
+  position:relative
+}
+
 .search-wrap{
   width:min(700px,88%);
   margin:0 auto;
@@ -761,7 +796,26 @@ const supabaseClient =
       </h2>
 
     </div>
+    
+    <div class="category-filter">
 
+    <button type="button" class="category-btn active" data-category="all">
+      Hamısı
+    </button>
+
+    <button type="button" class="category-btn" data-category="Women">
+      Women
+    </button>
+
+    <button type="button" class="category-btn" data-category="Men">
+      Men
+    </button>
+
+    <button type="button" class="category-btn" data-category="Unisex">
+      Unisex
+    </button>
+
+    </div>
 
     <div class="search-wrap">
 
@@ -1246,7 +1300,23 @@ function setCardImage(index, imageIndex){
 /* =====================================
    AXTARIŞ
 ===================================== */
+let selectedCategory = "all";
 
+document.querySelectorAll(".category-btn").forEach(button => {
+  button.addEventListener("click", () => {
+
+    document.querySelectorAll(".category-btn").forEach(btn => {
+      btn.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    selectedCategory = button.dataset.category;
+
+    searchProducts();
+  });
+});
+  
 function searchProducts(){
 
   const input =
@@ -1273,34 +1343,48 @@ function searchProducts(){
 
   if(!searchValue){
 
-    renderProducts(allProducts);
+  let filteredProducts = allProducts;
 
-    resultText.textContent = "";
-
-    return;
-
+  if(selectedCategory !== "all"){
+    filteredProducts = allProducts.filter(product =>
+      product.category === selectedCategory
+    );
   }
 
+  renderProducts(filteredProducts);
 
-  const filteredProducts =
-    allProducts.filter(product => {
+  resultText.textContent = "";
 
-      const name =
-        String(product.name || "")
-          .toLowerCase();
+  return;
 
+}
 
-      const description =
-        String(product.description || "")
-          .toLowerCase();
+      const filteredProducts =
+  allProducts.filter(product => {
 
-
-      const ml =
-        String(product.ml || "")
-          .toLowerCase();
+    const categoryMatch =
+      selectedCategory === "all" ||
+      product.category === selectedCategory;
 
 
-      return (
+    const name =
+      String(product.name || "")
+        .toLowerCase();
+
+
+    const description =
+      String(product.description || "")
+        .toLowerCase();
+
+
+    const ml =
+      String(product.ml || "")
+        .toLowerCase();
+
+
+    return (
+
+      categoryMatch && (
 
         name.includes(searchValue) ||
 
@@ -1308,38 +1392,63 @@ function searchProducts(){
 
         ml.includes(searchValue)
 
-      );
+      )
 
-    });
+    );
+
+  });
 
 
-  renderProducts(filteredProducts);
+renderProducts(filteredProducts);
 
 
-  if(filteredProducts.length === 1){
+if(filteredProducts.length === 1){
 
-    resultText.textContent =
-      "1 ətir tapıldı";
-
-  }
-
-  else if(filteredProducts.length > 1){
-
-    resultText.textContent =
-      filteredProducts.length +
-      " ətir tapıldı";
-
-  }
-
-  else{
-
-    resultText.textContent =
-      "Nəticə tapılmadı";
-
-  }
+  resultText.textContent =
+    "1 ətir tapıldı";
 
 }
 
+else if(filteredProducts.length > 1){
+
+  resultText.textContent =
+    filteredProducts.length +
+    " ətir tapıldı";
+
+}
+
+else{
+
+  resultText.textContent =
+    "Nəticə tapılmadı";
+
+}
+
+
+renderProducts(filteredProducts);
+
+
+if(filteredProducts.length === 1){
+
+  resultText.textContent =
+    "1 ətir tapıldı";
+
+}
+
+else if(filteredProducts.length > 1){
+
+  resultText.textContent =
+    filteredProducts.length +
+    " ətir tapıldı";
+
+}
+
+else{
+
+  resultText.textContent =
+    "Nəticə tapılmadı";
+
+}
 
 /* =====================================
    AXTARIŞI TƏMİZLƏ
