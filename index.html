@@ -1335,7 +1335,7 @@ function renderProducts(products){
               <div class="meta">
               ${product.ml} ML ·
               ${product.stock} ƏDƏD ·
-              ${product.category}
+              ${product.category || ""}
               </div>
 
               <div class="price">
@@ -1431,10 +1431,11 @@ function renderProducts(products){
               ${esc(product.name)}
             </div>
 
-            <div class="meta">
-              ${product.ml} ML ·
-              ${product.stock} ƏDƏD
-            </div>
+           <div class="meta">
+          ${product.ml} ML ·
+          ${product.stock} ƏDƏD ·
+          ${product.category || ""}
+          </div>
 
             <div class="price">
               ${product.price} AZN
