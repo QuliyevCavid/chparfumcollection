@@ -507,6 +507,16 @@
       id="stock"
       placeholder="10"
     >
+    <label>Kateqoriya</label>
+
+<select
+  id="category"
+  style="width:100%;padding:13px;border:1px solid var(--line);border-radius:9px;background:white;font-size:15px;outline:none;"
+>
+  <option value="Unisex">Unisex</option>
+  <option value="Women">Women</option>
+  <option value="Men">Men</option>
+</select>
 
 
     <label>Sıra</label>
@@ -1571,6 +1581,11 @@
       .value =
       product.stock ?? "";
 
+    document
+      .getElementById("category")
+      .value =
+      product.category || "Unisex";
+
 
     document
       .getElementById("sort_order")
@@ -1875,7 +1890,7 @@
         .getElementById("description")
         .value
         .trim();
-
+  
 
     const file1 =
       document
@@ -1906,7 +1921,7 @@
         "saveButton"
       );
 
-
+    const category = document.getElementById("category").value;
     message.style.display =
       "none";
 
@@ -1999,24 +2014,20 @@
 
 
       const productData = {
+      name:name,
+      price:price,
+      ml:ml,
+      stock:stock || 0,
+      sort_order:sort_order,
+      category:category,
 
-        name:name,
+      image_url:imageUrl,
 
-        price:price,
+      image_url_2:imageUrl2,
 
-        ml:ml,
+      image_url_3:imageUrl3,
 
-        stock:stock || 0,
-
-        sort_order:sort_order,
-
-        image_url:imageUrl,
-
-        image_url_2:imageUrl2,
-
-        image_url_3:imageUrl3,
-
-        description:description
+      description:description
       };
 
 
