@@ -1597,14 +1597,14 @@ function searchProducts(){
   let filteredProducts = allProducts;
 
 
-  if(selectedCategory !== "all"){
+  
+if (selectedCategory !== "all") {
+  filteredProducts = filteredProducts.filter(product =>
+    String(product.category || "").trim().toLowerCase() ===
+    selectedCategory.trim().toLowerCase()
+  );
+}
 
-    filteredProducts =
-      filteredProducts.filter(product =>
-        product.category === selectedCategory
-      );
-
-  }
 
 
   if(searchValue){
